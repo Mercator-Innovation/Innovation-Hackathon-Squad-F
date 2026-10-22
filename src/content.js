@@ -12,10 +12,26 @@ window.CONTENT = {
   // The pretend app the hub lives inside
   host: {
     appName: "Blockville",
-    appTagline: "Build your world",
-    playButton: "Play",
-    launcher: "Need to talk?",
-    launcherHint: "Private. Nobody in the game can see this."
+    appTagline: "Gem Hop: collect the gems, dodge the rocks",
+    howTo: "Use the arrow keys or the buttons to hop. Grab gems for points. Rocks block your way.",
+    boardLabel: "Gem Hop game board",
+    score: "Gems",
+    best: "Best",
+    restart: "New game",
+    stuck: "You're boxed in! Start a new game.",
+    pad: { up: "Hop up", down: "Hop down", left: "Hop left", right: "Hop right" },
+
+    // The Turtle Toast plug-in that sits on top of the game
+    plugin: {
+      open: "Open Turtle Toast",
+      name: "Turtle Toast",
+      title: "Need to talk?",
+      text: "If things at home feel hard, you can get help here. You don't have to give your name.",
+      private: "Private. Nobody in the game can see this.",
+      go: "Open Turtle Toast",
+      later: "Not now",
+      close: "Close"
+    }
   },
 
   // Hub home
