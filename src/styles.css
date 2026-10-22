@@ -336,8 +336,21 @@ body.in-hub .ci-choice:hover, body.in-hub .ci-next-link:hover { border-color: va
 body.in-hub .ci-safe a { color: var(--g-danger); font-weight: 900; }
 .ci-fault { margin-top: 1.25rem; }
 
-/* Danger fast-lane on the hub, and the "what happens if I tell?" prompt in the guide */
-.tile-danger { --c: var(--g-danger); }
-.tiles-danger { margin-top: 1.5rem; }
+/* Danger links in the top bar: call 999, or what to do if someone won't wake up */
+.hub-header .quick-exit { flex: none; white-space: nowrap; }
+.emergency-group { display: flex; flex-direction: column; align-items: flex-end; gap: .15rem; min-width: 0; }
+
+/* The "what happens if I tell?" prompt in the guide */
 .tell-prompt { margin-top: 1.25rem; padding: .75rem 1rem; background: var(--g-panel); border-left: 4px solid var(--g-adult); border-radius: 2px; font-weight: 700; }
 body.in-hub .tell-prompt a { color: var(--g-adult); }
+
+/* Need urgent help (screens/urgent.js) */
+.urgent-note { margin: .4rem 0 0; font-size: .95rem; color: var(--g-muted); text-align: center; }
+.urgent-list { display: grid; gap: .75rem; margin: 1rem 0; }
+.urgent-item { background: var(--g-panel); border: 3px solid var(--g-danger); border-radius: 4px; box-shadow: 0 5px 0 #8a3a35; }
+.urgent-item summary { cursor: pointer; padding: .9rem 1rem; font-weight: 900; font-size: 1.1rem; color: var(--g-danger); list-style: none; display: flex; justify-content: space-between; gap: .75rem; }
+.urgent-item summary::-webkit-details-marker { display: none; }
+.urgent-item summary::after { content: "+"; flex: none; font-size: 1.3rem; line-height: 1; }
+.urgent-item[open] summary::after { content: "−"; }
+.urgent-item .steps { margin: 0 1rem .75rem; padding-left: 1.4rem; color: var(--g-text); }
+.urgent-item > a { display: inline-block; margin: 0 1rem 1rem; font-weight: 700; }

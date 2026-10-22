@@ -21,6 +21,13 @@ window.SCREENS.world = (function () {
     adult: G.adult, outside: G.outside, pond: G.chat, treasure: G.adult,
     stars: G.outside, garden: G.guide
   };
+  // The list under the game, grouped by type. One colour per group.
+  const LIST_GROUPS = [
+    { key: "urgent", kinds: ["urgent"], colour: G.danger },
+    { key: "help", kinds: ["welcome", "guide"], colour: G.guide },
+    { key: "talk", kinds: ["adult", "outside"], colour: G.adult },
+    { key: "calm", kinds: ["stars", "garden", "pond"], colour: G.outside }
+  ];
   // Where the stars sit in the night sky (x out of 100, y out of 60)
   const STARS = [[10, 12], [24, 30], [35, 8], [48, 22], [58, 46], [66, 14], [78, 34], [88, 10], [16, 48], [92, 50]];
 
@@ -206,10 +213,15 @@ window.SCREENS.world = (function () {
           ${pad("up", "▲")}${pad("left", "◀")}${pad("down", "▼")}${pad("right", "▶")}
         </div>
         <h2 class="world-list-heading">${esc(W.listHeading)}</h2>
+        ${LIST_GROUPS.map((g) => {
+          const inGroup = stops.filter((s) => g.kinds.includes(s.kind));
+          if (!inGroup.length) return "";
+          return `<h3 class="world-group" style="--c:${g.colour}">${esc(W.listGroups[g.key])}</h3>
         <ul class="world-list">
-          ${stops.map((s) => `<li><button type="button" data-stop="${esc(s.id)}" style="--c:${COLOURS[s.kind]}">
+          ${inGroup.map((s) => `<li><button type="button" data-stop="${esc(s.id)}" style="--c:${g.colour}">
             <span>${esc(s.title)}</span><span aria-hidden="true">▶</span></button></li>`).join("")}
         </ul>`;
+        }).join("")}`;
     },
 
     mount(main) {
@@ -422,7 +434,7 @@ window.SCREENS.world = (function () {
       });
 
       // The plain list: jump straight to a house
-      main.querySelector(".world-list").addEventListener("click", (e) => {
+      main.querySelectorAll(".world-list").forEach((list) => list.addEventListener("click", (e) => {
         const button = e.target.closest("[data-stop]");
         if (!button) return;
         const s = stops.find((x) => x.id === button.dataset.stop);
@@ -431,7 +443,7 @@ window.SCREENS.world = (function () {
         target = null;
         inside = s;
         open(s, true);
-      });
+      }));
 
       // Keyboard
       const KEYS = {

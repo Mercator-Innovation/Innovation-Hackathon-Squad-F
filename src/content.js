@@ -7,6 +7,7 @@ window.CONTENT = {
   prototypeBanner: "Prototype only. This is not a real service. In an emergency, call 999.",
   quickExit: "Quick exit",
   emergency: "In danger right now? Call 999",
+  urgentHelp: "Need urgent help",
   back: "Back",
 
   // The pretend app the hub lives inside
@@ -40,7 +41,6 @@ window.CONTENT = {
     intro: "Things at home can feel hard when someone you love drinks too much or takes drugs. Lots of young people feel like this too.",
     privateNote: "This is private. You don't have to give your name.",
     pickHeading: "What would help right now?",
-    danger: { title: "Is someone hurt or won't wake up?", text: "Get help now. This shows you what to do." },
     options: {
       guide: { title: "What do I do?", text: "Help for things that might be happening." },
       safeAdult: { title: "Text a safe adult", text: "Turn tonight's worry into one next step, booked for the morning." },
@@ -149,6 +149,43 @@ window.CONTENT = {
     }
   },
 
+  // Need urgent help (screens/urgent.js): the worst situations, what to do straight away.
+  // Made up for the prototype. A real service would need specialist and safeguarding sign-off.
+  urgent: {
+    title: "Need urgent help?",
+    intro: "If something really bad is happening, you can get help straight away. You won't get in trouble for asking.",
+    call: "Call 999",
+    callNote: "Calls to 999 are free, even with no credit.",
+    pickHeading: "What's happening?",
+    situations: [
+      {
+        title: "Someone won't wake up, or their breathing is strange",
+        steps: ["Call 999 now.", "Say: \"I can't wake them up.\" Tell them your address.", "Stay on the phone. They'll tell you what to do."],
+        more: "#/guide/wont-wake"
+      },
+      {
+        title: "Someone is badly hurt or bleeding",
+        steps: ["Call 999 now.", "Tell them what happened and where you are.", "Stay on the phone. They'll tell you what to do."]
+      },
+      {
+        title: "Someone has taken too much, or is shaking or having a fit",
+        steps: ["Call 999 now.", "Move things away so they don't get hurt.", "Stay on the phone. They'll tell you what to do."]
+      },
+      {
+        title: "Someone is hurting you, or you don't feel safe",
+        steps: ["Get away if you can: go to another room, a neighbour or a safe place.", "Call 999 when you can.", "Tell a grown-up you trust as soon as you can."]
+      },
+      {
+        title: "You feel like hurting yourself",
+        steps: ["You matter, and help is there right now.", "Call Childline free on 0800 1111, day or night.", "If you're in danger right now, call 999."]
+      }
+    ],
+    moreLink: "More about what to do",
+    notUrgent: "Not an emergency, but still need someone?",
+    notUrgentLink: "See who's open now",
+    notUrgentHref: "#/help-now"
+  },
+
   // Explore: the walk-around game (screens/world.js)
   world: {
     // The way in, at the bottom of "What do I do?"
@@ -158,6 +195,12 @@ window.CONTENT = {
     howTo: "Use the arrow keys, the buttons under the game, or tap where you want to go.",
     mapLabel: "A garden with a winding path and little houses. Walk up to a house to open it. Every house is also in the list under the game.",
     listHeading: "Rather not play? Visit any house from this list",
+    listGroups: {
+      urgent: "Help right now",
+      help: "What to do",
+      talk: "Talk to someone",
+      calm: "Games to feel calm"
+    },
     found: "You found:",
     close: "Close",
     call999: "Call 999",

@@ -14,13 +14,21 @@ window.SCREENS = window.SCREENS || {};
 
   document.getElementById("prototype-banner").textContent = C.prototypeBanner;
   document.getElementById("quick-exit").textContent = C.quickExit;
-  document.getElementById("emergency").textContent = C.emergency;
+  document.getElementById("emergency").textContent = C.urgentHelp;
 
   // Quick exit: leave straight away and replace this page in history
   document.getElementById("quick-exit").addEventListener("click", () => {
     // Back to the game, so it looks like they were only ever playing. replace()
     // swaps this page in history, so pressing Back doesn't reopen the hub screen.
     window.location.replace(location.pathname + location.search + "#/");
+  });
+
+  // Skip link: move focus to the content without changing the address,
+  // which would otherwise send the router back to the game
+  document.querySelector(".skip-link").addEventListener("click", (e) => {
+    e.preventDefault();
+    main.setAttribute("tabindex", "-1");
+    main.focus();
   });
 
   // Small helper screens use to build HTML safely
