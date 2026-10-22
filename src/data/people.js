@@ -74,3 +74,46 @@ window.DATA.checkInOptions = [
   { label: "Yes, in 2 days", value: "In 2 days" },
   { label: "No thanks", value: "" }
 ];
+
+// Before agreeing a step, the volunteer gets to know what's happening.
+// Each question has quick replies; the young person can also type their own.
+window.DATA.explore = [
+  {
+    ask: "Can you tell me a bit about what's been happening?",
+    options: [
+      { label: "Someone's been drinking a lot", reply: "Thank you for telling me. When someone you love drinks a lot, it can make home feel really unsettled." },
+      { label: "Someone's been taking drugs", reply: "Thank you for telling me. It can be really scary when someone you love is using drugs." },
+      { label: "There's been a lot of shouting", reply: "That sounds really stressful. Nobody should have to feel on edge in their own home." },
+      { label: "I'd rather not say", reply: "That's OK. You don't have to tell me everything. We can still work out what might help." }
+    ],
+    typedReply: "Thank you for telling me. That sounds like a lot to deal with."
+  },
+  {
+    ask: "How long has it been like this?",
+    options: [
+      { label: "Just tonight", reply: "It's good you reached out straight away." },
+      { label: "A few weeks", reply: "A few weeks is a long time to be worried." },
+      { label: "A long time", reply: "That's a long time to carry this on your own. I'm really glad you messaged." }
+    ],
+    typedReply: "Thanks. It helps me understand."
+  },
+  {
+    ask: "How are you feeling right now?",
+    options: [
+      { label: "Scared", reply: "Feeling scared makes sense. You're safe to talk here." },
+      { label: "Worried", reply: "It's natural to worry about someone you love." },
+      { label: "Angry", reply: "It's OK to feel angry. Lots of young people in your shoes do." },
+      { label: "Alone", reply: "You're not on your own now. I'm here with you." }
+    ],
+    typedReply: "Thank you for telling me how you feel. All feelings are OK."
+  },
+  {
+    ask: "Does anyone else know what's going on?",
+    options: [
+      { label: "No one", reply: "It can be really hard to keep it to yourself. Telling me is a big step." },
+      { label: "A friend", reply: "It's good you've got a friend to talk to." },
+      { label: "Someone in my family", reply: "It's good someone else in your family knows." }
+    ],
+    typedReply: "Thanks for telling me."
+  }
+];
