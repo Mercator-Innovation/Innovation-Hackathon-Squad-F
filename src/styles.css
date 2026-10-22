@@ -126,8 +126,8 @@ body:not(.in-hub) main { color: #fff; }
 .launcher-button { display: inline-block; padding: .7rem 1.2rem; background: #fff; color: var(--primary); font-weight: 700; border-radius: 999px; text-decoration: none; }
 .launcher-hint { font-size: .9rem; margin: .5rem 0 0; }
 
-/* Hub landing page: blocky, futuristic game look (inspired, not copied) */
-body[data-screen="hub"] {
+/* Game look for every hub screen: blocky and futuristic (inspired, not copied) */
+body.in-hub {
   --g-bg: #0b1222;           /* deep night blue */
   --g-panel: #131d33;
   --g-line: #24345a;
@@ -144,10 +144,57 @@ body[data-screen="hub"] {
   background-color: var(--g-bg);
   color: var(--g-text);
 }
-body[data-screen="hub"] .hub-header { background: var(--g-bg); border-bottom-color: var(--g-line); }
-body[data-screen="hub"] .quick-exit { background: var(--g-text); color: var(--g-bg); border-radius: 4px; box-shadow: 0 4px 0 var(--g-muted); }
-body[data-screen="hub"] .emergency { color: var(--g-danger); }
-body[data-screen="hub"] :focus-visible { outline: 3px solid var(--g-adult); outline-offset: 3px; box-shadow: none; }
+body.in-hub .hub-header { background: var(--g-bg); border-bottom-color: var(--g-line); }
+body.in-hub .quick-exit { background: var(--g-text); color: var(--g-bg); border-radius: 4px; box-shadow: 0 4px 0 var(--g-muted); }
+body.in-hub .emergency { color: var(--g-danger); }
+body.in-hub :focus-visible { outline: 3px solid var(--g-adult); outline-offset: 3px; box-shadow: none; }
+
+/* The other hub screens (guide, chat, safe adult) in the same look */
+body.in-hub a { color: var(--g-guide); }
+body.in-hub h1 { font-weight: 900; text-shadow: 3px 3px 0 var(--g-line); }
+body.in-hub h2 { font-weight: 900; }
+body.in-hub .lead, body.in-hub .muted { color: var(--g-muted); }
+body.in-hub .back { font-weight: 700; }
+body.in-hub .demo-note { color: var(--g-muted); border-left-color: var(--g-line); }
+
+body.in-hub .card {
+  --c: var(--g-guide);
+  background: var(--g-panel); color: var(--g-text);
+  border: 3px solid var(--g-line); border-radius: 4px; box-shadow: 0 6px 0 #070c18;
+}
+body.in-hub .card:hover { border-color: var(--c); }
+body.in-hub .card-title { color: var(--c); font-weight: 900; }
+body.in-hub .card-text { color: var(--g-muted); }
+body.in-hub .card-urgent { --c: var(--g-danger); border-color: var(--g-danger); }
+body.in-hub .card-game { --c: var(--g-adult); border-color: var(--g-adult); }
+
+body.in-hub .urgent a { background: var(--g-danger); color: var(--g-bg); border-radius: 4px; box-shadow: 0 4px 0 #8a3a35; }
+body.in-hub .say li { background: var(--g-panel); border-left: 4px solid var(--g-chat); padding: .5rem .75rem; border-radius: 2px; }
+body.in-hub .say { padding-left: 0; list-style: none; }
+body.in-hub .steps li::marker { color: var(--g-guide); font-weight: 900; }
+
+body.in-hub .button {
+  background: var(--g-guide); color: var(--g-bg); border: 3px solid var(--g-guide);
+  border-radius: 4px; box-shadow: 0 4px 0 #1b7568; font-weight: 900;
+}
+body.in-hub .button-secondary { background: transparent; color: var(--g-guide); }
+body.in-hub .button:active { transform: translateY(3px); box-shadow: 0 1px 0 #1b7568; }
+
+body.in-hub .msg { border-radius: 4px; }
+body.in-hub .msg-helper { background: var(--g-panel); color: var(--g-text); border: 2px solid var(--g-guide); }
+body.in-hub .msg-you { background: #1e3a66; color: var(--g-text); border: 2px solid var(--g-chat); }
+body.in-hub .msg-who { color: var(--g-muted); }
+body.in-hub input[type="text"], body.in-hub textarea {
+  background: var(--g-panel); color: var(--g-text); border: 2px solid var(--g-muted); border-radius: 4px;
+}
+body.in-hub ::placeholder { color: var(--g-muted); opacity: 1; }
+
+body.in-hub .choice { background: var(--g-panel); color: var(--g-text); border-color: var(--g-line); border-radius: 4px; }
+body.in-hub .choice input { accent-color: var(--g-guide); }
+body.in-hub .sent { background: var(--g-panel); border: 2px solid var(--g-guide); border-radius: 4px; }
+/* Jodie's phone mock-up stays a light phone screen, so keep its text dark */
+body.in-hub .sa-phone { color: var(--text); }
+body.in-hub .sa-phone a { color: var(--primary); }
 
 .hub-hello { text-align: center; }
 .hub-art { display: block; width: 100%; max-width: 260px; height: auto; margin: .25rem auto 0; overflow: visible; }
