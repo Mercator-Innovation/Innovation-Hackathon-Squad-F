@@ -118,13 +118,70 @@ body:not(.in-hub) main { color: #fff; }
 .host { text-align: center; padding-top: 1rem; }
 .host-title { font-size: 2.2rem; letter-spacing: .05em; margin-bottom: 0; }
 .host-tagline { margin-top: .25rem; opacity: .9; }
-.host-world { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: 180px; margin: 1.5rem auto; }
-.host-world span { aspect-ratio: 1; background: var(--host-accent); border-radius: 4px; }
-.host-world span:nth-child(even) { background: #e9c46a; }
-.host-play { font: inherit; font-weight: 700; font-size: 1.3rem; padding: .7rem 2.5rem; border-radius: 999px; border: 0; background: #e9c46a; color: var(--host-bg); }
-.launcher { margin-top: 2.5rem; padding: 1rem; background: rgba(255,255,255,.1); border-radius: var(--radius); }
-.launcher-button { display: inline-block; padding: .7rem 1.2rem; background: #fff; color: var(--primary); font-weight: 700; border-radius: 999px; text-decoration: none; }
-.launcher-hint { font-size: .9rem; margin: .5rem 0 0; }
+.host-play:focus-visible, .gh-pad button:focus-visible { outline: 3px solid #ffc45c; outline-offset: 3px; box-shadow: none; }
+
+/* Gem Hop: the made-up game */
+.gh-scores { display: flex; justify-content: center; gap: 1.5rem; margin: 1rem 0 .5rem; font-weight: 700; }
+.gh-scores strong { font-variant-numeric: tabular-nums; color: #e9c46a; }
+.gh-board {
+  display: grid; gap: 4px; width: min(100%, 22rem); margin: 0 auto; padding: 6px;
+  background: #13284a; border: 3px solid #2a9d8f; border-radius: 6px;
+}
+.gh-board:focus-visible { outline: 3px solid #ffc45c; outline-offset: 3px; box-shadow: none; }
+.gh-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.gh-cell { aspect-ratio: 1; background: #1f3f66; border-radius: 3px; position: relative; }
+.gh-cell.me { background: #2a9d8f; box-shadow: inset 0 -5px 0 #1d6f66; }
+.gh-cell.me::before, .gh-cell.me::after { content: ""; position: absolute; top: 30%; width: 14%; height: 18%; background: #0b1222; }
+.gh-cell.me::before { left: 26%; } .gh-cell.me::after { right: 26%; }
+.gh-cell.gem::before { content: ""; position: absolute; inset: 24%; background: #ff7ac6; transform: rotate(45deg); box-shadow: 0 0 10px #ff7ac6; }
+.gh-cell.rock { background: #6b7a8f; box-shadow: inset 0 -5px 0 #4a5566; }
+.gh-msg { min-height: 1.5em; margin: .5rem 0 0; font-weight: 700; color: #ffc45c; }
+.gh-pad { display: grid; grid-template-columns: repeat(3, 3.2rem); grid-template-rows: repeat(2, 3.2rem); gap: 6px; justify-content: center; margin: .5rem 0; }
+.gh-pad button { font: inherit; font-size: 1.1rem; border: 0; border-radius: 6px; background: #e9c46a; color: #1d3557; cursor: pointer; box-shadow: 0 4px 0 #b08a2e; }
+.gh-pad button:active { transform: translateY(3px); box-shadow: 0 1px 0 #b08a2e; }
+.gh-pad [data-move="up"] { grid-column: 2; grid-row: 1; }
+.gh-pad [data-move="left"] { grid-column: 1; grid-row: 2; }
+.gh-pad [data-move="down"] { grid-column: 2; grid-row: 2; }
+.gh-pad [data-move="right"] { grid-column: 3; grid-row: 2; }
+.gh-how { font-size: .95rem; opacity: .9; margin: .5rem auto 1rem; max-width: 24rem; }
+
+/* Turtle Toast plug-in: a floating button and a small pop-up over the game */
+.tt-launcher {
+  position: fixed; z-index: 20;
+  right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  display: flex; align-items: center; gap: .5rem; padding: .35rem .9rem .35rem .35rem;
+  font: inherit; font-weight: 900; color: #0b1222; background: #3ee6c8; border: 3px solid #0b1222;
+  border-radius: 6px; box-shadow: 0 5px 0 #1b7568, 0 8px 20px rgba(0,0,0,.35); cursor: pointer;
+}
+.tt-launcher img { width: 2.6rem; height: 2.6rem; object-fit: cover; object-position: 50% 30%; border-radius: 4px; background: #2b1b6b; }
+.tt-launcher:focus-visible { outline: 3px solid #ffc45c; outline-offset: 3px; box-shadow: none; }
+.tt-pop {
+  position: fixed; z-index: 21;
+  right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(88px + env(safe-area-inset-bottom, 0px));
+  width: min(22rem, calc(100vw - 32px)); padding: 1rem; text-align: left;
+  background: #131d33; color: #eef5ff; border: 3px solid #3ee6c8; border-radius: 6px;
+  box-shadow: 0 6px 0 #1b7568, 0 16px 40px rgba(0,0,0,.5);
+}
+.tt-pop[hidden] { display: none; }
+.tt-pop-head { display: flex; align-items: center; justify-content: space-between; gap: .5rem; padding-bottom: .6rem; border-bottom: 2px solid #24345a; }
+.tt-pop-brand { display: flex; align-items: center; gap: .5rem; font-weight: 900; color: #ffc45c; }
+.tt-pop-brand img { width: 2rem; height: 2rem; object-fit: cover; object-position: 50% 30%; border-radius: 3px; background: #2b1b6b; }
+.tt-close { font: inherit; font-size: 1rem; width: 2.25rem; height: 2.25rem; border: 2px solid #b9c7e0; border-radius: 4px; background: transparent; color: #eef5ff; cursor: pointer; }
+.tt-pop h2 { margin: .75rem 0 .25rem; font-size: 1.35rem; font-weight: 900; color: #eef5ff; }
+.tt-pop h2:focus { outline: none; }
+.tt-pop p { margin: .25rem 0 .5rem; color: #b9c7e0; }
+.tt-pop .tt-private { display: inline-flex; align-items: center; gap: .4rem; padding: .3rem .6rem; border: 2px solid #3ee6c8; border-radius: 4px; color: #3ee6c8; font-size: .9rem; font-weight: 700; background: rgba(62,230,200,.08); }
+.tt-go { display: block; margin-top: .75rem; padding: .75rem; text-align: center; font-weight: 900; text-decoration: none; color: #0b1222; background: #3ee6c8; border-radius: 4px; box-shadow: 0 4px 0 #1b7568; }
+.tt-later { display: block; width: 100%; margin-top: .6rem; padding: .5rem; font: inherit; font-weight: 700; color: #b9c7e0; background: transparent; border: 0; cursor: pointer; text-decoration: underline; }
+.tt-pop :focus-visible { outline: 3px solid #ffc45c; outline-offset: 3px; box-shadow: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .tt-pop:not([hidden]) { animation: tt-in .18s ease-out; }
+  .tt-launcher { animation: tt-nudge 4s ease-in-out 1.5s 2; }
+}
+@keyframes tt-in { from { transform: translateY(8px); opacity: .4; } to { transform: none; opacity: 1; } }
+@keyframes tt-nudge { 0%, 90%, 100% { transform: none; } 94% { transform: translateY(-4px); } }
+/* Leave room so the floating button never covers the game */
+body:not(.in-hub) main { padding-bottom: 6rem; }
 
 /* Game look for every hub screen: blocky and futuristic (inspired, not copied) */
 body.in-hub {
