@@ -28,6 +28,7 @@ window.SCREENS.guide = {
       <ol class="steps">${s.steps.map((t) => `<li>${esc(t)}</li>`).join("")}</ol>
       <h2>${esc(G.sayHeading)}</h2>
       <ul class="say">${s.say.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
+      <p class="tell-prompt">${esc(G.tellPrompt)} <a href="#/if-i-tell">${esc(G.tellLink)}</a></p>
       <h2>${esc(G.alsoHeading)}</h2>
       <p class="actions">
         <a class="button" href="#/safe-adult">${esc(G.safeAdultLink)}</a>

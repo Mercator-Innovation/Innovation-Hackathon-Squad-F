@@ -50,6 +50,19 @@ window.DATA.scenarios = [
     say: ["\"I've been keeping something to myself and it's getting too much.\""]
   },
   {
+    id: "someone-else",
+    title: "I'm worried about my brother, sister or friend",
+    emergency: false,
+    steps: [
+      "If they might be in danger right now, call 999. That's always OK, even if you promised not to tell.",
+      "Tell them you care. You don't have to say it perfectly.",
+      "You can't make someone stop drinking or taking drugs. It's not your job to fix it.",
+      "Keeping a promise matters, but not if someone could get hurt. Telling a grown-up you trust isn't breaking their trust. It's looking after them.",
+      "Look after yourself too. Talk to a safe adult about how you feel."
+    ],
+    say: ["\"I'm not angry. I'm worried about you.\"", "\"I can't keep this to myself. Can we tell someone together?\""]
+  },
+  {
     id: "worried",
     title: "I just feel worried all the time",
     emergency: false,

@@ -40,6 +40,7 @@ window.CONTENT = {
     intro: "Things at home can feel hard when someone you love drinks too much or takes drugs. Lots of young people feel like this too.",
     privateNote: "This is private. You don't have to give your name.",
     pickHeading: "What would help right now?",
+    danger: { title: "Is someone hurt or won't wake up?", text: "Get help now. This shows you what to do." },
     options: {
       guide: { title: "What do I do?", text: "Help for things that might be happening." },
       safeAdult: { title: "Text a safe adult", text: "Turn tonight's worry into one next step, booked for the morning." },
@@ -56,7 +57,9 @@ window.CONTENT = {
     stepsHeading: "What you can do",
     sayHeading: "Things you could say",
     alsoHeading: "Want more help?",
-    safeAdultLink: "Text a safe adult"
+    safeAdultLink: "Text a safe adult",
+    tellPrompt: "Scared about what happens if you tell?",
+    tellLink: "Read honest answers"
   },
 
 
@@ -167,7 +170,8 @@ window.CONTENT = {
       "not-home": "Not home",
       shouting: "Shouting",
       secret: "Secrets",
-      worried: "Worried"
+      worried: "Worried",
+      "someone-else": "Worried for someone"
     },
     welcome: {
       label: "Start here",
