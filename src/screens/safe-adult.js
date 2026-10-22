@@ -23,16 +23,21 @@ window.SCREENS = window.SCREENS || {};
   const vol = D.volunteers[0];
   let chat = null;
   function newChat() {
-    chat = {
-      stage: "start",
-      messages: [
-        { from: "vol", text: `Hi, I'm ${vol.name}. I'm a volunteer here.` },
-        { from: "vol", text: "You can tell me what's going on. You don't have to give your name." }
-      ],
-      plan: {}
-    };
+    chat = { stage: "connecting", messages: [], plan: {} };
   }
   newChat();
+
+  // First, show they're being put through to a real person
+  function connect() {
+    if (chat.stage !== "connecting") return;
+    chat.messages.push({ from: "card", kind: "connect", html: `
+      <p class="sa-card-title">You're connected to ${esc(vol.name)}</p>
+      <p>${esc(vol.name)} is a real person: a checked and trained volunteer.</p>
+      <p>${esc(vol.name)} is here to listen, not to judge.</p>` });
+    chat.messages.push({ from: "vol", text: `Hi, I'm ${vol.name}. Thanks for getting in touch.` });
+    chat.messages.push({ from: "vol", text: "You can tell me what's going on. You don't have to give your name." });
+    chat.stage = "start";
+  }
 
   // What the young person can tap at each stage
   function quickReplies() {
@@ -63,7 +68,7 @@ window.SCREENS = window.SCREENS || {};
   }
   function messageHTML(m) {
     if (m.from === "you") return `<li class="sa-msg sa-you"><span class="sa-sr">You said:</span>${esc(m.text)}</li>`;
-    if (m.from === "card") return `<li class="sa-card">${m.html}</li>`;
+    if (m.from === "card") return `<li class="sa-card${m.kind ? " sa-" + m.kind : ""}">${m.html}</li>`;
     return `<li class="sa-msg sa-vol"><span class="sa-sr">${esc(vol.name)} said:</span>${esc(m.text)}</li>`;
   }
   function agreedCardHTML(p) {
@@ -182,6 +187,16 @@ window.SCREENS = window.SCREENS || {};
       .sa-card-title { font-weight:900; color:var(--g-adult); }
       .sa-card-link { font-weight:800; }
       .sa-999 { display:inline-block; margin-top:.3rem; padding:.5rem 1rem; background:var(--g-danger); color:var(--g-bg) !important; font-weight:900; border-radius:4px; text-decoration:none; box-shadow:0 4px 0 color-mix(in srgb, var(--g-danger) 45%, var(--g-bg)); }
+      .sa-connect { border-color:var(--g-guide); background:color-mix(in srgb, var(--g-guide) 10%, var(--g-bg)); }
+      .sa-connect .sa-card-title { color:var(--g-guide); }
+      .sa-connecting { align-self:center; display:flex; flex-direction:column; align-items:center; gap:.7rem; margin:auto 0; padding:2rem 0; color:var(--g-muted); text-align:center; font-weight:700; }
+      .sa-blocks { display:flex; gap:6px; }
+      .sa-blocks span { width:14px; height:14px; background:var(--g-guide); opacity:.3; }
+      @media (prefers-reduced-motion: no-preference) {
+        .sa-blocks span { animation: sa-blink 1.2s infinite; }
+        .sa-blocks span:nth-child(2) { animation-delay:.2s; } .sa-blocks span:nth-child(3) { animation-delay:.4s; }
+      }
+      @keyframes sa-blink { 0%, 100% { opacity:.3; } 40% { opacity:1; } }
       .sa-typing { align-self:flex-start; color:var(--g-muted); font-size:.9rem; font-style:italic; }
       .sa-quick { display:flex; flex-wrap:wrap; gap:.5rem; padding:.6rem .8rem 0; }
       .sa-chip { font:inherit; font-size:.95rem; font-weight:700; padding:.5rem .8rem; border-radius:4px; border:2px solid var(--g-adult); background:var(--g-bg); color:var(--g-adult); cursor:pointer; text-align:left; box-shadow:0 3px 0 color-mix(in srgb, var(--g-adult) 40%, var(--g-bg)); }
@@ -303,6 +318,17 @@ window.SCREENS = window.SCREENS || {};
     root.querySelector("#sa-reset").addEventListener("click", () => { newChat(); window.SCREENS["safe-adult"].remount(); });
 
     drawQuick(); scrollDown();
+
+    if (chat.stage === "connecting") {
+      input.disabled = true;
+      log.innerHTML = `<li class="sa-connecting" role="status"><span class="sa-blocks" aria-hidden="true"><span></span><span></span><span></span></span>
+        Connecting you to a safe adult…<span class="muted">A real person, here to listen.</span></li>`;
+      const wait = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 400 : 2200;
+      setTimeout(() => {
+        connect();
+        if (log.isConnected) { input.disabled = false; redrawLog(); drawQuick(); }
+      }, wait);
+    }
   }
 
   // Disguised phone notification: says nothing about what the app is for
