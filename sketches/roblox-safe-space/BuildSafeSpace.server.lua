@@ -1,8 +1,10 @@
 -- BuildSafeSpace (Script in ServerScriptService)
--- Builds the Safe Space walkthrough world when the game starts: a calm
--- evening path with 7 stops, benches, lanterns, trees and a quiet garden.
--- The words for each stop come from ReplicatedStorage.SafeSpaceContent.
+-- Builds the Safe Space world when the game starts: a calm evening path with
+-- 7 stops, a stream with a bridge, a quiet garden with a gazebo, and the
+-- lookout trail: an obstacle course with flags, lights to find and a slide.
+-- The words come from ReplicatedStorage.SafeSpaceContent.
 
+local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Lighting = game:GetService("Lighting")
 
@@ -10,12 +12,32 @@ local Content = require(ReplicatedStorage:WaitForChild("SafeSpaceContent"))
 
 local GROUND = 0.2 -- height of the top of the grass
 local STOP_GAP = 36 -- distance between stops along the path
+local STREAM_Z = -100 -- the stream crosses the path between stops 3 and 4
+local TRAIL_X = 80 -- the middle of the lookout trail
 local WHITE = Color3.new(1, 1, 1)
 local CREAM = Color3.fromRGB(250, 246, 236)
+local PLASTER = Color3.fromRGB(240, 232, 218)
 local INK = Color3.fromRGB(30, 30, 40)
 local STONE = Color3.fromRGB(214, 206, 190)
 local WOOD = Color3.fromRGB(120, 85, 60)
+local WATER = Color3.fromRGB(70, 140, 200)
+local HEDGE = Color3.fromRGB(55, 100, 60)
 local LAMP_GLOW = Color3.fromRGB(255, 214, 170)
+-- Bright block colours for the climb, like the hackathon's big screen.
+local BLOCKS = {
+	Color3.fromRGB(60, 190, 220),
+	Color3.fromRGB(235, 110, 50),
+	Color3.fromRGB(60, 110, 235),
+	Color3.fromRGB(150, 70, 225),
+	Color3.fromRGB(225, 70, 200),
+	Color3.fromRGB(90, 210, 110),
+}
+local FLOWERS = {
+	Color3.fromRGB(240, 200, 90),
+	Color3.fromRGB(230, 140, 170),
+	Color3.fromRGB(180, 160, 230),
+	Color3.fromRGB(250, 250, 245),
+}
 local rng = Random.new(42) -- the same trees every time
 
 -- Turn off any spawn points already in the place, so everyone starts at ours.
@@ -29,7 +51,7 @@ local world = Instance.new("Folder")
 world.Name = "SafeSpaceWorld"
 world.Parent = workspace
 
-local function make(className, props, parent)
+local function make(className, props, parent, attributes)
 	local obj = Instance.new(className)
 	if obj:IsA("BasePart") then
 		obj.Anchored = true
@@ -38,6 +60,10 @@ local function make(className, props, parent)
 	end
 	for key, value in pairs(props) do
 		obj[key] = value
+	end
+	-- Attributes go on before the part appears, so player screens see them straight away.
+	for key, value in pairs(attributes or {}) do
+		obj:SetAttribute(key, value)
 	end
 	obj.Parent = parent or world
 	return obj
@@ -67,6 +93,18 @@ end
 local function upright(cframe)
 	-- Roblox cylinders lie along X; this stands them up.
 	return cframe * CFrame.Angles(0, 0, math.rad(90))
+end
+
+local function flower(position)
+	make("Part", {
+		Name = "Flower",
+		Shape = Enum.PartType.Ball,
+		Size = Vector3.new(0.8, 0.8, 0.8),
+		CFrame = CFrame.new(position),
+		Color = FLOWERS[rng:NextInteger(1, #FLOWERS)],
+		Material = Enum.Material.SmoothPlastic,
+		CanCollide = false,
+	})
 end
 
 -- Lighting: early evening, warm and soft.
@@ -123,17 +161,61 @@ make("SpawnLocation", {
 	Duration = 0,
 })
 
--- Welcome arch over the path.
+-- A pitched, tiled roof. base is the middle of the roof at eave height, and
+-- the ridge runs along base's Z axis. The ends are filled with stepped plaster.
+local function buildRoof(base, width, depth, rise, colour)
+	local half = width / 2
+	local slope = math.sqrt(half * half + rise * rise)
+	local angle = math.atan(rise / half)
+	for _, s in ipairs({ -1, 1 }) do
+		make("Part", {
+			Name = "Roof",
+			Size = Vector3.new(slope + 0.4, 0.6, depth),
+			CFrame = base * CFrame.new(s * half / 2, rise / 2, 0) * CFrame.Angles(0, 0, -s * angle),
+			Color = colour,
+			Material = Enum.Material.ClayRoofTiles,
+		})
+	end
+	make("Part", {
+		Name = "Ridge",
+		Size = Vector3.new(0.9, 0.9, depth + 0.4),
+		CFrame = base * CFrame.new(0, rise + 0.15, 0),
+		Color = WOOD,
+		Material = Enum.Material.Wood,
+	})
+	local steps = 4
+	for _, s in ipairs({ -1, 1 }) do
+		for i = 0, steps - 1 do
+			make("Part", {
+				Name = "Gable",
+				Size = Vector3.new(width * (1 - (i + 0.6) / steps), rise / steps, 0.4),
+				CFrame = base * CFrame.new(0, (i + 0.5) * rise / steps, s * (depth / 2 - 1)),
+				Color = PLASTER,
+				Material = Enum.Material.Plaster,
+			})
+		end
+	end
+end
+
+-- Welcome gate over the path: stone pillars and a little tiled roof.
 for _, x in ipairs({ -8, 8 }) do
 	make("Part", {
-		Name = "ArchPillar",
-		Size = Vector3.new(2, 14, 2),
+		Name = "GatePillar",
+		Size = Vector3.new(2.4, 14, 2.4),
 		CFrame = CFrame.new(x, GROUND + 7, 10),
-		Color = CREAM,
+		Color = STONE,
+		Material = Enum.Material.Cobblestone,
+	})
+	make("Part", {
+		Name = "PillarCap",
+		Size = Vector3.new(3.2, 0.8, 3.2),
+		CFrame = CFrame.new(x, GROUND + 14.4, 10),
+		Color = WOOD,
 		Material = Enum.Material.Wood,
 	})
 end
-local archPos = Vector3.new(0, GROUND + 13, 10)
+buildRoof(CFrame.new(0, GROUND + 14.8, 10) * CFrame.Angles(0, math.rad(90), 0), 6, 22, 2.5, stops[1].colour)
+local archPos = Vector3.new(0, GROUND + 12.4, 10)
 local arch = make("Part", {
 	Name = "ArchSign",
 	Size = Vector3.new(20, 3.6, 1),
@@ -158,7 +240,7 @@ for face, words in pairs({ [Enum.NormalId.Front] = "Safe Space", [Enum.NormalId.
 	}, 100)
 end
 
-local function buildLantern(position)
+local function buildLantern(position, name)
 	make("Part", {
 		Name = "LanternPost",
 		Size = Vector3.new(0.5, 6, 0.5),
@@ -167,7 +249,7 @@ local function buildLantern(position)
 		Material = Enum.Material.Metal,
 	})
 	local glow = make("Part", {
-		Name = "Lantern",
+		Name = name or "Lantern",
 		Size = Vector3.new(1, 1.2, 1),
 		CFrame = CFrame.new(position + Vector3.new(0, 6.6, 0)),
 		Color = LAMP_GLOW,
@@ -264,68 +346,71 @@ local function buildSign(stop, cframe, label, actionText)
 	return board
 end
 
--- One stop: a small covered pavilion beside the path, with a sign and a lamp.
+-- One stop: a little open-fronted house beside the path, with a tiled roof,
+-- a back wall holding the sign, a hanging lamp and flower boxes.
 local function buildStop(stop, index)
 	local side = (index % 2 == 1) and -1 or 1
 	local centre = Vector3.new(side * 18, GROUND, stopZ(index))
-	local towardsPath = Vector3.new(-side, 0, 0)
+	-- Local -Z faces the path, so "front" means towards the path at every stop.
+	local cf = CFrame.lookAt(centre, centre + Vector3.new(-side, 0, 0))
+	local function at(x, y, z)
+		return cf * CFrame.new(x, y, z)
+	end
 
-	make("Part", {
-		Name = "Floor",
-		Size = Vector3.new(18, 0.6, 18),
-		CFrame = CFrame.new(centre + Vector3.new(0, 0.3, 0)),
-		Color = STONE,
-		Material = Enum.Material.Slate,
-	})
-	make("Part", {
-		Name = "Step",
-		Size = Vector3.new(4, 0.3, 6),
-		CFrame = CFrame.new(side * 7.5, GROUND + 0.15, centre.Z),
-		Color = STONE,
-		Material = Enum.Material.Slate,
-	})
-	for _, dx in ipairs({ -7.5, 7.5 }) do
-		for _, dz in ipairs({ -7.5, 7.5 }) do
-			make("Part", {
-				Name = "Post",
-				Size = Vector3.new(1, 10, 1),
-				CFrame = CFrame.new(centre + Vector3.new(dx, 5.6, dz)),
-				Color = WOOD,
-				Material = Enum.Material.Wood,
-			})
+	make("Part", { Name = "Floor", Size = Vector3.new(20, 0.6, 20), CFrame = at(0, 0.3, 0), Color = STONE, Material = Enum.Material.Slate })
+	make("Part", { Name = "Step", Size = Vector3.new(6, 0.3, 2), CFrame = at(0, 0.15, -11), Color = STONE, Material = Enum.Material.Slate })
+	for _, x in ipairs({ -8, 8 }) do
+		for _, z in ipairs({ -8, 8 }) do
+			make("Part", { Name = "Post", Size = Vector3.new(1.2, 10, 1.2), CFrame = at(x, 5.6, z), Color = WOOD, Material = Enum.Material.Wood })
 		end
 	end
-	make("Part", {
-		Name = "Roof",
-		Size = Vector3.new(20, 1, 20),
-		CFrame = CFrame.new(centre + Vector3.new(0, 11.1, 0)),
-		Color = stop.colour,
-		Material = Enum.Material.SmoothPlastic,
-	})
-	make("Part", {
-		Name = "RoofTop",
-		Size = Vector3.new(13, 1, 13),
-		CFrame = CFrame.new(centre + Vector3.new(0, 12.1, 0)),
-		Color = stop.colour,
-		Material = Enum.Material.SmoothPlastic,
-	})
+	-- Beams along the tops of the posts, and one across the middle for the lamp.
+	for _, z in ipairs({ -8, 0, 8 }) do
+		make("Part", { Name = "Beam", Size = Vector3.new(17.2, 0.6, 1), CFrame = at(0, 10.9, z), Color = WOOD, Material = Enum.Material.Wood })
+	end
+	for _, x in ipairs({ -8, 8 }) do
+		make("Part", { Name = "Beam", Size = Vector3.new(1, 0.6, 17.2), CFrame = at(x, 10.9, 0), Color = WOOD, Material = Enum.Material.Wood })
+	end
+	buildRoof(at(0, 10, 0) * CFrame.Angles(0, math.rad(90), 0), 22, 22, 5, stop.colour)
+
+	-- Back wall, with a band in the stop's colour, and low side walls with flower boxes.
+	make("Part", { Name = "BackWall", Size = Vector3.new(16, 10, 0.8), CFrame = at(0, 5.6, 8), Color = PLASTER, Material = Enum.Material.Plaster })
+	make("Part", { Name = "Band", Size = Vector3.new(16, 1, 0.2), CFrame = at(0, 9.8, 7.5), Color = stop.colour, Material = Enum.Material.SmoothPlastic })
+	for _, x in ipairs({ -8, 8 }) do
+		make("Part", { Name = "LowWall", Size = Vector3.new(0.8, 3, 14.8), CFrame = at(x, 2.1, 0), Color = PLASTER, Material = Enum.Material.Plaster })
+		make("Part", { Name = "FlowerBox", Size = Vector3.new(1.4, 0.6, 14), CFrame = at(x, 3.9, 0), Color = WOOD, Material = Enum.Material.Wood })
+		for z = -6, 6, 2 do
+			flower(at(x, 4.5, z).Position)
+		end
+	end
+
+	-- A lamp hanging from the middle beam.
+	make("Part", { Name = "Chain", Size = Vector3.new(0.15, 1.4, 0.15), CFrame = at(0, 9.9, 0), Color = INK, Material = Enum.Material.Metal })
 	local lamp = make("Part", {
 		Name = "Lamp",
 		Shape = Enum.PartType.Ball,
 		Size = Vector3.new(1.5, 1.5, 1.5),
-		CFrame = CFrame.new(centre + Vector3.new(0, 10, 0)),
+		CFrame = at(0, 8.8, 0),
 		Color = LAMP_GLOW,
 		Material = Enum.Material.Neon,
 		CanCollide = false,
 	})
 	make("PointLight", { Range = 18, Brightness = 1.2, Color = LAMP_GLOW }, lamp)
 
-	local signPos = centre + Vector3.new(side * 2, 4.6, 0)
-	buildSign(stop, CFrame.lookAt(signPos, signPos + towardsPath), "Stop " .. index .. " of " .. #stops, "Read more")
+	-- Planters either side of the step.
+	for _, x in ipairs({ -5.5, 5.5 }) do
+		make("Part", { Name = "Planter", Size = Vector3.new(3, 1.4, 1.6), CFrame = at(x, 0.7, -11), Color = WOOD, Material = Enum.Material.Wood })
+		for _, dx in ipairs({ -0.9, 0, 0.9 }) do
+			flower(at(x + dx, 1.7, -11).Position)
+		end
+	end
 
-	-- A bench by the path, halfway to the next stop.
-	if index < #stops then
-		buildBench(Vector3.new(side * 10, GROUND, stopZ(index) - STOP_GAP / 2), towardsPath)
+	buildSign(stop, at(0, 5.2, 7.3), "Stop " .. index .. " of " .. #stops, "Read more")
+
+	-- A bench by the path, halfway to the next stop (but not in the stream).
+	local benchZ = stopZ(index) - STOP_GAP / 2
+	if index < #stops and math.abs(benchZ - STREAM_Z) > 6 then
+		buildBench(Vector3.new(side * 10, GROUND, benchZ), Vector3.new(-side, 0, 0))
 	end
 end
 
@@ -339,7 +424,63 @@ for z = pathStart - 6, pathEnd, -24 do
 	buildLantern(Vector3.new(7.5, GROUND, z))
 end
 
--- The quiet garden: a round space with a pond, benches and the breathing sign.
+-- A stream across the path between stops 3 and 4, with a wooden bridge.
+make("Part", {
+	Name = "Stream",
+	Size = Vector3.new(340, 0.3, 8),
+	CFrame = CFrame.new(-130, GROUND + 0.1, STREAM_Z),
+	Color = WATER,
+	Material = Enum.Material.Glass,
+	Transparency = 0.1,
+})
+make("Part", {
+	Name = "StreamPool",
+	Shape = Enum.PartType.Cylinder,
+	Size = Vector3.new(0.3, 14, 14),
+	CFrame = upright(CFrame.new(40, GROUND + 0.1, STREAM_Z)),
+	Color = WATER,
+	Material = Enum.Material.Glass,
+	Transparency = 0.1,
+})
+do
+	local rise, run = 1.4, 5
+	local rampAngle = math.atan(rise / run)
+	local rampLength = math.sqrt(rise * rise + run * run)
+	make("Part", {
+		Name = "BridgeDeck",
+		Size = Vector3.new(12, 0.4, 6),
+		CFrame = CFrame.new(0, GROUND + rise, STREAM_Z),
+		Color = WOOD,
+		Material = Enum.Material.WoodPlanks,
+	})
+	for _, s in ipairs({ -1, 1 }) do
+		make("Part", {
+			Name = "BridgeRamp",
+			Size = Vector3.new(12, 0.4, rampLength + 0.2),
+			CFrame = CFrame.new(0, GROUND + rise / 2, STREAM_Z + s * (3 + run / 2)) * CFrame.Angles(s * rampAngle, 0, 0),
+			Color = WOOD,
+			Material = Enum.Material.WoodPlanks,
+		})
+		make("Part", {
+			Name = "BridgeRail",
+			Size = Vector3.new(0.4, 0.4, 16),
+			CFrame = CFrame.new(s * 6.2, GROUND + 4, STREAM_Z),
+			Color = WOOD,
+			Material = Enum.Material.Wood,
+		})
+		for _, dz in ipairs({ -8, -3, 3, 8 }) do
+			make("Part", {
+				Name = "BridgePost",
+				Size = Vector3.new(0.4, 4, 0.4),
+				CFrame = CFrame.new(s * 6.2, GROUND + 2, STREAM_Z + dz),
+				Color = WOOD,
+				Material = Enum.Material.Wood,
+			})
+		end
+	end
+end
+
+-- The quiet garden: a round space with a pond, a gazebo, benches and the breathing sign.
 local garden = Content.garden
 make("Part", {
 	Name = "GardenFloor",
@@ -359,6 +500,36 @@ make("Part", {
 	Transparency = 0.15,
 	Reflectance = 0.1,
 })
+for i = 0, 5 do
+	local angle = math.rad(30 + i * 60)
+	make("Part", {
+		Name = "GazeboPost",
+		Size = Vector3.new(1, 10, 1),
+		CFrame = CFrame.new(math.sin(angle) * 10, GROUND + 5.6, gardenZ + math.cos(angle) * 10),
+		Color = WOOD,
+		Material = Enum.Material.Wood,
+	})
+end
+for i, diameter in ipairs({ 28, 22, 16, 10 }) do
+	make("Part", {
+		Name = "GazeboRoof",
+		Shape = Enum.PartType.Cylinder,
+		Size = Vector3.new(0.9, diameter, diameter),
+		CFrame = upright(CFrame.new(0, GROUND + 11 + (i - 1) * 0.9, gardenZ)),
+		Color = (i % 2 == 1) and garden.colour or PLASTER,
+		Material = Enum.Material.SmoothPlastic,
+	})
+end
+local finial = make("Part", {
+	Name = "GardenLantern",
+	Shape = Enum.PartType.Ball,
+	Size = Vector3.new(1.6, 1.6, 1.6),
+	CFrame = CFrame.new(0, GROUND + 14.8, gardenZ),
+	Color = LAMP_GLOW,
+	Material = Enum.Material.Neon,
+	CanCollide = false,
+})
+make("PointLight", { Range = 16, Brightness = 0.6, Color = LAMP_GLOW }, finial)
 for _, degrees in ipairs({ 45, 135, 225, 315 }) do
 	local angle = math.rad(degrees)
 	local position = Vector3.new(math.sin(angle) * 13, GROUND + 0.6, gardenZ + math.cos(angle) * 13)
@@ -366,12 +537,299 @@ for _, degrees in ipairs({ 45, 135, 225, 315 }) do
 end
 for i = 1, 6 do
 	local angle = math.rad(30 + i * 60)
-	buildLantern(Vector3.new(math.sin(angle) * 20, GROUND + 0.6, gardenZ + math.cos(angle) * 20))
+	buildLantern(Vector3.new(math.sin(angle) * 20, GROUND + 0.6, gardenZ + math.cos(angle) * 20), "GardenLantern")
 end
 local gardenSignPos = Vector3.new(0, GROUND + 4.6, gardenZ - 17)
 buildSign(garden, CFrame.lookAt(gardenSignPos, gardenSignPos + Vector3.new(0, 0, 1)), "The quiet garden", "Start breathing")
 
--- Trees, kept well back from the path and the stops.
+---------------------------------------------------------------------------
+-- The lookout trail: a just-for-fun obstacle course on the right of the path.
+-- Stepping stones, logs over a pond, blocks to climb, a bounce pad, a lookout
+-- tower and a slide. Falling in the water sends you back to the last flag.
+---------------------------------------------------------------------------
+local trail = Content.trail
+local flagSpots = {} -- [flag number] = where you come back to
+local lightCount = 0
+
+local function strip(fromX, toX, z)
+	make("Part", {
+		Name = "TrailPath",
+		Size = Vector3.new(toX - fromX, 0.2, 6),
+		CFrame = CFrame.new((fromX + toX) / 2, GROUND + 0.1, z),
+		Color = Color3.fromRGB(222, 205, 170),
+		Material = Enum.Material.Pebble,
+	})
+end
+
+local function flagPad(n, z)
+	local pad = make("Part", {
+		Name = "Flag" .. n,
+		Size = Vector3.new(12, 0.4, 12),
+		CFrame = CFrame.new(TRAIL_X, GROUND + 0.2, z),
+		Color = STONE,
+		Material = Enum.Material.Slate,
+	}, nil, { Flag = n })
+	make("Part", {
+		Name = "FlagPole",
+		Size = Vector3.new(0.4, 9, 0.4),
+		CFrame = CFrame.new(TRAIL_X + 5, GROUND + 4.9, z + 5),
+		Color = Color3.fromRGB(60, 55, 60),
+		Material = Enum.Material.Metal,
+	})
+	make("Part", {
+		Name = "FlagCloth",
+		Size = Vector3.new(0.2, 2.4, 3.6),
+		CFrame = CFrame.new(TRAIL_X + 5, GROUND + 8, z + 3.1),
+		Color = trail.colour,
+		Material = Enum.Material.Fabric,
+	})
+	flagSpots[n] = CFrame.new(TRAIL_X, GROUND + 4, z)
+	return pad
+end
+
+local function waterSection(fromZ, toZ)
+	local length, middle = fromZ - toZ, (fromZ + toZ) / 2
+	make("Part", {
+		Name = "TrailWater",
+		Size = Vector3.new(28, 0.4, length),
+		CFrame = CFrame.new(TRAIL_X, GROUND + 0.2, middle),
+		Color = WATER,
+		Material = Enum.Material.Glass,
+		Transparency = 0.1,
+	}, nil, { BackToFlag = true })
+	for _, s in ipairs({ -1, 1 }) do
+		make("Part", {
+			Name = "Hedge",
+			Size = Vector3.new(2, 8, length),
+			CFrame = CFrame.new(TRAIL_X + s * 15, GROUND + 4, middle),
+			Color = HEDGE,
+			Material = Enum.Material.LeafyGrass,
+		})
+	end
+end
+
+-- A glowing light to find. Player screens handle the finding.
+local function trailLight(position)
+	lightCount = lightCount + 1
+	local light = make("Part", {
+		Name = "TrailLight",
+		Shape = Enum.PartType.Ball,
+		Size = Vector3.new(1.6, 1.6, 1.6),
+		CFrame = CFrame.new(position),
+		Color = Color3.fromRGB(255, 220, 90),
+		Material = Enum.Material.Neon,
+		CanCollide = false,
+	}, nil, { SafeSpaceLight = lightCount })
+	make("PointLight", { Range = 10, Brightness = 1.5, Color = Color3.fromRGB(255, 220, 90) }, light)
+end
+
+local function block(x, z, top, colour, size)
+	return make("Part", {
+		Name = "Block",
+		Size = Vector3.new(size or 6, 1, size or 6),
+		CFrame = CFrame.new(x, GROUND + top - 0.5, z),
+		Color = colour,
+		Material = Enum.Material.SmoothPlastic,
+	})
+end
+
+-- The way in, by the start, and its sign.
+strip(6, TRAIL_X - 6, 16)
+local trailSignPos = Vector3.new(14, GROUND + 4.6, 26)
+buildSign(trail, CFrame.lookAt(trailSignPos, Vector3.new(0, trailSignPos.Y, 22)), "Just for fun", "How it works")
+
+-- 1. Stepping stones across the first pond.
+flagPad(1, 16)
+waterSection(8, -40)
+for i, z in ipairs({ 4, -4, -12, -20, -28, -36 }) do
+	local top = (i % 2 == 1) and 1.2 or 1.8
+	make("Part", {
+		Name = "SteppingStone",
+		Shape = Enum.PartType.Cylinder,
+		Size = Vector3.new(top, 4, 4),
+		CFrame = upright(CFrame.new(TRAIL_X + ((i % 2 == 1) and -4 or 4), GROUND + top / 2, z)),
+		Color = Color3.fromRGB(150, 145, 140),
+		Material = Enum.Material.Rock,
+	})
+end
+trailLight(Vector3.new(TRAIL_X - 4, GROUND + 3.7, -12))
+
+-- 2. Balance logs across the second pond, with little rest spots.
+flagPad(2, -48)
+waterSection(-56, -104)
+local logPoints = {
+	Vector3.new(TRAIL_X, GROUND + 1, -53),
+	Vector3.new(TRAIL_X - 8, GROUND + 1, -66),
+	Vector3.new(TRAIL_X + 8, GROUND + 1, -80),
+	Vector3.new(TRAIL_X - 6, GROUND + 1, -94),
+	Vector3.new(TRAIL_X, GROUND + 1, -107),
+}
+for i = 1, #logPoints - 1 do
+	local a, b = logPoints[i], logPoints[i + 1]
+	make("Part", {
+		Name = "Log",
+		Size = Vector3.new(2, 0.8, (b - a).Magnitude + 1),
+		CFrame = CFrame.lookAt((a + b) / 2, b) * CFrame.new(0, -0.4, 0),
+		Color = WOOD,
+		Material = Enum.Material.Wood,
+	})
+	if i > 1 then
+		make("Part", {
+			Name = "RestSpot",
+			Size = Vector3.new(4, 0.8, 4),
+			CFrame = CFrame.new(a - Vector3.new(0, 0.4, 0)),
+			Color = WOOD,
+			Material = Enum.Material.WoodPlanks,
+		})
+	end
+end
+trailLight(logPoints[3] + Vector3.new(0, 2.5, 0))
+
+-- 3. Floating blocks to climb, then a bounce pad up to the lookout.
+flagPad(3, -112)
+local climb = {
+	{ TRAIL_X - 6, -124, 3 },
+	{ TRAIL_X + 4, -128, 6 },
+	{ TRAIL_X + 10, -136, 9 },
+	{ TRAIL_X + 2, -142, 12 },
+	{ TRAIL_X - 8, -146, 15 },
+	{ TRAIL_X, -155, 18 },
+}
+for i, spot in ipairs(climb) do
+	block(spot[1], spot[2], spot[3], BLOCKS[i])
+end
+trailLight(Vector3.new(climb[4][1], GROUND + climb[4][3] + 2.5, climb[4][2]))
+local lastBlock = climb[#climb]
+make("Part", {
+	Name = "BouncePad",
+	Size = Vector3.new(5, 0.3, 5),
+	CFrame = CFrame.new(lastBlock[1], GROUND + lastBlock[3] + 0.15, lastBlock[2]),
+	Color = Color3.fromRGB(240, 90, 210),
+	Material = Enum.Material.Neon,
+}, nil, { BouncePad = true })
+
+-- 4. The lookout tower.
+local towerZ, deckTop = -170, 30
+make("Part", {
+	Name = "LookoutDeck",
+	Size = Vector3.new(14, 1, 14),
+	CFrame = CFrame.new(TRAIL_X, GROUND + deckTop - 0.5, towerZ),
+	Color = WOOD,
+	Material = Enum.Material.WoodPlanks,
+})
+for _, dx in ipairs({ -6.5, 6.5 }) do
+	for _, dz in ipairs({ -6.5, 6.5 }) do
+		make("Part", {
+			Name = "TowerPost",
+			Size = Vector3.new(1.2, deckTop + 8, 1.2),
+			CFrame = CFrame.new(TRAIL_X + dx, GROUND + (deckTop + 8) / 2, towerZ + dz),
+			Color = WOOD,
+			Material = Enum.Material.Wood,
+		})
+	end
+	make("Part", {
+		Name = "TowerRail",
+		Size = Vector3.new(0.6, 3, 14),
+		CFrame = CFrame.new(TRAIL_X + dx * 1.05, GROUND + deckTop + 1.5, towerZ),
+		Color = WOOD,
+		Material = Enum.Material.Wood,
+	})
+end
+buildRoof(CFrame.new(TRAIL_X, GROUND + deckTop + 7, towerZ), 17, 17, 5, trail.colour)
+local lookoutPos = Vector3.new(TRAIL_X - 5.8, GROUND + deckTop + 4.5, towerZ)
+buildSign(Content.lookout, CFrame.lookAt(lookoutPos, lookoutPos + Vector3.new(1, 0, 0)), "The lookout", "Read more")
+trailLight(Vector3.new(TRAIL_X + 3, GROUND + deckTop + 2.5, towerZ - 2))
+
+-- 5. The slide down to the finish.
+do
+	local topZ, bottomZ, bottomY = towerZ - 7, -225, 0.6
+	local drop, run = deckTop - bottomY, topZ - bottomZ
+	local angle = math.atan(drop / run)
+	local length = math.sqrt(drop * drop + run * run)
+	local middle = Vector3.new(TRAIL_X, GROUND + (deckTop + bottomY) / 2, (topZ + bottomZ) / 2)
+	local slide = CFrame.new(middle) * CFrame.Angles(-angle, 0, 0) * CFrame.new(0, -0.5, 0)
+	make("Part", { Name = "Slide", Size = Vector3.new(6, 1, length), CFrame = slide, Color = BLOCKS[1], Material = Enum.Material.SmoothPlastic })
+	for _, s in ipairs({ -1, 1 }) do
+		make("Part", {
+			Name = "SlideRail",
+			Size = Vector3.new(0.5, 2, length),
+			CFrame = slide * CFrame.new(s * 3.25, 1, 0),
+			Color = BLOCKS[5],
+			Material = Enum.Material.SmoothPlastic,
+		})
+	end
+	for _, t in ipairs({ 0.3, 0.55, 0.8 }) do
+		local height = deckTop - drop * t - 1.2
+		for _, s in ipairs({ -1, 1 }) do
+			make("Part", {
+				Name = "SlideLeg",
+				Size = Vector3.new(0.8, height, 0.8),
+				CFrame = CFrame.new(TRAIL_X + s * 2.5, GROUND + height / 2, topZ - run * t),
+				Color = WOOD,
+				Material = Enum.Material.Wood,
+			})
+		end
+	end
+	trailLight(Vector3.new(TRAIL_X, GROUND + deckTop - drop * 0.5 + 2.5, topZ - run * 0.5))
+end
+
+-- 6. The finish, and the way back to the path.
+flagPad(4, -234)
+strip(6, TRAIL_X - 6, -234)
+trailLight(Vector3.new(TRAIL_X - 3, GROUND + 3.4, -236))
+world:SetAttribute("LightsTotal", lightCount)
+
+-- Flags and water. Touching a flag saves your place; touching the water
+-- takes you back to it. Nothing else happens: no health is lost.
+local lastFlag = {}
+local justMoved = {}
+
+local function playerFrom(hit)
+	local character = hit:FindFirstAncestorOfClass("Model")
+	return character and Players:GetPlayerFromCharacter(character), character
+end
+
+for _, obj in ipairs(world:GetChildren()) do
+	if obj:GetAttribute("Flag") then
+		local n = obj:GetAttribute("Flag")
+		obj.Touched:Connect(function(hit)
+			local player = playerFrom(hit)
+			if player and lastFlag[player] ~= n then
+				lastFlag[player] = n
+				player:SetAttribute("SafeSpaceFlag", n)
+			end
+		end)
+	elseif obj:GetAttribute("BackToFlag") then
+		obj.Touched:Connect(function(hit)
+			local player, character = playerFrom(hit)
+			if not player or justMoved[player] or not character:FindFirstChild("HumanoidRootPart") then
+				return
+			end
+			justMoved[player] = true
+			character:PivotTo(flagSpots[lastFlag[player] or 1])
+			player:SetAttribute("SafeSpaceSplash", (player:GetAttribute("SafeSpaceSplash") or 0) + 1)
+			task.delay(1, function()
+				justMoved[player] = nil
+			end)
+		end)
+	end
+end
+
+Players.PlayerRemoving:Connect(function(player)
+	lastFlag[player] = nil
+	justMoved[player] = nil
+end)
+
+-- Trees, kept well back from the path, the stops, the stream and the trail.
+local function treeFits(x, z)
+	if x > 26 and x < 140 and z < 34 and z > -252 then
+		return false
+	end
+	if x < 50 and math.abs(z - STREAM_Z) < 9 then
+		return false
+	end
+	return true
+end
 local greens = {
 	Color3.fromRGB(70, 120, 70),
 	Color3.fromRGB(90, 140, 80),
@@ -384,49 +842,40 @@ for _ = 1, 170 do
 	local z = rng:NextNumber(-440, 140)
 	local height = rng:NextNumber(7, 12)
 	local leaves = rng:NextNumber(9, 14)
-	make("Part", {
-		Name = "Trunk",
-		Shape = Enum.PartType.Cylinder,
-		Size = Vector3.new(height, 1.6, 1.6),
-		CFrame = upright(CFrame.new(x, GROUND + height / 2, z)),
-		Color = Color3.fromRGB(105, 75, 55),
-		Material = Enum.Material.Wood,
-	})
-	make("Part", {
-		Name = "Leaves",
-		Shape = Enum.PartType.Ball,
-		Size = Vector3.new(leaves, leaves, leaves),
-		CFrame = CFrame.new(x, GROUND + height + leaves * 0.3, z),
-		Color = greens[rng:NextInteger(1, #greens)],
-		Material = Enum.Material.Grass,
-	})
+	if treeFits(x, z) then
+		make("Part", {
+			Name = "Trunk",
+			Shape = Enum.PartType.Cylinder,
+			Size = Vector3.new(height, 1.6, 1.6),
+			CFrame = upright(CFrame.new(x, GROUND + height / 2, z)),
+			Color = Color3.fromRGB(105, 75, 55),
+			Material = Enum.Material.Wood,
+		})
+		make("Part", {
+			Name = "Leaves",
+			Shape = Enum.PartType.Ball,
+			Size = Vector3.new(leaves, leaves, leaves),
+			CFrame = CFrame.new(x, GROUND + height + leaves * 0.3, z),
+			Color = greens[rng:NextInteger(1, #greens)],
+			Material = Enum.Material.Grass,
+		})
+	end
 end
 
--- Flowers along the edges of the path.
-local flowerColours = {
-	Color3.fromRGB(240, 200, 90),
-	Color3.fromRGB(230, 140, 170),
-	Color3.fromRGB(180, 160, 230),
-	Color3.fromRGB(250, 250, 245),
-}
+-- Flowers along the edges of the path, but not on the steps, bridge or trail paths.
 for _ = 1, 140 do
 	local side = rng:NextInteger(0, 1) == 0 and -1 or 1
 	local z = rng:NextNumber(pathEnd, pathStart)
-	local nearStep = false
+	local clear = math.abs(z - STREAM_Z) > 9
 	for index = 1, #stops do
 		if math.abs(z - stopZ(index)) < 4 then
-			nearStep = true
+			clear = false
 		end
 	end
-	if not nearStep then
-		make("Part", {
-			Name = "Flower",
-			Shape = Enum.PartType.Ball,
-			Size = Vector3.new(0.8, 0.8, 0.8),
-			CFrame = CFrame.new(side * rng:NextNumber(6.6, 8.4), GROUND + 0.3, z),
-			Color = flowerColours[rng:NextInteger(1, #flowerColours)],
-			Material = Enum.Material.SmoothPlastic,
-			CanCollide = false,
-		})
+	if side == 1 and (math.abs(z - 16) < 4 or math.abs(z + 234) < 4) then
+		clear = false
+	end
+	if clear then
+		flower(Vector3.new(side * rng:NextNumber(6.6, 8.4), GROUND + 0.3, z))
 	end
 end
