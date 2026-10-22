@@ -46,27 +46,50 @@ window.SCREENS.world = (function () {
   function mountGarden(panel) {
     const W = window.CONTENT.world.garden;
     const box = panel.querySelector(".garden-body");
-    let step = 0, done = 0;
+    // What they've typed for each sense. Only kept on this screen, never saved or sent.
+    let step = 0, noticed = W.steps.map(() => []);
     const show = (moveFocus) => {
       if (step >= W.steps.length) {
         box.innerHTML = `<p class="garden-ask" tabindex="-1">${esc(W.finished)}</p>
+          <ul class="garden-summary">${W.steps.map((s, i) =>
+            `<li><strong>${esc(s.summary)}:</strong> ${esc(noticed[i].join(", "))}</li>`).join("")}</ul>
           <button type="button" class="world-button garden-again">${esc(W.again)}</button>`;
       } else {
-        const s = W.steps[step];
+        const s = W.steps[step], got = noticed[step];
         box.innerHTML = `<p class="garden-ask" tabindex="-1">${esc(s.ask)}</p>
-          <div class="garden-blocks">${Array.from({ length: s.count }, (_, i) =>
-            `<span class="garden-block${i < done ? " is-on" : ""}" aria-hidden="true">${s.count}</span>`).join("")}</div>
-          <p class="garden-progress">${esc(W.progress.replace("{done}", done).replace("{count}", s.count))}</p>
-          <button type="button" class="world-button garden-tap">${esc(W.noticed)}</button>`;
+          <ol class="garden-blocks" aria-label="${esc(W.progress.replace("{done}", got.length).replace("{count}", s.count))}">
+            ${Array.from({ length: s.count }, (_, i) => i < got.length
+              ? `<li class="garden-block is-on">${esc(got[i])}</li>`
+              : `<li class="garden-block" aria-hidden="true">?</li>`).join("")}
+          </ol>
+          <form class="garden-form">
+            <label for="garden-input">${esc(s.label)} <span class="garden-hint">(${esc(s.hint)})</span></label>
+            <div class="garden-row">
+              <input id="garden-input" type="text" autocomplete="off" maxlength="40">
+              <button type="submit" class="world-button">${esc(W.add)}</button>
+            </div>
+            <p class="garden-error" aria-live="polite"></p>
+          </form>
+          <p class="garden-private">${esc(W.privateNote)}</p>`;
       }
       if (moveFocus) box.querySelector(moveFocus).focus();
     };
+    box.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const input = box.querySelector("#garden-input");
+      const text = input.value.trim();
+      if (!text) { box.querySelector(".garden-error").textContent = W.empty; input.focus(); return; }
+      noticed[step].push(text);
+      if (noticed[step].length >= W.steps[step].count) {
+        step++;
+        show(step >= W.steps.length ? ".garden-ask" : "#garden-input");
+      }
+      else show("#garden-input");
+    });
     box.addEventListener("click", (e) => {
-      if (e.target.closest(".garden-again")) { step = 0; done = 0; show(".garden-tap"); return; }
-      if (!e.target.closest(".garden-tap")) return;
-      done++;
-      if (done >= W.steps[step].count) { step++; done = 0; show(".garden-ask"); }
-      else show(".garden-tap");
+      if (!e.target.closest(".garden-again")) return;
+      step = 0; noticed = W.steps.map(() => []);
+      show("#garden-input");
     });
     show(null);
   }
@@ -99,7 +122,6 @@ window.SCREENS.world = (function () {
       label: W.labels[s.id] || s.title.split(" ").slice(0, 2).join(" "),
       scenario: s
     }));
-    stops.push(Object.assign({ id: "chat", kind: "chat" }, W.chat));
     stops.push(Object.assign({ id: "safe-adult", kind: "adult" }, W.safeAdult));
     stops.push(Object.assign({ id: "childline", kind: "outside" }, W.childline));
     stops.push(Object.assign({ id: "stars", kind: "stars" }, W.stars));
