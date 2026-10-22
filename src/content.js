@@ -44,7 +44,8 @@ window.CONTENT = {
       guide: { title: "What do I do?", text: "Help for things that might be happening." },
       chat: { title: "Chat to someone", text: "Type to a friendly helper. You don't have to give your name." },
       safeAdult: { title: "Text a safe adult", text: "Turn tonight's worry into one next step, booked for the morning." },
-      helpNow: { title: "Who's open now?", text: "See who you can call or text right now." }
+      helpNow: { title: "Who's open now?", text: "See who you can call or text right now." },
+      ifITell: { title: "What happens if I tell?", text: "Honest answers if you're scared about telling someone." }
     },
     notYourFault: "Whatever is happening, it is not your fault."
   },
