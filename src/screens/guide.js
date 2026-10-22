@@ -14,6 +14,9 @@ window.SCREENS.guide = {
         <ul class="cards">
           ${all.map((x) => `<li><a class="card${x.emergency ? " card-urgent" : ""}" href="#/guide/${x.id}">
             <span class="card-title">${esc(x.title)}</span></a></li>`).join("")}
+          <li><a class="card card-game" href="#/world">
+            <span class="card-title">${esc(window.CONTENT.world.entry.title)}</span>
+            <span class="card-text">${esc(window.CONTENT.world.entry.text)}</span></a></li>
         </ul>`;
     }
 
