@@ -48,8 +48,9 @@ body[data-screen="world"] .world-canvas:focus-visible { outline: 3px solid var(-
 .world-panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: .5rem; }
 .world-panel h2 { margin: 0; font-size: 1.2rem; font-weight: 900; color: var(--c); }
 .world-panel h2:focus { outline: none; }
-.world-panel p, .world-panel ul { margin: .5rem 0; }
-.world-panel ul { padding-left: 1.25rem; }
+.world-panel p, .world-panel ul, .world-panel ol { margin: .5rem 0; }
+.world-panel ul, .world-panel ol { padding-left: 1.25rem; }
+.world-panel h3 { margin: .75rem 0 .25rem; font-size: 1rem; font-weight: 900; color: var(--c); }
 .world-actions { display: flex; flex-wrap: wrap; gap: .6rem; }
 .world-button {
   display: inline-block; font-weight: 900; text-decoration: none; padding: .55rem 1rem;
