@@ -89,6 +89,7 @@ window.SCREENS = window.SCREENS || {};
         <a class="back" href="#/hub">${esc(window.CONTENT.back)}</a>
         <h1>Help right now</h1>
         <p class="lead">These people are kind and won't judge you. You can talk about anything.</p>
+        <p>Scared about telling someone? <a href="#/if-i-tell">See what happens if you tell</a>.</p>
         <p class="help-time">It's ${esc(DAY_NAMES[now.day])}, ${esc(clock(now.mins))}.</p>
 
         <h2>Open now</h2>
