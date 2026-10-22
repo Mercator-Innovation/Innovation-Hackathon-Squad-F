@@ -7,6 +7,7 @@
 **Challenge:** _chosen on the day_
 **Why we chose it:** _(one or two sentences)_
 **The idea:** _(one or two sentences, agreed on the day: who it's for, when they need it, and what it does)_
+**Problem statement:** We’re helping family members of people who are showing signs of harmful drug or alcohol use who’ve kept it hidden for a long time who struggle to take the first step, the moment they realise they can’t cope alone.
 
 ## Members
 
