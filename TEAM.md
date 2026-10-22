@@ -54,6 +54,7 @@ The **squad lead** runs the squad's setup before the day: agreeing the two roles
 
 - Discovery Wall (optional): _(added if the squad makes one)_
 - Later List (ideas, questions and findings to come back to): https://claude.ai/artifact/FWsBTVcpWdu5DBu3U4qjJ8
+- JJARY Build Plan (functions to build and who's on each): https://claude.ai/artifact/BCLaaPP59gekuYPUwXCEqV
 
 ## Working agreements
 
