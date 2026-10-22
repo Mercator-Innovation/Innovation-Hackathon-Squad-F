@@ -99,7 +99,6 @@ window.SCREENS.world = (function () {
       label: W.labels[s.id] || s.title.split(" ").slice(0, 2).join(" "),
       scenario: s
     }));
-    stops.push(Object.assign({ id: "chat", kind: "chat" }, W.chat));
     stops.push(Object.assign({ id: "safe-adult", kind: "adult" }, W.safeAdult));
     stops.push(Object.assign({ id: "childline", kind: "outside" }, W.childline));
     stops.push(Object.assign({ id: "stars", kind: "stars" }, W.stars));

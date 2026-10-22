@@ -42,7 +42,6 @@ window.CONTENT = {
     pickHeading: "What would help right now?",
     options: {
       guide: { title: "What do I do?", text: "Help for things that might be happening." },
-      chat: { title: "Chat to someone", text: "Type to a friendly helper. You don't have to give your name." },
       safeAdult: { title: "Text a safe adult", text: "Turn tonight's worry into one next step, booked for the morning." },
       helpNow: { title: "Who's open now?", text: "See who you can call or text right now." },
       ifITell: { title: "What happens if I tell?", text: "Honest answers if you're scared about telling someone." }
@@ -57,21 +56,9 @@ window.CONTENT = {
     stepsHeading: "What you can do",
     sayHeading: "Things you could say",
     alsoHeading: "Want more help?",
-    chatLink: "Chat to someone",
     safeAdultLink: "Text a safe adult"
   },
 
-  // Chat
-  chat: {
-    title: "Chat to someone",
-    intro: "You can chat about how you feel. You don't have to say who you are.",
-    demoNote: "Prototype: replies are made up, and no one is reading this.",
-    label: "Your message",
-    placeholder: "Type here",
-    send: "Send",
-    you: "You",
-    helper: "Helper"
-  },
 
   // Text a safe adult
   safeAdult: {
@@ -122,7 +109,7 @@ window.CONTENT = {
         nextHeading: "What next?",
         next: [
           { title: "Plan another small step", text: "Talk to a volunteer about what could help next.", href: "#/safe-adult" },
-          { title: "Write down how it went", text: "Get it out of your head. Nobody else will see it.", href: "#/chat" },
+          { title: "Tell a volunteer how it went", text: "They'd love to hear how you got on.", href: "#/safe-adult" },
           { title: "Back to the start", text: "", href: "#/hub" }
         ]
       },
@@ -143,7 +130,7 @@ window.CONTENT = {
         next: [
           { title: "Keep it for tomorrow", text: "We'll ask you again later.", href: "#/hub", keep: true },
           { title: "Pick an easier step", text: "A volunteer can help you find a smaller one.", href: "#/safe-adult" },
-          { title: "Say what's getting in the way", text: "Write it down privately first.", href: "#/chat" }
+          { title: "Say what's getting in the way", text: "Talk it through with a volunteer.", href: "#/safe-adult" }
         ]
       },
       changed: {
@@ -186,17 +173,10 @@ window.CONTENT = {
       title: "Welcome to the safe space",
       text: "Walk to each little house to find help. Take your time. Whatever is happening, it is not your fault."
     },
-    chat: {
-      label: "Chat",
-      title: "The chat hut",
-      text: "Want to talk about how you feel? You can chat to a friendly helper. You don't have to give your name.",
-      link: "Chat to someone",
-      href: "#/chat"
-    },
     safeAdult: {
       label: "Safe adult",
       title: "The safe adult house",
-      text: "Is there a grown-up you trust? We can help you send them a quick message.",
+      text: "Text a checked volunteer who's there to listen, not judge. Together you'll plan one small step for tomorrow.",
       link: "Text a safe adult",
       href: "#/safe-adult"
     },

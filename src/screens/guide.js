@@ -30,8 +30,7 @@ window.SCREENS.guide = {
       <ul class="say">${s.say.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
       <h2>${esc(G.alsoHeading)}</h2>
       <p class="actions">
-        <a class="button" href="#/chat">${esc(G.chatLink)}</a>
-        <a class="button button-secondary" href="#/safe-adult">${esc(G.safeAdultLink)}</a>
+        <a class="button" href="#/safe-adult">${esc(G.safeAdultLink)}</a>
       </p>`;
   }
 };
