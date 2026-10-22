@@ -32,6 +32,7 @@ window.SCREENS = window.SCREENS || {};
     const screen = window.SCREENS[name] || window.SCREENS.host;
     header.hidden = name === "host";
     document.body.classList.toggle("in-hub", name !== "host");
+    document.body.dataset.screen = window.SCREENS[name] ? name : "host"; // lets a screen have its own look
     main.innerHTML = screen.render(parts.slice(1));
     if (screen.mount) screen.mount(main, parts.slice(1));
     // Move focus to the new heading so keyboard and screen reader users know the screen changed
