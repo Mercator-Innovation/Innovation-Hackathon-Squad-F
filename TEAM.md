@@ -9,7 +9,12 @@
 - It reaches a lot of people. The Scottish Government quotes Scottish Families’ estimate that an average of 11 people are harmed for every person using substances. “Family” means anyone affected, not only relatives. Source: [Scottish Government, Improving holistic family support (2021)](https://gov.scot/publications/improving-holistic-family-support-towards-whole-family-approach-family-inclusive-practice-drug-alcohol-services)
 - They reach help late, often only once they can’t cope. Shame, guilt, and fear that social work will get involved where there are children keep the problem hidden for years. Sources: [UK Drug Policy Commission and Scottish Families, Scottish families of drug users (2012)](https://www.ukdpc.org.uk/wp-content/uploads/Scottish-families-of-drug-users.pdf); [University of Edinburgh study of family harms](https://www.research.ed.ac.uk/en/publications/exploring-the-impact-and-harms-on-families-of-those-experiencing-/)
 
-**The idea:** _(one or two sentences, agreed on the day: who it's for, when they need it, and what it does)_
+**The idea:** An online hub for children and young people, reached through apps they already use as a plugin. It has:
+
+1. an online guide for different scenarios they may be in with a family member who is struggling with harmful drug or alcohol use
+2. an online chat function
+3. a “text a safe adult” function
+
 **Problem statement:** We’re helping family members of people who are showing signs of harmful drug or alcohol use who’ve kept it hidden for a long time who struggle to take the first step, the moment they realise they can’t cope alone.
 
 ## Members
