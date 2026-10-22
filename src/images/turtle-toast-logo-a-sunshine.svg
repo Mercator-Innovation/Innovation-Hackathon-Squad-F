@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 280" role="img" aria-labelledby="tt-title">
+  <title id="tt-title">Turtle Toast: a happy turtle eating a slice of toast</title>
+
+  <!-- Background bubble -->
+  <circle cx="120" cy="115" r="105" fill="#FFE94D"/>
+  <circle cx="120" cy="115" r="105" fill="none" stroke="#FF4F7B" stroke-width="10"/>
+
+  <!-- Back legs -->
+  <ellipse cx="62" cy="158" rx="16" ry="12" fill="#9CF56B" stroke="#0A5C36" stroke-width="4"/>
+  <ellipse cx="128" cy="160" rx="16" ry="12" fill="#9CF56B" stroke="#0A5C36" stroke-width="4"/>
+
+  <!-- Little tail -->
+  <path d="M38 138 Q22 140 26 150 Q34 146 44 146 Z" fill="#9CF56B" stroke="#0A5C36" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- Shell -->
+  <path d="M36 145 Q40 70 98 66 Q154 70 160 145 Z" fill="#00C46A" stroke="#0A5C36" stroke-width="5" stroke-linejoin="round"/>
+  <!-- Shell pattern -->
+  <path d="M98 82 L116 94 L112 116 L84 116 L80 94 Z" fill="#6BFFA8" stroke="#0A5C36" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M56 120 L80 116 L84 116 L76 140 L50 140 Z" fill="#6BFFA8" stroke="#0A5C36" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M112 116 L140 120 L146 140 L120 140 Z" fill="#6BFFA8" stroke="#0A5C36" stroke-width="3" stroke-linejoin="round"/>
+  <!-- Shell rim -->
+  <rect x="30" y="140" width="136" height="12" rx="6" fill="#FF8A00" stroke="#0A5C36" stroke-width="4"/>
+  <!-- Shell shine -->
+  <path d="M60 96 Q70 80 88 76" fill="none" stroke="#FFFFFF" stroke-width="5" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Neck and head -->
+  <path d="M150 128 Q160 112 170 104" fill="none" stroke="#0A5C36" stroke-width="22" stroke-linecap="round"/>
+  <path d="M150 128 Q160 112 170 104" fill="none" stroke="#9CF56B" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="178" cy="92" r="26" fill="#9CF56B" stroke="#0A5C36" stroke-width="5"/>
+  <!-- Eye -->
+  <circle cx="184" cy="84" r="7" fill="#FFFFFF" stroke="#0A5C36" stroke-width="2"/>
+  <circle cx="186" cy="84" r="3.5" fill="#1E2B22"/>
+  <circle cx="187.5" cy="82.5" r="1.2" fill="#FFFFFF"/>
+  <!-- Cheek -->
+  <circle cx="172" cy="100" r="5" fill="#F59BA8" opacity="0.8"/>
+  <!-- Happy munching mouth -->
+  <path d="M188 100 Q196 106 202 98" fill="none" stroke="#0A5C36" stroke-width="3.5" stroke-linecap="round"/>
+
+  <!-- Toast (with a bite out of it) -->
+  <g transform="rotate(-14 208 118)">
+    <path d="M196 96
+             Q192 84 204 82 Q214 76 224 82 Q236 84 232 96
+             L232 140 Q232 146 226 146 L202 146 Q196 146 196 140 Z"
+          fill="#C9853A" stroke="#7A4A1C" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M202 98 Q200 90 208 89 Q214 85 220 89 Q227 90 226 98 L226 136 Q226 140 222 140 L206 140 Q202 140 202 136 Z"
+          fill="#F4D58D"/>
+    <!-- Bite -->
+    <circle cx="198" cy="104" r="7" fill="#FFE94D"/>
+    <circle cx="197" cy="116" r="6" fill="#FFE94D"/>
+    <!-- Butter -->
+    <rect x="208" y="104" width="12" height="9" rx="2" fill="#FFE97A" stroke="#E0B832" stroke-width="2"/>
+    <!-- Crumbs -->
+  </g>
+  <circle cx="196" cy="128" r="2.5" fill="#C9853A"/>
+  <circle cx="204" cy="136" r="2" fill="#C9853A"/>
+
+  <!-- Front feet holding the toast -->
+  <ellipse cx="192" cy="122" rx="9" ry="7" fill="#9CF56B" stroke="#0A5C36" stroke-width="4"/>
+  <ellipse cx="96" cy="160" rx="16" ry="12" fill="#9CF56B" stroke="#0A5C36" stroke-width="4"/>
+
+  <!-- Name -->
+  <text x="120" y="262" text-anchor="middle"
+        font-family="'Comic Sans MS', 'Chalkboard SE', 'Trebuchet MS', sans-serif"
+        font-size="34" font-weight="700" fill="#FF2E6E">Turtle Toast</text>
+</svg>
