@@ -159,7 +159,7 @@
     // Save this page on the phone (needs the page to come from a web address, not a file)
     const saved = document.getElementById("saved");
     if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-      navigator.serviceWorker.register("sw.js");
+      navigator.serviceWorker.register("sw.js").catch(() => {}); // some browsers block this; the page still works
       navigator.serviceWorker.ready.then(() => {
         saved.textContent = "✓ Saved on this phone";
       });

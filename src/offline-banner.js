@@ -6,7 +6,7 @@
 
 (function () {
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
-    navigator.serviceWorker.register("sw.js");
+    navigator.serviceWorker.register("sw.js").catch(() => {}); // some browsers block this; the page still works
   }
 
   const style = document.createElement("style");
