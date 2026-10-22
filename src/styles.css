@@ -1,0 +1,121 @@
+/* The look. Change colours and fonts here first. */
+:root {
+  --bg: #fdfaf5;
+  --text: #1f1f2e;
+  --muted: #55556a;
+  --primary: #4b3fa7;        /* calm purple, 8:1 on white */
+  --primary-text: #ffffff;
+  --card: #ffffff;
+  --border: #d6d2e6;
+  --urgent: #b3261e;         /* red for emergencies, 6:1 on white */
+  --banner: #fff3c4;
+  --focus: #ffbf47;
+  --helper-bubble: #ece9fb;
+  --you-bubble: #e3f1ea;
+  --host-bg: #1d3557;        /* the pretend game app */
+  --host-accent: #2a9d8f;
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius: 12px;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+main { max-width: 34rem; margin: 0 auto; padding: 1rem 1rem 3rem; }
+h1 { font-size: 1.75rem; line-height: 1.2; margin: .5rem 0 .75rem; }
+h2 { font-size: 1.25rem; margin: 1.5rem 0 .5rem; }
+h1:focus { outline: none; }
+a { color: var(--primary); }
+
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; box-shadow: 0 0 0 6px var(--text); }
+
+.skip-link { position: absolute; left: -999px; }
+.skip-link:focus { left: 1rem; top: 1rem; background: #fff; padding: .5rem; z-index: 10; }
+
+.prototype-banner { margin: 0; padding: .5rem 1rem; background: var(--banner); font-size: .9rem; text-align: center; }
+
+/* Hub header: quick exit and 999 always visible */
+.hub-header {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; justify-content: space-between; align-items: center; gap: .5rem;
+  padding: .5rem 1rem; background: var(--bg); border-bottom: 1px solid var(--border);
+}
+.hub-header[hidden] { display: none; }
+.quick-exit {
+  font: inherit; font-weight: 700; font-size: 1rem;
+  background: var(--text); color: #fff; border: 0; border-radius: 8px; padding: .5rem .9rem; cursor: pointer;
+}
+.emergency { color: var(--urgent); font-weight: 700; font-size: .95rem; text-align: right; }
+
+.lead { font-size: 1.15rem; }
+.muted { color: var(--muted); }
+.reassure { margin-top: 1.5rem; padding: 1rem; background: var(--helper-bubble); border-radius: var(--radius); font-weight: 600; }
+.demo-note { font-size: .9rem; color: var(--muted); border-left: 4px solid var(--border); padding-left: .75rem; }
+.back { display: inline-block; margin-top: .5rem; }
+.back::before { content: "← "; }
+
+/* Cards: the big tappable choices */
+.cards { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: .75rem; }
+.card {
+  display: block; padding: 1rem 1.1rem; background: var(--card);
+  border: 2px solid var(--border); border-radius: var(--radius);
+  text-decoration: none; color: var(--text);
+}
+.card:hover { border-color: var(--primary); }
+.card-title { display: block; font-weight: 700; font-size: 1.2rem; color: var(--primary); }
+.card-text { display: block; color: var(--muted); }
+.card-urgent { border-color: var(--urgent); }
+.card-urgent .card-title { color: var(--urgent); }
+.card-urgent .card-title::before { content: "Urgent: "; }
+
+.urgent a { display: block; padding: .9rem; background: var(--urgent); color: #fff; font-weight: 700; text-align: center; border-radius: var(--radius); text-decoration: none; }
+.steps li, .say li { margin-bottom: .5rem; }
+
+.button {
+  display: inline-block; font: inherit; font-weight: 700;
+  background: var(--primary); color: var(--primary-text);
+  border: 2px solid var(--primary); border-radius: 8px; padding: .65rem 1.1rem;
+  text-decoration: none; cursor: pointer;
+}
+.button-secondary { background: transparent; color: var(--primary); }
+.actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+/* Chat */
+.chat-log { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: .5rem; }
+.msg { padding: .6rem .9rem; border-radius: var(--radius); max-width: 85%; }
+.msg-helper { background: var(--helper-bubble); align-self: flex-start; }
+.msg-you { background: var(--you-bubble); align-self: flex-end; }
+.msg-who { display: block; font-size: .8rem; font-weight: 700; color: var(--muted); }
+.chat-form label, .block-label { display: block; font-weight: 600; margin: 1rem 0 .3rem; }
+.chat-row { display: flex; gap: .5rem; }
+input[type="text"], textarea {
+  font: inherit; width: 100%; padding: .6rem; border: 2px solid var(--muted); border-radius: 8px; background: #fff;
+}
+textarea { margin-bottom: 1rem; }
+
+/* Text a safe adult */
+fieldset { border: 0; padding: 0; margin: 0 0 .5rem; }
+legend h2 { margin-bottom: .5rem; }
+.choice { display: flex; align-items: flex-start; gap: .6rem; padding: .6rem .75rem; margin-bottom: .4rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; }
+.choice input { width: 1.3rem; height: 1.3rem; margin-top: .2rem; flex: none; accent-color: var(--primary); }
+.sent { margin-top: 1rem; padding: 1rem; background: var(--you-bubble); border-radius: var(--radius); }
+
+/* The pretend game app */
+body:not(.in-hub) { background: var(--host-bg); }
+body:not(.in-hub) main { color: #fff; }
+.host { text-align: center; padding-top: 1rem; }
+.host-title { font-size: 2.2rem; letter-spacing: .05em; margin-bottom: 0; }
+.host-tagline { margin-top: .25rem; opacity: .9; }
+.host-world { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: 180px; margin: 1.5rem auto; }
+.host-world span { aspect-ratio: 1; background: var(--host-accent); border-radius: 4px; }
+.host-world span:nth-child(even) { background: #e9c46a; }
+.host-play { font: inherit; font-weight: 700; font-size: 1.3rem; padding: .7rem 2.5rem; border-radius: 999px; border: 0; background: #e9c46a; color: var(--host-bg); }
+.launcher { margin-top: 2.5rem; padding: 1rem; background: rgba(255,255,255,.1); border-radius: var(--radius); }
+.launcher-button { display: inline-block; padding: .7rem 1.2rem; background: #fff; color: var(--primary); font-weight: 700; border-radius: 999px; text-decoration: none; }
+.launcher-hint { font-size: .9rem; margin: .5rem 0 0; }
