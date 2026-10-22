@@ -336,8 +336,12 @@ body.in-hub .ci-choice:hover, body.in-hub .ci-next-link:hover { border-color: va
 body.in-hub .ci-safe a { color: var(--g-danger); font-weight: 900; }
 .ci-fault { margin-top: 1.25rem; }
 
-/* Danger fast-lane on the hub, and the "what happens if I tell?" prompt in the guide */
-.tile-danger { --c: var(--g-danger); }
-.tiles-danger { margin-top: 1.5rem; }
+/* Danger links in the top bar: call 999, or what to do if someone won't wake up */
+.hub-header .quick-exit { flex: none; white-space: nowrap; }
+.emergency-group { display: flex; flex-direction: column; align-items: flex-end; gap: .15rem; min-width: 0; }
+.emergency-wake { color: var(--urgent); font-size: .85rem; font-weight: 700; text-align: right; }
+body.in-hub .emergency-wake { color: var(--g-danger); }
+
+/* The "what happens if I tell?" prompt in the guide */
 .tell-prompt { margin-top: 1.25rem; padding: .75rem 1rem; background: var(--g-panel); border-left: 4px solid var(--g-adult); border-radius: 2px; font-weight: 700; }
 body.in-hub .tell-prompt a { color: var(--g-adult); }
