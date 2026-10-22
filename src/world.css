@@ -113,3 +113,8 @@ body[data-screen="world"] .world-button { color: var(--g-bg); }
   position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
   overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
 }
+
+/* Hidden treasure chests */
+.treasure-counter { display: inline-block; margin: 0 0 .75rem; padding: .3rem .7rem; border: 2px solid var(--g-adult, #ffc45c); color: var(--g-adult, #ffc45c); font-weight: 900; border-radius: 4px; }
+.treasure-message { font-size: 1.25rem; font-weight: 900; }
+.treasure-count { color: var(--g-muted, #b9c7e0); }

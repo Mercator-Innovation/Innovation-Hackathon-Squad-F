@@ -146,6 +146,20 @@ window.CONTENT = {
       text: "Feeling wobbly? Breathe slowly with the circle. Breathe in as it grows. Breathe out as it gets smaller.",
       in: "Breathe in…",
       out: "Breathe out…"
+    },
+    // Hidden treasure chests. Each one holds a kind message.
+    treasure: {
+      hint: "Treasure chests are hidden around the edges. Can you find them all?",
+      counter: "Treasure found: {found} of {total}",
+      title: "You found treasure!",
+      allFound: "You found every chest. You're amazing.",
+      affirmations: [
+        "You are brave for being here.",
+        "Your feelings matter.",
+        "It's not your fault.",
+        "You deserve to feel safe.",
+        "You are not alone. Lots of people care about you."
+      ]
     }
   }
 };

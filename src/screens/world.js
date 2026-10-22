@@ -18,8 +18,15 @@ window.SCREENS.world = (function () {
   };
   const COLOURS = {
     welcome: G.guide, guide: G.guide, urgent: G.danger, chat: G.chat,
-    adult: G.adult, outside: G.outside, pond: G.chat
+    adult: G.adult, outside: G.outside, pond: G.chat, treasure: G.adult
   };
+  const CHEST_NEAR = 32;   // how close you need to be to open a chest
+  const found = new Set(); // chests found, kept while the page is open
+
+  function treasureCounter() {
+    const T = window.CONTENT.world.treasure;
+    return T.counter.replace("{found}", found.size).replace("{total}", T.affirmations.length);
+  }
 
   // Mix two #rrggbb colours: amount 0 is all a, 1 is all b
   function mix(a, b, amount) {
@@ -49,7 +56,12 @@ window.SCREENS.world = (function () {
   function panelHTML(s) {
     const W = window.CONTENT.world;
     let body;
-    if (s.scenario) {
+    if (s.kind === "treasure") {
+      const T = W.treasure;
+      body = `<p class="treasure-message">${esc(s.text)}</p>
+        <p class="treasure-count">${esc(treasureCounter())}</p>
+        ${found.size === T.affirmations.length ? `<p>${esc(T.allFound)}</p>` : ""}`;
+    } else if (s.scenario) {
       body = `
         <ul>${s.scenario.steps.slice(0, 2).map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
         <p class="world-actions">
@@ -86,6 +98,8 @@ window.SCREENS.world = (function () {
         <h1>${esc(W.title)}</h1>
         <p class="lead">${esc(W.intro)}</p>
         <p class="world-how">${esc(W.howTo)}</p>
+        <p class="world-how">${esc(W.treasure.hint)}</p>
+        <p class="treasure-counter" id="treasure-counter">${esc(treasureCounter())}</p>
         <div class="world">
           <canvas class="world-canvas" tabindex="0" role="img" aria-label="${esc(W.mapLabel)}"></canvas>
           <section class="world-panel" hidden aria-labelledby="world-panel-title"></section>
@@ -122,11 +136,26 @@ window.SCREENS.world = (function () {
       const pond = stops[stops.length - 1];
       const startY = worldH - 90;
 
+      // Hidden treasure chests, tucked against the edge on the far side from a house,
+      // so no house or label covers them
+      const chests = window.CONTENT.world.treasure.affirmations.map((text, k) => {
+        const i = Math.min(regular - 1, 1 + Math.round(k * 1.75)); // which house it sits beside
+        const houseOnRight = i % 2 === 1;
+        return {
+          id: "chest-" + k, kind: "treasure", text,
+          title: window.CONTENT.world.treasure.title,
+          x: houseOnRight ? 34 : WORLD_W - 34,
+          y: stops[i].y + 10
+        };
+      });
+      const counterEl = main.querySelector("#treasure-counter");
+
       // Trees and flowers, the same every time
       let seed = 7;
       const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
       const clear = (x, y, gap) =>
         Math.abs(x - pathX(y)) > 60 &&
+        chests.every((c) => Math.hypot(c.x - x, c.y - y) > 45) &&
         stops.every((s) => Math.hypot(s.x - x, s.y + 20 - y) > (s.kind === "pond" ? 120 : gap));
       const trees = [];
       for (let tries = 0; trees.length < 60 && tries < 2000; tries++) {
@@ -216,7 +245,14 @@ window.SCREENS.world = (function () {
         panel.style.setProperty("--c", COLOURS[s.kind]);
         panel.innerHTML = panelHTML(s);
         panel.hidden = false;
-        live.textContent = `${W.found} ${s.title}`;
+        if (s.kind === "treasure") {
+          found.add(s.id);
+          panel.innerHTML = panelHTML(s); // again, so the count includes this chest
+          counterEl.textContent = treasureCounter();
+          live.textContent = `${s.title} ${s.text} ${treasureCounter()}`;
+        } else {
+          live.textContent = `${W.found} ${s.title}`;
+        }
         if (s.kind === "pond") startBreathing();
         if (moveFocus) panel.querySelector("h2").focus();
       }
@@ -302,9 +338,10 @@ window.SCREENS.world = (function () {
           if (dx) player.face = Math.sign(dx);
         }
 
-        // Walking up to a house opens it; walking away closes it
-        const near = stops.find((s) =>
-          Math.hypot(s.x - player.x, s.y + (s.kind === "pond" ? 0 : 30) - player.y) < (s.kind === "pond" ? 110 : NEAR));
+        // Walking up to a chest or a house opens it; walking away closes it
+        const near = chests.find((c) => Math.hypot(c.x - player.x, c.y - player.y) < CHEST_NEAR) ||
+          stops.find((s) =>
+            Math.hypot(s.x - player.x, s.y + (s.kind === "pond" ? 0 : 30) - player.y) < (s.kind === "pond" ? 110 : NEAR));
         if (near !== inside) {
           inside = near || null;
           if (inside) open(inside, false);
@@ -399,6 +436,30 @@ window.SCREENS.world = (function () {
         [[-50, -18], [42, 14], [-20, 30]].forEach(([dx, dy]) => block(pond.x + dx - 7, pond.y + dy - 7, 14, 14, "#2a8c74"));
       }
 
+      function drawChest(c, now) {
+        // A small wooden chest. Closed ones twinkle; found ones are open and glowing.
+        const open = found.has(c.id);
+        const x = c.x - 14, y = c.y - 20;
+        shadow(c.x, c.y, 30);
+        if (open) {
+          ctx.fillStyle = `rgba(255, 196, 92, ${0.25 + 0.15 * Math.sin(now / 300)})`;
+          ctx.fillRect(x - 4, y - 14, 36, 16);
+          block(x, y - 12, 28, 6, "#6b4226");          // lid, tipped back
+          ctx.fillStyle = G.adult; ctx.fillRect(x + 4, y - 2, 20, 4); // gold inside
+        } else {
+          block(x, y - 6, 28, 8, "#7a4a2a");           // lid
+          if (Math.sin(now / 400 + c.x) > 0.6) {       // twinkle
+            ctx.fillStyle = G.adult;
+            ctx.fillRect(x + 24, y - 14, 4, 4);
+            ctx.fillRect(x + 22, y - 12, 8, 1);
+          }
+        }
+        block(x, y + 2, 28, 18, "#8b5a34");            // body
+        ctx.fillStyle = G.adult;
+        ctx.fillRect(x, y + 6, 28, 3);                 // gold band
+        ctx.fillRect(x + 11, y + 4, 6, 7);             // lock
+      }
+
       function drawPlayer(now) {
         // The blue block buddy from the hub's picture
         const hop = player.moving ? Math.abs(Math.sin(now / 90)) * 4 : 0;
@@ -431,6 +492,7 @@ window.SCREENS.world = (function () {
         // Draw things further down the screen on top, so the player can walk behind trees
         const things = trees.map((t) => ({ y: t.y, draw: () => drawTree(t) }))
           .concat(stops.filter((s) => s.kind !== "pond").map((s) => ({ y: s.y + 30, draw: () => drawHouse(s, now) })))
+          .concat(chests.map((c) => ({ y: c.y, draw: () => drawChest(c, now) })))
           .concat([{ y: player.y + 2, draw: () => drawPlayer(now) }]);
         things.sort((a, b) => a.y - b.y).forEach((t) => t.draw());
 
