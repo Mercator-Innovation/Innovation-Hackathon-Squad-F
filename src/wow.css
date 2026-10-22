@@ -1,0 +1,93 @@
+/* Visual wows on the hub home: the Turtle Toast logo floats and glows, toasty pixel
+   sparkles drift up behind it, and the tiles hop in one by one.
+   Everything is gentle (nothing flashes) and switches off for anyone whose device
+   asks for reduced motion. */
+body[data-screen="hub"] .hub-hello { position: relative; isolation: isolate; }
+body[data-screen="hub"] .hub-hello > * { position: relative; z-index: 1; } /* text stays in front of the sparkles */
+body[data-screen="hub"] .hub-art { position: relative; z-index: 1; cursor: pointer; }
+
+/* Sparkles: two layers of little pixel squares behind the logo */
+body[data-screen="hub"] .hub-hello::before,
+body[data-screen="hub"] .hub-hello::after {
+  content: ""; position: absolute; z-index: 0; pointer-events: none;
+  left: 50%; top: 13rem; width: 6px; height: 6px; background: transparent;
+}
+body[data-screen="hub"] .hub-hello::before {
+  box-shadow:
+    -160px 10px 0 #3ee6c8, -145px 60px 0 #ffc45c, -165px 110px 0 #f5a8d8,
+    150px 30px 0 #7fb4ff, 165px 85px 0 #3ee6c8, 140px 130px 0 #ffc45c,
+    -150px 160px 0 #7fb4ff, 155px 175px 0 #f5a8d8;
+  opacity: 0;
+}
+body[data-screen="hub"] .hub-hello::after {
+  box-shadow:
+    -155px 40px 0 #ffc45c, -140px 140px 0 #3ee6c8, 145px 60px 0 #f5a8d8,
+    160px 150px 0 #7fb4ff, -165px 90px 0 #7fb4ff, 140px 105px 0 #ffc45c;
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Logo pops in, then floats and gently tilts, with a soft glow that breathes */
+  body[data-screen="hub"] .hub-art {
+    animation:
+      tt-logo-pop .7s cubic-bezier(.34, 1.56, .64, 1) backwards,
+      tt-logo-float 4s ease-in-out .7s infinite,
+      tt-logo-glow 4s ease-in-out .7s infinite;
+  }
+  /* Tap or hover the logo and the turtle does a happy hop and spin */
+  body[data-screen="hub"] .hub-art:hover,
+  body[data-screen="hub"] .hub-art:active {
+    animation: tt-logo-hop .8s cubic-bezier(.34, 1.56, .64, 1), tt-logo-glow 4s ease-in-out infinite;
+  }
+
+  /* Sparkles drift up and fade, like warm crumbs off the toast */
+  body[data-screen="hub"] .hub-hello::before { animation: tt-sparkle 6s ease-in infinite; }
+  body[data-screen="hub"] .hub-hello::after { animation: tt-sparkle 6s ease-in 3s infinite; }
+
+  /* Tiles hop in one after another, like levels unlocking */
+  body[data-screen="hub"] .tiles li { animation: tt-tile-in .55s cubic-bezier(.34, 1.56, .64, 1) backwards; }
+  body[data-screen="hub"] .tiles li:nth-child(1) { animation-delay: .35s; }
+  body[data-screen="hub"] .tiles li:nth-child(2) { animation-delay: .45s; }
+  body[data-screen="hub"] .tiles li:nth-child(3) { animation-delay: .55s; }
+  body[data-screen="hub"] .tiles li:nth-child(4) { animation-delay: .65s; }
+  body[data-screen="hub"] .tiles li:nth-child(5) { animation-delay: .75s; }
+  body[data-screen="hub"] .tiles li:nth-child(n+6) { animation-delay: .85s; }
+
+  /* Tile icons give a little wiggle when you point at or focus a tile */
+  body[data-screen="hub"] .tile:hover .tile-icon,
+  body[data-screen="hub"] .tile:focus-visible .tile-icon { animation: tt-wiggle .5s ease-in-out; }
+
+  /* The "not your fault" heart beats slowly */
+  body[data-screen="hub"] .hub-fault svg { animation: tt-heart 2.4s ease-in-out 1.2s infinite; }
+}
+
+@keyframes tt-logo-pop { from { transform: scale(.5) rotate(-8deg); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes tt-logo-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+@keyframes tt-logo-glow {
+  0%, 100% { filter: drop-shadow(0 0 6px rgba(62, 230, 200, .35)); }
+  50% { filter: drop-shadow(0 0 18px rgba(255, 196, 92, .55)); }
+}
+@keyframes tt-logo-hop {
+  0% { transform: none; }
+  40% { transform: translateY(-28px) rotate(-12deg) scale(1.05); }
+  70% { transform: translateY(0) rotate(4deg); }
+  100% { transform: none; }
+}
+@keyframes tt-sparkle {
+  0% { transform: translateY(20px); opacity: 0; }
+  20% { opacity: .9; }
+  100% { transform: translateY(-260px); opacity: 0; }
+}
+@keyframes tt-tile-in { from { transform: translateY(24px) scale(.96); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes tt-wiggle {
+  0%, 100% { transform: rotate(0); }
+  25% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+}
+@keyframes tt-heart {
+  0%, 30%, 100% { transform: scale(1); }
+  15% { transform: scale(1.2); }
+}
