@@ -29,6 +29,10 @@ ai_use_week_after:
 
 ## During
 <!-- Claude adds one line per moment: prompts that worked (word for word), dead ends, surprises, things done outside my usual job, what made working as a squad easier or harder -->
+- 16:54 I rebuilt the hub landing page in a blocky game look and, at 17:28, turned Blockville into a playable game, normally a front-end developer's job: it went onto the shared screen and the squad kept building on it.
+- 17:18 surprise: while restyling the hub, Claude found Chat had broken because of someone else's change, and fixed it without touching their file.
+- 17:55 prompt: "Can you run the three child and young people personas through our product and let me know how it does?" → highlights, pain points and needs met for each persona, which became three quick fixes I shipped by 18:22.
+- 18:39 surprise: Claude made a 94-second demo video with a computer voiceover from our own screens, with nothing installed.
 
 ## At 19:00
 - What I worked on: Code or features; The design or the look; Research or finding things out
