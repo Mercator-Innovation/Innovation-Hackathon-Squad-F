@@ -23,36 +23,12 @@ window.SCREENS.hub = {
         <span class="tile-go" aria-hidden="true">▶</span>
       </a></li>`;
 
-    // One isometric block, drawn once and reused. Three faces in three shades.
-    const art = `
-      <svg class="hub-art" viewBox="0 0 240 150" aria-hidden="true">
-        <defs>
-          <g id="blk">
-            <path d="M0 0l20-10 20 10-20 10z" fill="currentColor"/>
-            <path d="M0 0l20 10v24L0 24z" fill="currentColor" opacity=".7"/>
-            <path d="M40 0L20 10v24l20-10z" fill="currentColor" opacity=".45"/>
-          </g>
-        </defs>
-        <g class="art-ground" style="color: var(--g-line)">
-          <use href="#blk" x="40" y="110"/><use href="#blk" x="80" y="110"/><use href="#blk" x="120" y="110"/><use href="#blk" x="160" y="110"/>
-          <use href="#blk" x="60" y="100"/><use href="#blk" x="100" y="100"/><use href="#blk" x="140" y="100"/>
-        </g>
-        <g style="color: var(--g-guide)"><use href="#blk" x="60" y="76"/></g>
-        <g style="color: var(--g-adult)"><use href="#blk" x="140" y="76"/></g>
-        <g class="art-buddy" style="color: var(--g-chat)">
-          <use href="#blk" x="100" y="62"/>
-          <use href="#blk" x="100" y="38"/>
-          <rect x="125" y="52" width="4" height="5" fill="var(--g-bg)"/>
-          <rect x="133" y="48" width="4" height="5" fill="var(--g-bg)"/>
-          <path d="M124 62l6 2 8-4" fill="none" stroke="var(--g-bg)" stroke-width="2.5" stroke-linecap="square"/>
-        </g>
-        <g class="art-float art-float-1" style="color: var(--g-guide)"><use href="#blk" x="22" y="30" transform="scale(.6)"/></g>
-        <g class="art-float art-float-2" style="color: var(--g-adult)"><use href="#blk" x="330" y="40" transform="scale(.6)"/></g>
-      </svg>`;
+    // The squad's chosen logo (pixel art won the vote). It includes the name.
+    const logo = `<img class="hub-art" src="images/turtle-toast-game-a-pixel.svg" alt="Turtle Toast">`;
 
     return `
       <section class="hub-hello">
-        ${art}
+        ${logo}
         <h1>${esc(H.title)}</h1>
         <p class="lead">${esc(H.intro)}</p>
         <p class="hub-private">
