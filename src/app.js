@@ -3,7 +3,6 @@
 //   #/            the pretend game app (host)
 //   #/hub         hub home
 //   #/guide       guide list, #/guide/<id> one scenario
-//   #/chat        chat
 //   #/safe-adult  text a safe adult
 
 window.SCREENS = window.SCREENS || {};
