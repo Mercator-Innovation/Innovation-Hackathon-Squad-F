@@ -39,7 +39,7 @@ window.SCREENS.hub = {
 
       <h2 class="hub-pick">${esc(H.pickHeading)}</h2>
       <ul class="tiles">
-        ${tile("#/guide", "tile-guide", icons.guide, H.options.guide)}
+        ${tile("#/world", "tile-guide", icons.guide, H.options.guide)}
         ${tile("#/chat", "tile-chat", icons.chat, H.options.chat)}
         ${tile("#/safe-adult", "tile-adult", icons.adult, H.options.safeAdult)}
       </ul>

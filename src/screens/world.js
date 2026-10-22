@@ -82,7 +82,7 @@ window.SCREENS.world = (function () {
       const pad = (dir, arrow) =>
         `<button type="button" data-dir="${dir}" aria-label="${esc(W.pad[dir])}">${arrow}</button>`;
       return `
-        <a class="back" href="#/guide">${esc(window.CONTENT.back)}</a>
+        <a class="back" href="#/hub">${esc(window.CONTENT.back)}</a>
         <h1>${esc(W.title)}</h1>
         <p class="lead">${esc(W.intro)}</p>
         <p class="world-how">${esc(W.howTo)}</p>
