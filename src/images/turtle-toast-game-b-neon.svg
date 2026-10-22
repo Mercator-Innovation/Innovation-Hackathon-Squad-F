@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 300" role="img"><title>Turtle Toast, neon arcade: a glowing outline turtle eating toast</title>
+<defs><filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<rect width="320" height="300" rx="20" fill="#0D0824"/>
+<g stroke="#FF3FD2" stroke-width="1.5" opacity="0.45"><line x1="0" y1="200" x2="320" y2="200"/><line x1="0" y1="222" x2="320" y2="222"/><line x1="0" y1="250" x2="320" y2="250"/><line x1="0" y1="290" x2="320" y2="290"/><line x1="160" y1="200" x2="40" y2="300"/><line x1="160" y1="200" x2="280" y2="300"/><line x1="160" y1="200" x2="-60" y2="300"/><line x1="160" y1="200" x2="380" y2="300"/><line x1="160" y1="200" x2="160" y2="300"/></g>
+<g fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)">
+  <path d="M60 172 Q64 84 138 80 Q210 84 216 172 Z" stroke="#2EF6FF" stroke-width="5"/>
+  <path d="M138 98 L160 112 L154 138 L122 138 L116 112 Z M86 146 L116 138 M154 138 L190 146 M122 138 L112 168 M154 138 L164 168" stroke="#2EF6FF" stroke-width="3"/>
+  <line x1="52" y1="174" x2="226" y2="174" stroke="#FFE14D" stroke-width="6"/>
+  <ellipse cx="86" cy="190" rx="16" ry="10" stroke="#8CFF3F" stroke-width="4"/>
+  <ellipse cx="180" cy="190" rx="16" ry="10" stroke="#8CFF3F" stroke-width="4"/>
+  <path d="M208 156 Q220 140 230 130" stroke="#8CFF3F" stroke-width="5"/>
+  <circle cx="240" cy="116" r="26" stroke="#8CFF3F" stroke-width="5"/>
+  <path d="M250 128 Q258 134 264 126" stroke="#8CFF3F" stroke-width="3.5"/>
+  <g transform="rotate(-14 276 130)"><path d="M262 106 Q258 94 270 92 Q280 86 290 92 Q302 94 298 106 L298 150 L262 150 L262 128 A6 6 0 0 0 262 116 Z" stroke="#FF3FD2" stroke-width="5"/>
+  <rect x="273" y="112" width="13" height="10" rx="2" stroke="#FFE14D" stroke-width="3"/></g>
+</g>
+<circle cx="247" cy="109" r="6" fill="#FFFFFF" filter="url(#glow)"/><circle cx="249" cy="109" r="2.5" fill="#0D0824"/>
+<text x="160" y="248" text-anchor="middle" font-family="'Press Start 2P', 'Courier New', monospace" font-size="24" font-weight="700" fill="#FF3FD2" filter="url(#glow)">TURTLE TOAST</text>
+<text x="160" y="278" text-anchor="middle" font-family="'Press Start 2P', 'Courier New', monospace" font-size="11" fill="#2EF6FF" filter="url(#glow)">PRESS START</text>
+</svg>
