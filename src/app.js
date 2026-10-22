@@ -23,6 +23,14 @@ window.SCREENS = window.SCREENS || {};
     window.location.replace(location.pathname + location.search + "#/");
   });
 
+  // Skip link: move focus to the content without changing the address,
+  // which would otherwise send the router back to the game
+  document.querySelector(".skip-link").addEventListener("click", (e) => {
+    e.preventDefault();
+    main.setAttribute("tabindex", "-1");
+    main.focus();
+  });
+
   // Small helper screens use to build HTML safely
   window.esc = (s) => String(s).replace(/[&<>"']/g, (c) =>
     ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
