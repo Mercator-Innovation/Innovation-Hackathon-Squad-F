@@ -15,7 +15,7 @@
 2. an online chat function
 3. a “text a safe adult” function
 
-**Problem statement:** We’re helping family members of people who are showing signs of harmful drug or alcohol use who’ve kept it hidden for a long time who struggle to take the first step, the moment they realise they can’t cope alone.
+**Problem statement:** We’re helping children and young people whose family member is showing signs of harmful drug or alcohol use, who’ve kept it hidden for a long time and struggle to take the first step, the moment they realise they can’t cope alone.
 
 ## Members
 
