@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Help without the internet (prototype)</title>
+  <!-- Styles are in this file on purpose, so the page still looks right offline.
+       Same night-time game look as the Turtle Toast hub (styles.css). -->
+  <style>
+    :root {
+      --g-bg: #0b1222;           /* deep night blue */
+      --g-panel: #131d33;
+      --g-line: #24345a;
+      --g-text: #eef5ff;         /* 16:1 on --g-bg */
+      --g-muted: #b9c7e0;        /* 10:1 on --g-bg */
+      --g-guide: #3ee6c8;        /* teal glow, 12:1 */
+      --g-chat: #7fb4ff;         /* sky blue */
+      --g-adult: #ffc45c;        /* amber, 11:1 */
+      --g-danger: #ff8f87;       /* light red, 7.6:1 */
+      --banner: #fff3c4;
+      --font: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: var(--font); font-size: 1.125rem; line-height: 1.5;
+      color: var(--g-text); background-color: var(--g-bg);
+      background-image:
+        linear-gradient(rgba(127,180,255,.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(127,180,255,.07) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+    main { max-width: 34rem; margin: 0 auto; padding: 1rem 1rem 3rem; }
+    h1 { font-size: 1.9rem; font-weight: 900; line-height: 1.2; margin: .5rem 0 .75rem; text-align: center; text-shadow: 3px 3px 0 var(--g-line); }
+    h2 { font-size: 1.25rem; font-weight: 900; margin: 1.75rem 0 .5rem; }
+    h3 { font-size: 1.1rem; font-weight: 900; margin: 0 0 .25rem; color: var(--g-guide); }
+    a { color: var(--g-guide); }
+    :focus-visible { outline: 3px solid var(--g-adult); outline-offset: 3px; }
+
+    .prototype-banner { margin: 0; padding: .5rem 1rem; background: var(--banner); color: #142320; font-size: 1rem; text-align: center; }
+    .top {
+      position: sticky; top: 0; z-index: 5; display: flex; gap: .5rem; align-items: center; justify-content: space-between;
+      padding: .6rem 1rem; background: var(--g-bg); border-bottom: 2px solid var(--g-line);
+    }
+    .quick-exit { white-space: nowrap; font: inherit; font-weight: 900; border: 0; border-radius: 4px; padding: .5rem .9rem; cursor: pointer; background: var(--g-text); color: var(--g-bg); box-shadow: 0 4px 0 var(--g-muted); }
+    .emergency { font-weight: 900; color: var(--g-danger); }
+
+    .art { display: block; width: 100%; max-width: 220px; height: auto; margin: .5rem auto 0; }
+    .lead { color: var(--g-muted); text-align: center; margin: .25rem 0; }
+    .works { color: var(--g-text); text-align: center; font-weight: 700; }
+    .saved {
+      display: inline-flex; gap: .4rem; align-items: center; margin: .5rem auto 0; padding: .35rem .7rem;
+      border: 2px solid var(--g-guide); border-radius: 4px; color: var(--g-guide); font-size: 1rem; font-weight: 700;
+      background: rgba(62,230,200,.08);
+    }
+    .saved:empty { display: none; }
+    .center { text-align: center; }
+
+    .card {
+      background: var(--g-panel); color: var(--g-text);
+      border: 3px solid var(--g-line); border-radius: 4px; box-shadow: 0 6px 0 #070c18;
+      padding: 1rem; margin: .75rem 0;
+    }
+    .urgent-card { border-color: var(--g-danger); }
+    .urgent-card h2 { color: var(--g-danger); margin-top: 0; }
+    .remember-card { border-color: var(--g-guide); }
+    .calm-card { border-color: var(--g-chat); }
+    ol, ul { padding-left: 1.25rem; }
+    li { margin-bottom: .4rem; }
+    li::marker { color: var(--g-guide); font-weight: 900; }
+    .urgent-card li::marker { color: var(--g-danger); }
+    .meta { color: var(--g-muted); font-size: 1rem; margin: .25rem 0; }
+    .call999 { display: inline-block; margin-top: .25rem; padding: .55rem 1rem; border-radius: 4px; background: var(--g-danger); color: var(--g-bg); font-weight: 900; text-decoration: none; box-shadow: 0 4px 0 #8a3a35; }
+    .contacts { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .6rem; }
+    .contacts a {
+      display: inline-block; padding: .5rem .85rem; border-radius: 4px; font-weight: 900; text-decoration: none;
+      border: 3px solid var(--g-guide); color: var(--g-guide);
+    }
+    .contacts a.call { background: var(--g-guide); color: var(--g-bg); box-shadow: 0 4px 0 #1b7568; }
+    .needs-net { font-weight: 400; font-size: .95rem; }
+  </style>
+</head>
+<body>
+  <p class="prototype-banner">Prototype only. This is not a real service. In an emergency, call 999.</p>
+
+  <div class="top">
+    <button type="button" class="quick-exit" id="quick-exit">Quick exit</button>
+    <a class="emergency" href="tel:999">In danger right now? Call 999</a>
+  </div>
+
+  <main id="main">
+    <img class="art" src="images/turtle-toast-game-a-pixel.svg" alt="" width="320" height="300">
+    <h1>Help, even without the internet</h1>
+    <p class="lead">This page is saved on your phone. It opens with no Wi-Fi and no data.</p>
+    <p class="works">Calls and texts still work without the internet.</p>
+    <p class="center"><span class="saved" id="saved" role="status"></span></p>
+
+    <div class="card urgent-card">
+      <h2>If a grown-up won't wake up</h2>
+      <ol>
+        <li>Call <strong>999</strong>.</li>
+        <li>Ask for an <strong>ambulance</strong>.</li>
+        <li>Say where you are.</li>
+        <li>Stay on the phone. They will tell you what to do.</li>
+      </ol>
+      <a class="call999" href="tel:999">Call 999</a>
+      <p class="meta">You are doing the right thing. You won't be in trouble for calling.</p>
+    </div>
+
+    <h2>Remember</h2>
+    <div class="card remember-card">
+      <ul>
+        <li>It's never because of you.</li>
+        <li>Fixing it isn't your job.</li>
+        <li>All your feelings are OK.</li>
+        <li>It's OK to tell someone safe, even if it's a secret.</li>
+        <li>Don't touch pills, needles or bottles. Tell a safe grown-up.</li>
+      </ul>
+    </div>
+
+    <h2>If you feel scared right now</h2>
+    <div class="card calm-card">
+      <ul>
+        <li>Go to a safe spot, like your room or a friend's house.</li>
+        <li>Breathe in slowly while you count to 4. Breathe out while you count to 4. Do it 5 times.</li>
+        <li>Message someone you trust.</li>
+      </ul>
+    </div>
+
+    <h2>Who you can talk to</h2>
+    <p class="meta">Opening times can change.</p>
+    <div id="services"></div>
+  </main>
+
+  <script src="data/help-now.js"></script>
+  <script>
+    // Quick exit: like the hub, go back to the game and replace this page in history.
+    // With no internet the game can't load, so go to a blank page instead.
+    document.getElementById("quick-exit").addEventListener("click", () => {
+      window.location.replace(navigator.onLine ? "index.html#/" : "about:blank");
+    });
+
+    // The squad's Help now list, so the numbers stay the same as the hub
+    const esc = (s) => String(s).replace(/[&<>"']/g, (c) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const services = (window.DATA && window.DATA.helpNow) || [];
+    document.getElementById("services").innerHTML = services.map((s) => `
+      <div class="card">
+        <h3>${esc(s.name)}</h3>
+        <p>${esc(s.what)}</p>
+        <p class="meta">${esc(s.who)} · ${s.always ? "Open all the time" : esc(s.hoursText)}</p>
+        ${s.note ? `<p class="meta">${esc(s.note)}</p>` : ""}
+        <div class="contacts">
+          ${s.contacts.map((c) => c.href.startsWith("http")
+            ? `<a href="${esc(c.href)}">${esc(c.label)} <span class="needs-net">(needs internet)</span></a>`
+            : `<a class="call" href="${esc(c.href)}">${esc(c.label)}</a>`).join("")}
+        </div>
+      </div>`).join("");
+
+    // Save this page on the phone (needs the page to come from a web address, not a file)
+    const saved = document.getElementById("saved");
+    if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+      navigator.serviceWorker.register("sw.js").catch(() => {}); // some browsers block this; the page still works
+      navigator.serviceWorker.ready.then(() => {
+        saved.textContent = "✓ Saved on this phone";
+      });
+    }
+  </script>
+</body>
+</html>
