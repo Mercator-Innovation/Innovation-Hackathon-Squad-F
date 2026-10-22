@@ -1,0 +1,115 @@
+/* Explore the safe space: the walk-around game (screens/world.js).
+   Uses the same blocky, night-time game look as the hub landing page in styles.css. */
+
+body[data-screen="world"] {
+  --g-bg: #0b1222;
+  --g-panel: #131d33;
+  --g-line: #24345a;
+  --g-text: #eef5ff;         /* 16:1 on --g-bg */
+  --g-muted: #b9c7e0;        /* 10:1 on --g-bg */
+  --g-guide: #3ee6c8;
+  --g-chat: #7fb4ff;
+  --g-adult: #ffc45c;
+  --g-danger: #ff8f87;
+  background-image:
+    linear-gradient(rgba(127,180,255,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127,180,255,.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-color: var(--g-bg);
+  color: var(--g-text);
+}
+body[data-screen="world"] .hub-header { background: var(--g-bg); border-bottom-color: var(--g-line); }
+body[data-screen="world"] .quick-exit { background: var(--g-text); color: var(--g-bg); border-radius: 4px; box-shadow: 0 4px 0 var(--g-muted); }
+body[data-screen="world"] .emergency { color: var(--g-danger); }
+body[data-screen="world"] :focus-visible { outline: 3px solid var(--g-adult); outline-offset: 3px; box-shadow: none; }
+body[data-screen="world"] a { color: var(--g-guide); }
+body[data-screen="world"] h1 { font-weight: 900; text-shadow: 3px 3px 0 var(--g-line); }
+body[data-screen="world"] .lead, .world-how { color: var(--g-muted); }
+
+/* The game itself */
+.world {
+  position: relative; margin: 1rem 0 .75rem;
+  border: 3px solid var(--g-guide); border-radius: 4px; overflow: hidden;
+  background: var(--g-bg);
+  box-shadow: 0 6px 0 color-mix(in srgb, var(--g-guide) 45%, var(--g-bg));
+}
+.world-canvas { display: block; width: 100%; height: min(64vh, 520px); touch-action: none; cursor: pointer; }
+body[data-screen="world"] .world-canvas:focus-visible { outline: 3px solid var(--g-adult); outline-offset: -6px; }
+
+/* The box that opens when you reach a house */
+.world-panel {
+  --c: var(--g-guide);
+  position: absolute; left: .5rem; right: .5rem; bottom: .75rem; max-height: 62%; overflow: auto;
+  background: var(--g-panel); color: var(--g-text);
+  border: 3px solid var(--c); border-radius: 4px; padding: .75rem 1rem;
+  box-shadow: 0 6px 0 color-mix(in srgb, var(--c) 45%, var(--g-bg)), inset 0 0 18px color-mix(in srgb, var(--c) 18%, transparent);
+}
+.world-panel[hidden] { display: none; }
+.world-panel-head { display: flex; justify-content: space-between; align-items: flex-start; gap: .5rem; }
+.world-panel h2 { margin: 0; font-size: 1.2rem; font-weight: 900; color: var(--c); }
+.world-panel h2:focus { outline: none; }
+.world-panel p, .world-panel ul { margin: .5rem 0; }
+.world-panel ul { padding-left: 1.25rem; }
+.world-actions { display: flex; flex-wrap: wrap; gap: .6rem; }
+.world-button {
+  display: inline-block; font-weight: 900; text-decoration: none; padding: .55rem 1rem;
+  background: var(--c); border-radius: 4px;
+  box-shadow: 0 4px 0 color-mix(in srgb, var(--c) 45%, var(--g-bg));
+}
+body[data-screen="world"] .world-button { color: var(--g-bg); }
+.world-button-urgent { --c: var(--g-danger); }
+.world-button:active { transform: translateY(3px); box-shadow: 0 1px 0 color-mix(in srgb, var(--c) 45%, var(--g-bg)); }
+.world-close {
+  flex: none; font: inherit; font-weight: 700; font-size: .95rem; cursor: pointer;
+  background: transparent; color: var(--g-text); border: 2px solid var(--g-muted); border-radius: 4px; padding: .2rem .6rem;
+}
+
+/* Breathing square at the calm pond */
+.breathe { display: grid; place-items: center; height: 110px; }
+.breathe-circle {
+  width: 96px; height: 96px; border-radius: 4px;
+  background: color-mix(in srgb, var(--g-chat) 20%, var(--g-bg)); border: 4px solid var(--g-chat);
+  transform: scale(.45); transition: transform 4s ease-in-out;
+}
+.breathe-circle.is-in { transform: scale(1); }
+.breathe-word { text-align: center; font-weight: 900; font-size: 1.3rem; color: var(--g-chat); min-height: 1.5em; }
+@media (prefers-reduced-motion: reduce) { .breathe-circle { transition: none; } }
+
+/* Arrow buttons under the game */
+.world-pad {
+  display: grid; grid-template-columns: repeat(3, 3.5rem); grid-template-rows: repeat(2, 3.5rem);
+  gap: .5rem; justify-content: center; margin: .75rem 0 1rem;
+}
+.world-pad button {
+  font: inherit; font-size: 1.2rem; cursor: pointer;
+  background: var(--g-panel); color: var(--g-guide);
+  border: 3px solid var(--g-guide); border-radius: 4px;
+  box-shadow: 0 5px 0 color-mix(in srgb, var(--g-guide) 45%, var(--g-bg));
+  touch-action: none; user-select: none; -webkit-user-select: none;
+}
+.world-pad button:active { transform: translateY(4px); box-shadow: 0 1px 0 color-mix(in srgb, var(--g-guide) 45%, var(--g-bg)); }
+.world-pad [data-dir="up"] { grid-column: 2; grid-row: 1; }
+.world-pad [data-dir="left"] { grid-column: 1; grid-row: 2; }
+.world-pad [data-dir="down"] { grid-column: 2; grid-row: 2; }
+.world-pad [data-dir="right"] { grid-column: 3; grid-row: 2; }
+
+/* The plain list of houses, as hub-style tiles */
+.world-list-heading { font-weight: 900; }
+.world-list { list-style: none; padding: 0; margin: .75rem 0; display: grid; gap: .85rem; }
+.world-list button {
+  display: flex; justify-content: space-between; align-items: center; gap: .75rem; width: 100%;
+  text-align: left; font: inherit; font-weight: 900; cursor: pointer;
+  background: var(--g-panel); color: var(--c);
+  border: 3px solid var(--c); border-radius: 4px; padding: .7rem .9rem;
+  box-shadow: 0 5px 0 color-mix(in srgb, var(--c) 45%, var(--g-bg));
+}
+.world-list button:active { transform: translateY(4px); box-shadow: 0 1px 0 color-mix(in srgb, var(--c) 45%, var(--g-bg)); }
+
+/* The way in, at the bottom of "What do I do?" */
+.card-game { border-style: dashed; border-color: var(--primary); }
+.card-game .card-title::before { content: "▶ "; }
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
