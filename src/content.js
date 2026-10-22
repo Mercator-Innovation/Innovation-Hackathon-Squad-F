@@ -20,8 +20,10 @@ window.CONTENT = {
 
   // Hub home
   home: {
-    title: "You're not on your own",
-    intro: "Things at home can feel hard when someone you love drinks too much or takes drugs. It's not your fault. Pick what would help right now.",
+    title: "Hi. You're not on your own",
+    intro: "Things at home can feel hard when someone you love drinks too much or takes drugs. Lots of young people feel like this too.",
+    privateNote: "This is private. You don't have to give your name.",
+    pickHeading: "What would help right now?",
     options: {
       guide: { title: "What do I do?", text: "Help for things that might be happening." },
       chat: { title: "Chat to someone", text: "Type to a friendly helper. You don't have to give your name." },
