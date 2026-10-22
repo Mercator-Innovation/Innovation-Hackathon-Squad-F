@@ -40,6 +40,7 @@ window.SCREENS = window.SCREENS || {};
       case "start": return D.starters.map((t) => ({ label: t, value: t, starter: true }));
       case "safety": return [{ label: "Yes, I'm safe", value: "safe" }, { label: "No, I don't feel safe", value: "unsafe" }];
       case "unsafe": return [{ label: "I'm safe now", value: "safe" }];
+      case "explore": return D.explore[chat.q].options.map((o, i) => ({ label: o.label, value: String(i) }));
       case "step": return D.nextSteps.map((s) => ({ label: s.choice, value: s.id }));
       case "when": return D.whenOptions.map((w) => ({ label: w, value: w }));
       case "checkin": return D.checkInOptions.map((c) => ({ label: c.label, value: c.value }));
@@ -81,6 +82,16 @@ window.SCREENS = window.SCREENS || {};
       say("Thank you for telling me. That sounds really hard, and you did the right thing messaging.");
       say("First, are you safe right now?");
       chat.stage = "safety";
+    } else if (s === "explore") {
+      const q = D.explore[chat.q];
+      say(isFreeText ? q.typedReply : q.options[Number(input)].reply);
+      chat.q++;
+      if (chat.q < D.explore.length) say(D.explore[chat.q].ask);
+      else {
+        say("Thank you for telling me all of that. It helps me understand what's going on for you.");
+        say("Let's think about tomorrow. What's one small step that could help?");
+        chat.stage = "step";
+      }
     } else if (isFreeText) {
       say("Thanks for telling me. I'm listening.");
       if (s === "done") say("You can message me any time. Your plan is saved in your next steps.");
@@ -91,9 +102,10 @@ window.SCREENS = window.SCREENS || {};
       say("I'll still be here when you're safe.");
       chat.stage = "unsafe";
     } else if (s === "safety" || s === "unsafe") {
-      say("I'm glad you're safe. Let's think about tomorrow.");
-      say("What's one small step that could help?");
-      chat.stage = "step";
+      say("I'm glad you're safe.");
+      chat.q = 0;
+      say(D.explore[0].ask);
+      chat.stage = "explore";
     } else if (s === "step") {
       const step = D.nextSteps.find((x) => x.id === input);
       chat.plan.step = step.id;

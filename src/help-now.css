@@ -1,0 +1,28 @@
+/* Help right now screen. Open and closed use words and a symbol, not just colour. */
+.help-time { font-weight: 700; }
+.help-list { list-style: none; padding: 0; margin: .75rem 0 1.5rem; display: grid; gap: .75rem; }
+.help-card {
+  padding: 1rem 1.1rem; border-radius: var(--radius);
+  background: var(--card); border: 2px solid var(--border);
+}
+.help-card h3 { margin: 0 0 .4rem; font-size: 1.3rem; }
+.help-card p { margin: .4rem 0; }
+.help-facts { font-size: 1rem; color: var(--muted); }
+.help-actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .75rem; }
+.help-actions .button { text-decoration: none; }
+
+.status {
+  display: inline-block; padding: .2rem .7rem; border-radius: 999px;
+  font-weight: 700; font-size: 1rem;
+}
+.status-open { background: #1a7f45; color: #fff; }      /* 5.3:1 */
+.status-closed { background: var(--urgent); color: #fff; } /* 6:1 */
+
+/* In the hub's dark game look */
+body.in-hub .help-card { background: var(--g-panel); border-color: var(--g-line); }
+body.in-hub .help-card-closed { opacity: 1; border-style: dashed; }
+body.in-hub .help-facts { color: var(--g-muted); }
+body.in-hub .status-open { background: #6ee7a0; color: #0b1222; }   /* 12:1 */
+body.in-hub .status-closed { background: var(--g-danger); color: #0b1222; } /* 8:1 */
+body.in-hub .help-card h3 { color: var(--g-text); }
+#help-pretend { font: inherit; font-size: 1rem; margin-left: .25rem; padding: .3rem; }
