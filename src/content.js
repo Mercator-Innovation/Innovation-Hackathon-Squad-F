@@ -215,6 +215,37 @@ window.CONTENT = {
       in: "Breathe in…",
       out: "Breathe out…"
     },
+    stars: {
+      label: "Star hill",
+      title: "Star-gazing hill",
+      text: "Lie back and look up. Tap the stars to join them up and make your own shape. There's no right answer.",
+      skyLabel: "Night sky. Tap stars to join them with a line.",
+      star: "Star {n}",
+      made: "You joined {n} stars.",
+      clear: "Start again"
+    },
+    garden: {
+      label: "5 4 3 2 1",
+      title: "The 5 4 3 2 1 garden",
+      text: "This helps when your mind is racing. Look around you, wherever you are right now. Tap a block each time you notice something.",
+      steps: [
+        { count: 5, ask: "Find 5 things you can see." },
+        { count: 4, ask: "Find 4 things you can hear." },
+        { count: 3, ask: "Find 3 things you can touch." },
+        { count: 2, ask: "Find 2 things you can smell." },
+        { count: 1, ask: "Find 1 thing you can taste." }
+      ],
+      noticed: "I noticed one",
+      progress: "{done} of {count}",
+      finished: "Well done. You slowed your mind down. You can do this any time, anywhere.",
+      again: "Do it again"
+    },
+    pet: {
+      foundBone: "You picked up a bone! Is anyone hungry?",
+      hungry: "This dog looks hungry. Maybe it would like a bone?",
+      fed: "The dog loves the bone! It's your pet now, and it will follow you.",
+      happy: "Your dog is happy to see you."
+    },
     // Hidden treasure chests. Each one holds a kind message.
     treasure: {
       hint: "Treasure chests are hidden around the edges. Can you find them all?",

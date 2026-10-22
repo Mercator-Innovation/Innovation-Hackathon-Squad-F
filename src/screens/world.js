@@ -18,8 +18,61 @@ window.SCREENS.world = (function () {
   };
   const COLOURS = {
     welcome: G.guide, guide: G.guide, urgent: G.danger, chat: G.chat,
-    adult: G.adult, outside: G.outside, pond: G.chat, treasure: G.adult
+    adult: G.adult, outside: G.outside, pond: G.chat, treasure: G.adult,
+    stars: G.outside, garden: G.guide
   };
+  // Where the stars sit in the night sky (x out of 100, y out of 60)
+  const STARS = [[10, 12], [24, 30], [35, 8], [48, 22], [58, 46], [66, 14], [78, 34], [88, 10], [16, 48], [92, 50]];
+
+  // Star-gazing hill: tap stars to join them into your own shape
+  function mountStars(panel) {
+    const W = window.CONTENT.world.stars;
+    const line = panel.querySelector(".sky-lines polyline");
+    const made = panel.querySelector(".sky-made");
+    let chain = [];
+    const draw = () => {
+      line.setAttribute("points", chain.map((i) => STARS[i].join(",")).join(" "));
+      panel.querySelectorAll(".sky-star").forEach((b) => b.setAttribute("aria-pressed", String(chain.includes(+b.dataset.star))));
+      made.textContent = chain.length > 1 ? W.made.replace("{n}", chain.length) : "";
+    };
+    panel.querySelector(".sky").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-star]");
+      if (b) { chain.push(+b.dataset.star); draw(); }
+    });
+    panel.querySelector(".sky-clear").addEventListener("click", () => { chain = []; draw(); });
+  }
+
+  // 5 4 3 2 1 garden: notice things around you, one sense at a time
+  function mountGarden(panel) {
+    const W = window.CONTENT.world.garden;
+    const box = panel.querySelector(".garden-body");
+    let step = 0, done = 0;
+    const show = (moveFocus) => {
+      if (step >= W.steps.length) {
+        box.innerHTML = `<p class="garden-ask" tabindex="-1">${esc(W.finished)}</p>
+          <button type="button" class="world-button garden-again">${esc(W.again)}</button>`;
+      } else {
+        const s = W.steps[step];
+        box.innerHTML = `<p class="garden-ask" tabindex="-1">${esc(s.ask)}</p>
+          <div class="garden-blocks">${Array.from({ length: s.count }, (_, i) =>
+            `<span class="garden-block${i < done ? " is-on" : ""}" aria-hidden="true">${s.count}</span>`).join("")}</div>
+          <p class="garden-progress">${esc(W.progress.replace("{done}", done).replace("{count}", s.count))}</p>
+          <button type="button" class="world-button garden-tap">${esc(W.noticed)}</button>`;
+      }
+      if (moveFocus) box.querySelector(moveFocus).focus();
+    };
+    box.addEventListener("click", (e) => {
+      if (e.target.closest(".garden-again")) { step = 0; done = 0; show(".garden-tap"); return; }
+      if (!e.target.closest(".garden-tap")) return;
+      done++;
+      if (done >= W.steps[step].count) { step++; done = 0; show(".garden-ask"); }
+      else show(".garden-tap");
+    });
+    show(null);
+  }
+
+  // The pet dog: kept while the page is open
+  const pet = { hasBone: false, adopted: false };
   const CHEST_NEAR = 32;   // how close you need to be to open a chest
   const found = new Set(); // chests found, kept while the page is open
 
@@ -49,6 +102,8 @@ window.SCREENS.world = (function () {
     stops.push(Object.assign({ id: "chat", kind: "chat" }, W.chat));
     stops.push(Object.assign({ id: "safe-adult", kind: "adult" }, W.safeAdult));
     stops.push(Object.assign({ id: "childline", kind: "outside" }, W.childline));
+    stops.push(Object.assign({ id: "stars", kind: "stars" }, W.stars));
+    stops.push(Object.assign({ id: "garden", kind: "garden" }, W.garden));
     stops.push(Object.assign({ id: "pond", kind: "pond" }, W.pond));
     return stops;
   }
@@ -74,6 +129,16 @@ window.SCREENS.world = (function () {
         body += `<p class="breathe-word"></p>
           <div class="breathe" aria-hidden="true"><div class="breathe-circle"></div></div>`;
       }
+      if (s.kind === "stars") {
+        body += `<div class="sky" role="group" aria-label="${esc(W.stars.skyLabel)}">
+            <svg class="sky-lines" viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true"><polyline points=""/></svg>
+            ${STARS.map(([x, y], i) => `<button type="button" class="sky-star" data-star="${i}"
+              style="left:${x}%;top:${(y / 60) * 100}%" aria-label="${esc(W.stars.star.replace("{n}", i + 1))}" aria-pressed="false"></button>`).join("")}
+          </div>
+          <p class="sky-made" aria-live="polite"></p>
+          <button type="button" class="world-button sky-clear">${esc(W.stars.clear)}</button>`;
+      }
+      if (s.kind === "garden") body += `<div class="garden-body"></div>`;
       if (s.href) {
         const outside = s.external ? ' target="_blank" rel="noopener"' : "";
         body += `<p class="world-actions"><a class="world-button" href="${esc(s.href)}"${outside}>${esc(s.link)}</a></p>`;
@@ -103,6 +168,7 @@ window.SCREENS.world = (function () {
         <div class="world">
           <canvas class="world-canvas" tabindex="0" role="img" aria-label="${esc(W.mapLabel)}"></canvas>
           <section class="world-panel" hidden aria-labelledby="world-panel-title"></section>
+          <p class="world-toast" hidden aria-hidden="true"></p>
         </div>
         <p class="visually-hidden" aria-live="polite" id="world-live"></p>
         <div class="world-pad">
@@ -150,12 +216,18 @@ window.SCREENS.world = (function () {
       });
       const counterEl = main.querySelector("#treasure-counter");
 
+      // A bone near the start, and a hungry dog further along
+      const bone = { x: Math.round(pathX(startY - 40) + 85), y: startY - 40 };
+      const dogHome = { x: Math.round(Math.min(WORLD_W - 40, pathX(stops[2].y + 30) + 95)), y: stops[2].y + 30 };
+      const dog = { x: dogHome.x, y: dogHome.y, face: -1, moving: false, near: false };
+
       // Trees and flowers, the same every time
       let seed = 7;
       const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
       const clear = (x, y, gap) =>
         Math.abs(x - pathX(y)) > 60 &&
         chests.every((c) => Math.hypot(c.x - x, c.y - y) > 45) &&
+        [bone, dogHome].every((p) => Math.hypot(p.x - x, p.y - y) > 45) &&
         stops.every((s) => Math.hypot(s.x - x, s.y + 20 - y) > (s.kind === "pond" ? 120 : gap));
       const trees = [];
       for (let tries = 0; trees.length < 60 && tries < 2000; tries++) {
@@ -203,6 +275,44 @@ window.SCREENS.world = (function () {
       })();
 
       const player = { x: pathX(startY), y: startY, face: 1, moving: false };
+      if (pet.adopted) { dog.x = player.x - 24; dog.y = player.y + 6; }
+
+      // A short message over the game, also read out by screen readers
+      const toast = main.querySelector(".world-toast");
+      let toastTimer = null;
+      function say(text) {
+        toast.textContent = text;
+        toast.hidden = false;
+        live.textContent = text;
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => { toast.hidden = true; }, 4000);
+      }
+
+      function updatePet(dt) {
+        if (!pet.hasBone && !pet.adopted && Math.hypot(bone.x - player.x, bone.y - player.y) < 26) {
+          pet.hasBone = true;
+          say(window.CONTENT.world.pet.foundBone);
+        }
+        const P = window.CONTENT.world.pet;
+        const near = Math.hypot(dog.x - player.x, dog.y - player.y) < 45;
+        if (near && !dog.near && !pet.adopted) {
+          if (pet.hasBone) { pet.hasBone = false; pet.adopted = true; say(P.fed); }
+          else say(P.hungry);
+        }
+        dog.near = near;
+        // Once adopted, the dog trots along just behind you
+        dog.moving = false;
+        if (pet.adopted) {
+          const tx = player.x - player.face * 24, ty = player.y + 6;
+          const ax = tx - dog.x, ay = ty - dog.y, d = Math.hypot(ax, ay);
+          if (d > 6) {
+            const step = Math.min(d, SPEED * 1.05 * dt);
+            dog.x += (ax / d) * step; dog.y += (ay / d) * step;
+            dog.moving = true;
+            if (Math.abs(ax) > 1) dog.face = Math.sign(ax);
+          }
+        }
+      }
       let target = null;
       const held = new Set();  // directions held down on the keyboard or the buttons
       let inside = null;       // the house you're standing at
@@ -254,6 +364,8 @@ window.SCREENS.world = (function () {
           live.textContent = `${W.found} ${s.title}`;
         }
         if (s.kind === "pond") startBreathing();
+        if (s.kind === "stars") mountStars(panel);
+        if (s.kind === "garden") mountGarden(panel);
         if (moveFocus) panel.querySelector("h2").focus();
       }
 
@@ -337,6 +449,8 @@ window.SCREENS.world = (function () {
           player.y = Math.min(worldH - 16, Math.max(16, player.y + (dy / len) * SPEED * dt));
           if (dx) player.face = Math.sign(dx);
         }
+
+        updatePet(dt);
 
         // Walking up to a chest or a house opens it; walking away closes it
         const near = chests.find((c) => Math.hypot(c.x - player.x, c.y - player.y) < CHEST_NEAR) ||
@@ -460,6 +574,71 @@ window.SCREENS.world = (function () {
         ctx.fillRect(x + 11, y + 4, 6, 7);             // lock
       }
 
+      function drawBone(x, y) {
+        ctx.fillStyle = "#f4ecd8";
+        ctx.fillRect(x - 8, y - 2, 16, 4);
+        ctx.fillRect(x - 11, y - 5, 5, 4); ctx.fillRect(x - 11, y + 1, 5, 4);
+        ctx.fillRect(x + 6, y - 5, 5, 4); ctx.fillRect(x + 6, y + 1, 5, 4);
+      }
+
+      function drawDog(now) {
+        // A little block dog. Its tail wags when it's your pet.
+        const hop = dog.moving ? Math.abs(Math.sin(now / 80)) * 3 : 0;
+        const f = dog.face;
+        const x = dog.x, y = dog.y - hop;
+        const fur = "#c8874a", dark = "#7a4a2a";
+        shadow(dog.x, dog.y, 26);
+        block(x - 12, y - 16, 24, 12, fur);                       // body
+        ctx.fillStyle = dark;
+        ctx.fillRect(x - 10, y - 4, 4, 4); ctx.fillRect(x + 6, y - 4, 4, 4); // legs
+        block(x + f * 10 - 7, y - 26, 14, 12, fur);               // head
+        ctx.fillStyle = dark;
+        ctx.fillRect(x + f * 10 - (f > 0 ? 7 : -3), y - 28, 4, 8); // ear
+        ctx.fillStyle = G.bg;
+        ctx.fillRect(x + f * 13 - 1, y - 22, 3, 3);              // eye
+        ctx.fillRect(x + f * 17 - 1, y - 19, 3, 3);              // nose
+        const wag = pet.adopted ? Math.sin(now / 90) * 4 : 0;
+        ctx.fillStyle = fur;
+        ctx.fillRect(x - f * 14 - 2, y - 22 + wag, 4, 8);          // tail
+        if (pet.adopted) {                                        // a little heart
+          ctx.fillStyle = G.danger;
+          const hx = x - 3, hy = y - 40 - Math.abs(Math.sin(now / 500)) * 3;
+          ctx.fillRect(hx, hy, 3, 3); ctx.fillRect(hx + 4, hy, 3, 3); ctx.fillRect(hx, hy + 2, 7, 3); ctx.fillRect(hx + 2, hy + 5, 3, 2);
+        }
+      }
+
+      function drawHill(s, now) {
+        // A grassy mound under a patch of twinkling stars
+        const c = COLOURS.stars;
+        ctx.fillStyle = "#1f6f5c";
+        ctx.fillRect(s.x - 40, s.y + 4, 80, 26);
+        ctx.fillRect(s.x - 28, s.y - 6, 56, 10);
+        ctx.fillRect(s.x - 14, s.y - 14, 28, 8);
+        ctx.fillStyle = "#23806a"; ctx.fillRect(s.x - 40, s.y + 4, 80, 4);
+        [[-30, -40], [-6, -52], [18, -44], [34, -30], [-40, -22]].forEach(([dx, dy], i) => {
+          const on = Math.sin(now / 350 + i * 1.7) > -0.3;
+          ctx.fillStyle = on ? c : mix(c, G.bg, 0.6);
+          ctx.fillRect(s.x + dx, s.y + dy, 4, 4);
+          if (on) { ctx.fillRect(s.x + dx - 3, s.y + dy + 1, 10, 2); ctx.fillRect(s.x + dx + 1, s.y + dy - 3, 2, 10); }
+        });
+        if (s === inside) { ctx.strokeStyle = c; ctx.lineWidth = 2; ctx.strokeRect(s.x - 46, s.y - 58, 92, 92); }
+      }
+
+      function drawGardenBed(s) {
+        // A raised flower bed with five rows of flowers, from 5 down to 1
+        const c = COLOURS.garden;
+        block(s.x - 40, s.y - 14, 80, 40, "#5a3d2b");
+        ctx.fillStyle = "#3b2a1e"; ctx.fillRect(s.x - 34, s.y - 8, 68, 30);
+        const flowers = [G.guide, G.adult, G.chat, G.outside, G.danger];
+        [5, 4, 3, 2, 1].forEach((n, row) => {
+          for (let k = 0; k < n; k++) {
+            ctx.fillStyle = flowers[(row + k) % 5];
+            ctx.fillRect(s.x - 30 + row * 6 + k * 12, s.y - 6 + row * 6, 5, 5);
+          }
+        });
+        if (s === inside) { ctx.strokeStyle = c; ctx.lineWidth = 2; ctx.strokeRect(s.x - 46, s.y - 20, 92, 52); }
+      }
+
       function drawPlayer(now) {
         // The blue block buddy from the hub's picture
         const hop = player.moving ? Math.abs(Math.sin(now / 90)) * 4 : 0;
@@ -473,6 +652,7 @@ window.SCREENS.world = (function () {
         ctx.fillRect(x + 7 + look, y + 19, 12, 3);
         ctx.fillRect(x + 6 + look, y + 17, 3, 3);
         ctx.fillRect(x + 17 + look, y + 17, 3, 3);
+        if (pet.hasBone) drawBone(player.x, y - 10); // carrying the bone
       }
 
       function draw(now) {
@@ -491,8 +671,11 @@ window.SCREENS.world = (function () {
 
         // Draw things further down the screen on top, so the player can walk behind trees
         const things = trees.map((t) => ({ y: t.y, draw: () => drawTree(t) }))
-          .concat(stops.filter((s) => s.kind !== "pond").map((s) => ({ y: s.y + 30, draw: () => drawHouse(s, now) })))
+          .concat(stops.filter((s) => s.kind !== "pond").map((s) => ({ y: s.y + 30, draw: () =>
+            s.kind === "stars" ? drawHill(s, now) : s.kind === "garden" ? drawGardenBed(s) : drawHouse(s, now) })))
           .concat(chests.map((c) => ({ y: c.y, draw: () => drawChest(c, now) })))
+          .concat(pet.hasBone || pet.adopted ? [] : [{ y: bone.y, draw: () => drawBone(bone.x, bone.y) }])
+          .concat([{ y: dog.y, draw: () => drawDog(now) }])
           .concat([{ y: player.y + 2, draw: () => drawPlayer(now) }]);
         things.sort((a, b) => a.y - b.y).forEach((t) => t.draw());
 
