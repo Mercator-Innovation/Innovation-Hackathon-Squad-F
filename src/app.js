@@ -42,6 +42,16 @@ window.SCREENS = window.SCREENS || {};
     window.scrollTo(0, 0);
   }
 
+  // Safety: moving between screens replaces the page in browser history instead of
+  // adding to it. So the whole prototype is only ever one step in history, and after
+  // a quick exit, pressing Back never shows a hub screen.
+  document.addEventListener("click", (e) => {
+    const link = e.target.closest('a[href^="#/"]');
+    if (!link || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey) return;
+    e.preventDefault();
+    window.location.replace(link.getAttribute("href"));
+  });
+
   window.addEventListener("hashchange", render);
   render();
 })();
