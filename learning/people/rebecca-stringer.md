@@ -9,10 +9,10 @@ ai_use_before: 3
 hopes: [see-claude, other-jobs]
 feeling: excited
 # At 19:00
-worked_on: []
-outside_usual_job:
-got_in_way: []
-ai_use_after:
+worked_on: [code, design, research]
+outside_usual_job: a-bit
+got_in_way: [time]
+ai_use_after: 4
 # In the week after
 specialist:
 helped_squad: []
@@ -31,10 +31,10 @@ ai_use_week_after:
 <!-- Claude adds one line per moment: prompts that worked (word for word), dead ends, surprises, things done outside my usual job, what made working as a squad easier or harder -->
 
 ## At 19:00
-- What I worked on: <answers>
-- How much of it was outside my usual job: <answer>
-- What got in the way: <answers>
-- How much I'd use AI tools in my work now: <answer>
+- What I worked on: Code or features; The design or the look; Research or finding things out
+- How much of it was outside my usual job: A bit
+- What got in the way: Not enough time
+- How much I'd use AI tools in my work now: Every day
 
 ## In the week after
 - Did I still need a human specialist: <answer>, for <what>
