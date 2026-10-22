@@ -1,54 +1,75 @@
 // Hub home: the landing page a child sees after tapping the plugin.
-// Three ways to get help, with simple pictures so it's easy to choose.
+// A blocky, futuristic game look (inspired by block-building games, not copied),
+// with three big "level" tiles so it's easy to choose.
 window.SCREENS = window.SCREENS || {};
 window.SCREENS.hub = {
   render() {
     const H = window.CONTENT.home;
 
-    // Small line pictures for each choice. Decorative only.
+    // Square pixel-style icons for each tile. Decorative only.
     const icons = {
-      guide: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>`,
-      chat: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8M8 13h5"/></svg>`,
-      adult: `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c.8-3.3 3-5 5.5-5s4.7 1.7 5.5 5"/><path d="M17 7.5c1.5-1.6 4.2-.4 3.6 1.8-.4 1.4-2.1 2.5-3.6 3.5-1.5-1-3.2-2.1-3.6-3.5-.6-2.2 2.1-3.4 3.6-1.8z"/></svg>`
+      guide: `<svg viewBox="0 0 8 8" width="32" height="32" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><path d="M3 0h2v1H3zM1 1h2v1H1zM5 1h2v1H5zM0 2h1v4H0zM7 2h1v4H7zM1 6h2v1H1zM5 6h2v1H5zM3 7h2v1H3zM4 2h2v1H4zM4 3h1v2H4zM3 4h1v1H3zM2 5h1v1H2z"/></svg>`,
+      chat: `<svg viewBox="0 0 8 8" width="32" height="32" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><path d="M0 0h8v1H0zM0 1h1v4H0zM7 1h1v4H7zM0 5h3v1H0zM4 5h4v1H4zM1 6h2v1H1zM1 7h1v1H1zM2 2h4v1H2zM2 3h3v1H2z"/></svg>`,
+      adult: `<svg viewBox="0 0 8 8" width="32" height="32" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><path d="M1 0h6v1H1zM0 1h1v6H0zM7 1h1v6H7zM1 7h6v1H1zM1 2h6v1H1zM2 4h1v1H2zM4 4h1v1H4zM2 5h1v1H2z"/></svg>`
     };
 
-    const card = (href, cls, icon, o) => `
-      <li><a class="card ${cls}" href="${href}">
-        <span class="card-icon">${icon}</span>
-        <span class="card-body">
-          <span class="card-title">${esc(o.title)}</span>
-          <span class="card-text">${esc(o.text)}</span>
+    const tile = (href, cls, icon, o) => `
+      <li><a class="tile ${cls}" href="${href}">
+        <span class="tile-icon">${icon}</span>
+        <span class="tile-body">
+          <span class="tile-title">${esc(o.title)}</span>
+          <span class="tile-text">${esc(o.text)}</span>
         </span>
-        <span class="card-arrow" aria-hidden="true">›</span>
+        <span class="tile-go" aria-hidden="true">▶</span>
       </a></li>`;
 
+    // One isometric block, drawn once and reused. Three faces in three shades.
+    const art = `
+      <svg class="hub-art" viewBox="0 0 240 150" aria-hidden="true">
+        <defs>
+          <g id="blk">
+            <path d="M0 0l20-10 20 10-20 10z" fill="currentColor"/>
+            <path d="M0 0l20 10v24L0 24z" fill="currentColor" opacity=".7"/>
+            <path d="M40 0L20 10v24l20-10z" fill="currentColor" opacity=".45"/>
+          </g>
+        </defs>
+        <g class="art-ground" style="color: var(--g-line)">
+          <use href="#blk" x="40" y="110"/><use href="#blk" x="80" y="110"/><use href="#blk" x="120" y="110"/><use href="#blk" x="160" y="110"/>
+          <use href="#blk" x="60" y="100"/><use href="#blk" x="100" y="100"/><use href="#blk" x="140" y="100"/>
+        </g>
+        <g style="color: var(--g-guide)"><use href="#blk" x="60" y="76"/></g>
+        <g style="color: var(--g-adult)"><use href="#blk" x="140" y="76"/></g>
+        <g class="art-buddy" style="color: var(--g-chat)">
+          <use href="#blk" x="100" y="62"/>
+          <use href="#blk" x="100" y="38"/>
+          <rect x="125" y="52" width="4" height="5" fill="var(--g-bg)"/>
+          <rect x="133" y="48" width="4" height="5" fill="var(--g-bg)"/>
+          <path d="M124 62l6 2 8-4" fill="none" stroke="var(--g-bg)" stroke-width="2.5" stroke-linecap="square"/>
+        </g>
+        <g class="art-float art-float-1" style="color: var(--g-guide)"><use href="#blk" x="22" y="30" transform="scale(.6)"/></g>
+        <g class="art-float art-float-2" style="color: var(--g-adult)"><use href="#blk" x="330" y="40" transform="scale(.6)"/></g>
+      </svg>`;
+
     return `
-      <section class="hello">
-        <svg class="hello-art" viewBox="0 0 168 84" aria-hidden="true">
-          <rect x="4" y="34" width="46" height="46" rx="12" fill="var(--primary-soft)"/>
-          <rect x="61" y="10" width="46" height="70" rx="12" fill="var(--primary)"/>
-          <rect x="118" y="26" width="46" height="54" rx="12" fill="var(--adult-soft)"/>
-          <circle cx="76" cy="36" r="3.5" fill="var(--primary-text)"/>
-          <circle cx="92" cy="36" r="3.5" fill="var(--primary-text)"/>
-          <path d="M75 48c5 5 13 5 18 0" fill="none" stroke="var(--primary-text)" stroke-width="3" stroke-linecap="round"/>
-        </svg>
+      <section class="hub-hello">
+        ${art}
         <h1>${esc(H.title)}</h1>
         <p class="lead">${esc(H.intro)}</p>
-        <p class="private-note">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+        <p class="hub-private">
+          <svg viewBox="0 0 8 8" width="18" height="18" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><path d="M2 0h4v1H2zM1 1h1v2H1zM6 1h1v2H6zM0 3h8v5H0z"/></svg>
           ${esc(H.privateNote)}
         </p>
       </section>
 
-      <h2 class="pick-heading">${esc(H.pickHeading)}</h2>
-      <ul class="cards cards-hub">
-        ${card("#/guide", "card-guide", icons.guide, H.options.guide)}
-        ${card("#/chat", "card-chat", icons.chat, H.options.chat)}
-        ${card("#/safe-adult", "card-adult", icons.adult, H.options.safeAdult)}
+      <h2 class="hub-pick">${esc(H.pickHeading)}</h2>
+      <ul class="tiles">
+        ${tile("#/guide", "tile-guide", icons.guide, H.options.guide)}
+        ${tile("#/chat", "tile-chat", icons.chat, H.options.chat)}
+        ${tile("#/safe-adult", "tile-adult", icons.adult, H.options.safeAdult)}
       </ul>
 
-      <p class="reassure reassure-big">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>
+      <p class="hub-fault">
+        <svg viewBox="0 0 8 8" width="24" height="24" shape-rendering="crispEdges" aria-hidden="true" fill="currentColor"><path d="M1 1h2v1H1zM5 1h2v1H5zM0 2h4v1H0zM4 2h4v1H4zM0 3h8v1H0zM1 4h6v1H1zM2 5h4v1H2zM3 6h2v1H3z"/></svg>
         ${esc(H.notYourFault)}
       </p>`;
   }

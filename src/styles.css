@@ -44,7 +44,7 @@ a { color: var(--primary); }
 .skip-link { position: absolute; left: -999px; }
 .skip-link:focus { left: 1rem; top: 1rem; background: #fff; padding: .5rem; z-index: 10; }
 
-.prototype-banner { margin: 0; padding: .5rem 1rem; background: var(--banner); font-size: .9rem; text-align: center; }
+.prototype-banner { margin: 0; padding: .5rem 1rem; background: var(--banner); color: var(--text); font-size: .9rem; text-align: center; }
 
 /* Hub header: quick exit and 999 always visible */
 .hub-header {
@@ -126,37 +126,78 @@ body:not(.in-hub) main { color: #fff; }
 .launcher-button { display: inline-block; padding: .7rem 1.2rem; background: #fff; color: var(--primary); font-weight: 700; border-radius: 999px; text-decoration: none; }
 .launcher-hint { font-size: .9rem; margin: .5rem 0 0; }
 
-/* Hub landing page */
-.hello { text-align: center; padding: .5rem 0 0; }
-.hello-art { width: 168px; height: auto; margin: .5rem auto 0; display: block; }
-.hello h1 { font-size: 2rem; margin-top: .75rem; }
-.hello .lead { margin: 0 auto; max-width: 28rem; }
-.private-note {
+/* Hub landing page: blocky, futuristic game look (inspired, not copied) */
+body[data-screen="hub"] {
+  --g-bg: #0b1222;           /* deep night blue */
+  --g-panel: #131d33;
+  --g-line: #24345a;
+  --g-text: #eef5ff;         /* 16:1 on --g-bg */
+  --g-muted: #b9c7e0;        /* 10:1 on --g-bg */
+  --g-guide: #3ee6c8;        /* teal glow, 12:1 */
+  --g-chat: #7fb4ff;         /* sky blue, 8.6:1 */
+  --g-adult: #ffc45c;        /* amber, 11:1 */
+  --g-danger: #ff8f87;       /* light red, 7.6:1 */
+  background-image:
+    linear-gradient(rgba(127,180,255,.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(127,180,255,.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-color: var(--g-bg);
+  color: var(--g-text);
+}
+body[data-screen="hub"] .hub-header { background: var(--g-bg); border-bottom-color: var(--g-line); }
+body[data-screen="hub"] .quick-exit { background: var(--g-text); color: var(--g-bg); border-radius: 4px; box-shadow: 0 4px 0 var(--g-muted); }
+body[data-screen="hub"] .emergency { color: var(--g-danger); }
+body[data-screen="hub"] :focus-visible { outline: 3px solid var(--g-adult); outline-offset: 3px; box-shadow: none; }
+
+.hub-hello { text-align: center; }
+.hub-art { display: block; width: 100%; max-width: 260px; height: auto; margin: .25rem auto 0; overflow: visible; }
+.hub-hello h1 {
+  font-size: 2rem; font-weight: 900; letter-spacing: .01em; margin-top: .5rem;
+  color: var(--g-text); text-shadow: 3px 3px 0 var(--g-line);
+}
+.hub-hello .lead { color: var(--g-muted); max-width: 28rem; margin: 0 auto; }
+.hub-private {
   display: flex; align-items: center; justify-content: center; gap: .5rem;
-  margin: 1rem auto 0; padding: .5rem .9rem; width: fit-content; max-width: 100%;
-  background: var(--primary-soft); color: var(--text); border-radius: 999px; font-size: .95rem; font-weight: 600;
+  width: fit-content; max-width: 100%; margin: 1rem auto 0; padding: .45rem .8rem;
+  border: 2px solid var(--g-guide); border-radius: 4px; color: var(--g-guide);
+  font-size: .95rem; font-weight: 700; background: rgba(62,230,200,.08);
 }
-.private-note svg { flex: none; }
-.pick-heading { text-align: center; margin-top: 1.75rem; }
-.cards-hub .card { display: flex; align-items: center; gap: .9rem; border-width: 3px; padding: 1rem; }
-.cards-hub .card:hover, .cards-hub .card:focus-visible { transform: translateY(-2px); }
-.card-icon { flex: none; width: 56px; height: 56px; border-radius: 14px; display: grid; place-items: center; }
-.card-body { min-width: 0; }
-.card-guide { border-color: var(--primary-soft); }
-.card-guide .card-icon { background: var(--primary-soft); color: var(--primary); }
-.card-guide .card-title { color: var(--primary); }
-.card-chat { border-color: var(--chat-soft); }
-.card-chat .card-icon { background: var(--chat-soft); color: var(--chat); }
-.card-chat .card-title { color: var(--chat); }
-.card-adult { border-color: var(--adult-soft); }
-.card-adult .card-icon { background: var(--adult-soft); color: var(--adult); }
-.card-adult .card-title { color: var(--adult); }
-.card-guide:hover { border-color: var(--primary); }
-.card-chat:hover { border-color: var(--chat); }
-.card-adult:hover { border-color: var(--adult); }
-.card-arrow { margin-left: auto; flex: none; font-size: 1.4rem; color: var(--muted); }
-.reassure-big { display: flex; gap: .75rem; align-items: center; background: var(--primary); color: var(--primary-text); font-size: 1.1rem; }
-.reassure-big svg { flex: none; }
+.hub-private svg { flex: none; }
+.hub-pick { text-align: center; margin-top: 1.75rem; color: var(--g-text); font-weight: 900; letter-spacing: .02em; }
+
+.tiles { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: 1rem; }
+.tile {
+  --c: var(--g-guide);
+  display: flex; align-items: center; gap: .9rem; min-height: 4.5rem;
+  padding: 1rem; background: var(--g-panel); color: var(--g-text); text-decoration: none;
+  border: 3px solid var(--c); border-radius: 4px;
+  box-shadow: 0 6px 0 color-mix(in srgb, var(--c) 45%, var(--g-bg)), inset 0 0 18px color-mix(in srgb, var(--c) 18%, transparent);
+}
+.tile-chat { --c: var(--g-chat); }
+.tile-adult { --c: var(--g-adult); }
+.tile-icon {
+  flex: none; width: 52px; height: 52px; display: grid; place-items: center;
+  background: color-mix(in srgb, var(--c) 18%, var(--g-bg)); color: var(--c); border-radius: 2px;
+}
+.tile-body { min-width: 0; }
+.tile-title { display: block; font-weight: 900; font-size: 1.2rem; color: var(--c); }
+.tile-text { display: block; color: var(--g-muted); }
+.tile-go { margin-left: auto; flex: none; color: var(--c); font-size: .9rem; }
+.tile:active { transform: translateY(4px); box-shadow: 0 2px 0 color-mix(in srgb, var(--c) 45%, var(--g-bg)); }
+
+.hub-fault {
+  display: flex; align-items: center; gap: .75rem; margin-top: 1.5rem; padding: 1rem;
+  background: var(--g-guide); color: var(--g-bg); font-weight: 900; font-size: 1.1rem; border-radius: 4px;
+  box-shadow: 0 6px 0 color-mix(in srgb, var(--g-guide) 45%, var(--g-bg));
+}
+.hub-fault svg { flex: none; }
+
 @media (prefers-reduced-motion: no-preference) {
-  .cards-hub .card { transition: transform .15s ease, border-color .15s ease; }
+  .tile { transition: transform .12s ease, box-shadow .12s ease; }
+  .tile:hover { transform: translateY(-2px); }
+  .art-buddy { animation: hop 2.4s ease-in-out infinite; }
+  .art-float-1 { animation: bob 3.2s ease-in-out infinite; }
+  .art-float-2 { animation: bob 3.6s ease-in-out infinite .6s; }
 }
+@keyframes hop { 0%, 70%, 100% { transform: translateY(0); } 80% { transform: translateY(-6px); } 90% { transform: translateY(0); } }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }

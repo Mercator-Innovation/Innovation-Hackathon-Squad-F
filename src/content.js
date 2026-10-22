@@ -27,7 +27,7 @@ window.CONTENT = {
     options: {
       guide: { title: "What do I do?", text: "Help for things that might be happening." },
       chat: { title: "Chat to someone", text: "Type to a friendly helper. You don't have to give your name." },
-      safeAdult: { title: "Text a safe adult", text: "Send a quick message to a grown-up you trust." }
+      safeAdult: { title: "Text a safe adult", text: "Turn tonight's worry into one next step, booked for the morning." }
     },
     notYourFault: "Whatever is happening, it is not your fault."
   },
