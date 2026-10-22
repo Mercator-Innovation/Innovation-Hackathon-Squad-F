@@ -39,6 +39,8 @@ window.SCREENS.hub = {
         </p>
       </section>
 
+      ${window.CHECKIN ? window.CHECKIN.bannerHTML() : ""}
+
       <h2 class="hub-pick">${esc(H.pickHeading)}</h2>
       <ul class="tiles">
         ${tile("#/world", "tile-guide", icons.guide, H.options.guide)}

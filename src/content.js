@@ -93,6 +93,72 @@ window.CONTENT = {
     home: "Back to start"
   },
 
+
+  // How did it go? (screens/check-in.js): follows up a next step from Text a safe adult
+  checkIn: {
+    bannerTitle: "How did it go?",
+    bannerText: "You planned to:",
+    title: "How did it go?",
+    youPlanned: "Your step was:",
+    agreedWith: "You agreed it with",
+    didYou: "Did you do it?",
+    answers: [
+      { id: "yes", label: "Yes, I did it" },
+      { id: "tried", label: "I tried, but it didn't go well" },
+      { id: "notyet", label: "Not yet" },
+      { id: "changed", label: "I changed my mind" }
+    ],
+    notSafe: "Not safe right now?",
+    call999: "Call 999",
+    none: "You don't have a next step to check on yet. You can plan one with a volunteer.",
+    planOne: "Plan a next step",
+    demoNote: "Prototype: try this with a made-up step.",
+    demoButton: "Try it with an example step",
+    demoStep: { title: "Talk to a teacher I trust", when: "In the morning", volunteer: "Sam", tip: "You could say: \"Things at home are hard. Can I talk to you?\"" },
+    responses: {
+      yes: {
+        title: "You did it. That was brave.",
+        text: "Taking a step like that is hard. Be proud of yourself. How you feel now is OK, whatever it is.",
+        nextHeading: "What next?",
+        next: [
+          { title: "Plan another small step", text: "Talk to a volunteer about what could help next.", href: "#/safe-adult" },
+          { title: "Write down how it went", text: "Get it out of your head. Nobody else will see it.", href: "#/chat" },
+          { title: "Back to the start", text: "", href: "#/hub" }
+        ]
+      },
+      tried: {
+        title: "Trying is the hardest part",
+        text: "It didn't go how you hoped, and that's not your fault. Lots of people need a few tries. You were brave to try.",
+        nextHeading: "What would help now?",
+        next: [
+          { title: "Try a different step", text: "A volunteer can help you think of another way.", href: "#/safe-adult" },
+          { title: "Talk to someone now", text: "See who's open right now.", href: "#/help-now" },
+          { title: "Take a calm moment", text: "Visit the calm pond in the safe space.", href: "#/world" }
+        ]
+      },
+      notyet: {
+        title: "That's OK. There's no rush.",
+        text: "Big steps can take time. You can still do it when you feel ready.",
+        nextHeading: "What would you like to do?",
+        next: [
+          { title: "Keep it for tomorrow", text: "We'll ask you again later.", href: "#/hub", keep: true },
+          { title: "Pick an easier step", text: "A volunteer can help you find a smaller one.", href: "#/safe-adult" },
+          { title: "Say what's getting in the way", text: "Write it down privately first.", href: "#/chat" }
+        ]
+      },
+      changed: {
+        title: "That's OK. You're in charge.",
+        text: "You don't have to do anything you're not ready for. Help is still here whenever you want it.",
+        nextHeading: "Other things that might help",
+        next: [
+          { title: "Talk to someone now", text: "See who's open right now.", href: "#/help-now" },
+          { title: "What do I do?", text: "Help for things that might be happening.", href: "#/world" },
+          { title: "Back to the start", text: "", href: "#/hub" }
+        ]
+      }
+    }
+  },
+
   // Explore: the walk-around game (screens/world.js)
   world: {
     // The way in, at the bottom of "What do I do?"
