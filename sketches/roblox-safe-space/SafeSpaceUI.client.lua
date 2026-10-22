@@ -1,6 +1,7 @@
 -- SafeSpaceUI (LocalScript in StarterPlayer > StarterPlayerScripts)
 -- The on-screen parts of the Safe Space world: the emergency bar, the
--- "Who can I talk to?" button, the reading panel and the breathing exercise.
+-- "Who can I talk to?" button, the reading panel, the breathing exercise,
+-- and the lookout trail's lights counter, messages and bounce pad.
 
 local ContextActionService = game:GetService("ContextActionService")
 local Players = game:GetService("Players")
@@ -17,12 +18,17 @@ local CREAM = Color3.fromRGB(253, 250, 244)
 local INK = Color3.fromRGB(30, 30, 40)
 local WHITE = Color3.new(1, 1, 1)
 local EMERGENCY_RED = Color3.fromRGB(170, 30, 40)
+local LIGHT_YELLOW = Color3.fromRGB(255, 220, 90)
+local BOUNCE = 85 -- how hard the pink pad throws you up
+local messages = Content.messages
 
 local byId = {}
 for _, stop in ipairs(Content.stops) do
 	byId[stop.id] = stop
 end
-byId[Content.garden.id] = Content.garden
+for _, extra in ipairs({ Content.garden, Content.trail, Content.lookout }) do
+	byId[extra.id] = extra
+end
 
 local function make(className, props, parent)
 	local obj = Instance.new(className)
@@ -48,6 +54,7 @@ local topBar = make("Frame", {
 }, gui)
 make("UIListLayout", {
 	FillDirection = Enum.FillDirection.Vertical,
+	HorizontalAlignment = Enum.HorizontalAlignment.Center,
 	Padding = UDim.new(0, 8),
 	SortOrder = Enum.SortOrder.LayoutOrder,
 }, topBar)
@@ -91,6 +98,59 @@ local talkButton = make("TextButton", {
 	Text = "Who can I talk to?",
 }, buttonRow)
 make("UICorner", { CornerRadius = UDim.new(0, 10) }, talkButton)
+
+-- How many of the trail's lights you've found.
+local lightsLabel = make("TextLabel", {
+	Name = "Lights",
+	Visible = false,
+	Position = UDim2.new(0, 12, 0, 0),
+	Size = UDim2.new(0, 0, 0, 44),
+	AutomaticSize = Enum.AutomaticSize.X,
+	BackgroundColor3 = INK,
+	BackgroundTransparency = 0.15,
+	Font = Enum.Font.GothamBold,
+	TextSize = 18,
+	TextColor3 = LIGHT_YELLOW,
+	Text = "",
+}, buttonRow)
+make("UICorner", { CornerRadius = UDim.new(0, 10) }, lightsLabel)
+make("UIPadding", { PaddingLeft = UDim.new(0, 14), PaddingRight = UDim.new(0, 14) }, lightsLabel)
+
+-- A short message that pops up under the buttons, then goes.
+local toast = make("TextLabel", {
+	Name = "Toast",
+	LayoutOrder = 3,
+	Visible = false,
+	Size = UDim2.new(0.9, 0, 0, 0),
+	AutomaticSize = Enum.AutomaticSize.Y,
+	BackgroundColor3 = INK,
+	BackgroundTransparency = 0.1,
+	Font = Enum.Font.GothamBold,
+	TextSize = 20,
+	TextColor3 = WHITE,
+	TextWrapped = true,
+	Text = "",
+}, topBar)
+make("UISizeConstraint", { MaxSize = Vector2.new(520, math.huge) }, toast)
+make("UICorner", { CornerRadius = UDim.new(0, 10) }, toast)
+make("UIPadding", {
+	PaddingTop = UDim.new(0, 12),
+	PaddingBottom = UDim.new(0, 12),
+	PaddingLeft = UDim.new(0, 16),
+	PaddingRight = UDim.new(0, 16),
+}, toast)
+local toastRun = 0
+local function showToast(words)
+	toastRun = toastRun + 1
+	local myRun = toastRun
+	toast.Text = words
+	toast.Visible = true
+	task.delay(4, function()
+		if myRun == toastRun then
+			toast.Visible = false
+		end
+	end)
+end
 
 -- The reading panel.
 local panel = make("Frame", {
@@ -317,4 +377,108 @@ RunService.Heartbeat:Connect(function()
 	if root and (root.Position - openPart.Position).Magnitude > 24 then
 		closePanel()
 	end
+end)
+
+-- The lookout trail. Lights are found on this screen only, so everyone
+-- finds their own. The flags and water are handled by BuildSafeSpace.
+local world = workspace:WaitForChild("SafeSpaceWorld")
+local lights = {} -- light part -> where it floats, until it's found
+local hooked = {}
+local found = 0
+
+local function isMe(hit)
+	local character = player.Character
+	return character ~= nil and hit:IsDescendantOf(character)
+end
+
+local function updateCounter()
+	local total = world:GetAttribute("LightsTotal") or 0
+	lightsLabel.Visible = total > 0
+	lightsLabel.Text = string.format(messages.counter, found, total)
+end
+world:GetAttributeChangedSignal("LightsTotal"):Connect(updateCounter)
+updateCounter()
+
+local function lightUpGarden()
+	for _, obj in ipairs(world:GetDescendants()) do
+		if obj.Name == "GardenLantern" and obj:IsA("BasePart") then
+			obj.Color = LIGHT_YELLOW
+			local glow = obj:FindFirstChildOfClass("PointLight")
+			if glow then
+				glow.Color = LIGHT_YELLOW
+				glow.Brightness = 3
+				glow.Range = 28
+			end
+		end
+	end
+end
+
+local function findLight(part)
+	if not lights[part] then
+		return
+	end
+	lights[part] = nil
+	part.Transparency = 1
+	local glow = part:FindFirstChildOfClass("PointLight")
+	if glow then
+		glow.Enabled = false
+	end
+	found = found + 1
+	updateCounter()
+	local total = world:GetAttribute("LightsTotal") or 0
+	if found >= total then
+		showToast(messages.allLights)
+		lightUpGarden()
+	else
+		showToast(string.format(messages.lightFound, found, total))
+	end
+end
+
+local bouncing = false
+local function hook(obj)
+	if hooked[obj] or not obj:IsA("BasePart") then
+		return
+	end
+	if obj:GetAttribute("SafeSpaceLight") then
+		hooked[obj] = true
+		lights[obj] = obj.CFrame
+		obj.Touched:Connect(function(hit)
+			if isMe(hit) then
+				findLight(obj)
+			end
+		end)
+	elseif obj:GetAttribute("BouncePad") then
+		hooked[obj] = true
+		obj.Touched:Connect(function(hit)
+			local root = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+			if bouncing or not root or not isMe(hit) then
+				return
+			end
+			bouncing = true
+			local v = root.AssemblyLinearVelocity
+			root.AssemblyLinearVelocity = Vector3.new(v.X, BOUNCE, v.Z)
+			task.delay(0.6, function()
+				bouncing = false
+			end)
+		end)
+	end
+end
+for _, obj in ipairs(world:GetDescendants()) do
+	hook(obj)
+end
+world.DescendantAdded:Connect(hook)
+
+-- Lights bob and spin so they're easy to spot.
+RunService.Heartbeat:Connect(function()
+	local t = os.clock()
+	for part, home in pairs(lights) do
+		part.CFrame = home * CFrame.new(0, math.sin(t * 2) * 0.4, 0) * CFrame.Angles(0, t, 0)
+	end
+end)
+
+player:GetAttributeChangedSignal("SafeSpaceFlag"):Connect(function()
+	showToast(messages.flag)
+end)
+player:GetAttributeChangedSignal("SafeSpaceSplash"):Connect(function()
+	showToast(messages.splash)
 end)

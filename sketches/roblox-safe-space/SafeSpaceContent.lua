@@ -28,6 +28,7 @@ return {
 				"- Press E at a sign to read more.",
 				"- Sit on a bench any time you need a rest.",
 				"- The red bar at the top says what to do in an emergency.",
+				"- Want a break? Try the lookout trail, on the right by the start.",
 				"## Please note",
 				"This is a prototype made at a hackathon. It is not a real service.",
 			},
@@ -139,6 +140,49 @@ return {
 				"- Save 999, 111 and 116 123 in your phone.",
 			},
 		},
+	},
+
+	-- The lookout trail: an obstacle course just for fun, beside the path.
+	trail = {
+		id = "trail",
+		title = "The lookout trail",
+		sign = "Want a break from thinking? Jump, balance and climb to the lookout. Or stay on the path. It's up to you.",
+		colour = Color3.fromRGB(190, 95, 25),
+		lines = {
+			"This trail is just for fun. You can leave it any time.",
+			"## How it works",
+			"- Jump across the stepping stones.",
+			"- Walk along the logs over the pond.",
+			"- Climb the blocks. Then jump on the pink pad to bounce up to the lookout.",
+			"- Slide down the other side.",
+			"Press Space (or the jump button) to jump.",
+			"## Falling in the water?",
+			"Nothing bad happens. You go back to the last flag you reached.",
+			"## Find the lights",
+			"There are 6 lights on the trail. Find them all to light up the quiet garden.",
+		},
+	},
+
+	-- The sign at the top of the lookout tower.
+	lookout = {
+		id = "lookout",
+		title = "You made it to the top",
+		sign = "Look how far you've come. Small steps add up.",
+		colour = Color3.fromRGB(190, 95, 25),
+		lines = {
+			"Take a moment to look around.",
+			"Every stop on the path was a small step too.",
+			"When you're ready, slide down the other side. The way back to the path is at the bottom.",
+		},
+	},
+
+	-- Short messages that pop up on screen. %d is replaced by a number.
+	messages = {
+		counter = "Lights found: %d of %d",
+		lightFound = "You found a light! That's %d of %d.",
+		allLights = "You found all the lights! Go to the quiet garden and see what happens.",
+		flag = "You reached a flag. If you fall in the water, you'll come back here.",
+		splash = "Splash! Back to the last flag. Have another go.",
 	},
 
 	-- The quiet garden at the end of the path, with the breathing exercise.

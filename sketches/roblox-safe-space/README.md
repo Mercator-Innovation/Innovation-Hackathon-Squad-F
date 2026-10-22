@@ -11,6 +11,10 @@ A calm evening path for families and friends of people who are showing signs of 
 7. When you're ready (next steps)
 8. The quiet garden: a breathing exercise
 
+Beside the path, by the start, is **the lookout trail**: an obstacle course just for fun. Jump across stepping stones, walk logs over a pond, climb floating blocks, bounce up to a lookout tower and slide down. Falling in the water takes you back to the last flag; nothing bad happens. There are 6 lights to find on the trail, and finding them all lights up the quiet garden.
+
+The stops are little houses with tiled roofs, a stream crosses the path under a wooden bridge, and the garden has a gazebo over the pond.
+
 A red bar at the top of the screen always says what to do in an emergency. The **Who can I talk to?** button opens the helplines from anywhere.
 
 This is a hackathon prototype, not a real service. Phone numbers and hours were checked on 22 October 2026.
