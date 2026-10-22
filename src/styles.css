@@ -1,0 +1,162 @@
+/* The look. Change colours and fonts here first. */
+:root {
+  /* Hackathon teal palette, made friendly for children */
+  --bg: #f4f8f6;
+  --text: #142320;
+  --muted: #3f4f4b;          /* 8:1 on white */
+  --primary: #0f6b5c;        /* teal, 6.5:1 on white */
+  --primary-text: #ffffff;
+  --primary-soft: #d6ebe6;
+  --card: #ffffff;
+  --border: #c9d1ce;
+  --chat: #1d5fa8;           /* blue, 6:1 on white */
+  --chat-soft: #dce8f6;
+  --adult: #8a4b0f;          /* warm amber, 6.6:1 on white */
+  --adult-soft: #f6e6d3;
+  --urgent: #b3261e;         /* red for emergencies, 6:1 on white */
+  --banner: #fff3c4;
+  --focus: #ffbf47;
+  --helper-bubble: #d6ebe6;
+  --you-bubble: #dce8f6;
+  --host-bg: #1d3557;        /* the pretend game app */
+  --host-accent: #2a9d8f;
+  --font: ui-rounded, "SF Pro Rounded", "Nunito", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --radius: 16px;
+}
+
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 1.125rem;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+main { max-width: 34rem; margin: 0 auto; padding: 1rem 1rem 3rem; }
+h1 { font-size: 1.75rem; line-height: 1.2; margin: .5rem 0 .75rem; }
+h2 { font-size: 1.25rem; margin: 1.5rem 0 .5rem; }
+h1:focus { outline: none; }
+a { color: var(--primary); }
+
+:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; box-shadow: 0 0 0 6px var(--text); }
+
+.skip-link { position: absolute; left: -999px; }
+.skip-link:focus { left: 1rem; top: 1rem; background: #fff; padding: .5rem; z-index: 10; }
+
+.prototype-banner { margin: 0; padding: .5rem 1rem; background: var(--banner); font-size: .9rem; text-align: center; }
+
+/* Hub header: quick exit and 999 always visible */
+.hub-header {
+  position: sticky; top: 0; z-index: 5;
+  display: flex; justify-content: space-between; align-items: center; gap: .5rem;
+  padding: .5rem 1rem; background: var(--bg); border-bottom: 1px solid var(--border);
+}
+.hub-header[hidden] { display: none; }
+.quick-exit {
+  font: inherit; font-weight: 700; font-size: 1rem;
+  background: var(--text); color: #fff; border: 0; border-radius: 8px; padding: .5rem .9rem; cursor: pointer;
+}
+.emergency { color: var(--urgent); font-weight: 700; font-size: .95rem; text-align: right; }
+
+.lead { font-size: 1.15rem; }
+.muted { color: var(--muted); }
+.reassure { margin-top: 1.5rem; padding: 1rem; background: var(--helper-bubble); border-radius: var(--radius); font-weight: 600; }
+.demo-note { font-size: .9rem; color: var(--muted); border-left: 4px solid var(--border); padding-left: .75rem; }
+.back { display: inline-block; margin-top: .5rem; }
+.back::before { content: "← "; }
+
+/* Cards: the big tappable choices */
+.cards { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: .75rem; }
+.card {
+  display: block; padding: 1rem 1.1rem; background: var(--card);
+  border: 2px solid var(--border); border-radius: var(--radius);
+  text-decoration: none; color: var(--text);
+}
+.card:hover { border-color: var(--primary); }
+.card-title { display: block; font-weight: 700; font-size: 1.2rem; color: var(--primary); }
+.card-text { display: block; color: var(--muted); }
+.card-urgent { border-color: var(--urgent); }
+.card-urgent .card-title { color: var(--urgent); }
+.card-urgent .card-title::before { content: "Urgent: "; }
+
+.urgent a { display: block; padding: .9rem; background: var(--urgent); color: #fff; font-weight: 700; text-align: center; border-radius: var(--radius); text-decoration: none; }
+.steps li, .say li { margin-bottom: .5rem; }
+
+.button {
+  display: inline-block; font: inherit; font-weight: 700;
+  background: var(--primary); color: var(--primary-text);
+  border: 2px solid var(--primary); border-radius: 8px; padding: .65rem 1.1rem;
+  text-decoration: none; cursor: pointer;
+}
+.button-secondary { background: transparent; color: var(--primary); }
+.actions { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+/* Chat */
+.chat-log { list-style: none; padding: 0; margin: 1rem 0; display: flex; flex-direction: column; gap: .5rem; }
+.msg { padding: .6rem .9rem; border-radius: var(--radius); max-width: 85%; }
+.msg-helper { background: var(--helper-bubble); align-self: flex-start; }
+.msg-you { background: var(--you-bubble); align-self: flex-end; }
+.msg-who { display: block; font-size: .8rem; font-weight: 700; color: var(--muted); }
+.chat-form label, .block-label { display: block; font-weight: 600; margin: 1rem 0 .3rem; }
+.chat-row { display: flex; gap: .5rem; }
+input[type="text"], textarea {
+  font: inherit; width: 100%; padding: .6rem; border: 2px solid var(--muted); border-radius: 8px; background: #fff;
+}
+textarea { margin-bottom: 1rem; }
+
+/* Text a safe adult */
+fieldset { border: 0; padding: 0; margin: 0 0 .5rem; }
+legend h2 { margin-bottom: .5rem; }
+.choice { display: flex; align-items: flex-start; gap: .6rem; padding: .6rem .75rem; margin-bottom: .4rem; background: var(--card); border: 1px solid var(--border); border-radius: 8px; }
+.choice input { width: 1.3rem; height: 1.3rem; margin-top: .2rem; flex: none; accent-color: var(--primary); }
+.sent { margin-top: 1rem; padding: 1rem; background: var(--you-bubble); border-radius: var(--radius); }
+
+/* The pretend game app */
+body:not(.in-hub) { background: var(--host-bg); }
+body:not(.in-hub) main { color: #fff; }
+.host { text-align: center; padding-top: 1rem; }
+.host-title { font-size: 2.2rem; letter-spacing: .05em; margin-bottom: 0; }
+.host-tagline { margin-top: .25rem; opacity: .9; }
+.host-world { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; width: 180px; margin: 1.5rem auto; }
+.host-world span { aspect-ratio: 1; background: var(--host-accent); border-radius: 4px; }
+.host-world span:nth-child(even) { background: #e9c46a; }
+.host-play { font: inherit; font-weight: 700; font-size: 1.3rem; padding: .7rem 2.5rem; border-radius: 999px; border: 0; background: #e9c46a; color: var(--host-bg); }
+.launcher { margin-top: 2.5rem; padding: 1rem; background: rgba(255,255,255,.1); border-radius: var(--radius); }
+.launcher-button { display: inline-block; padding: .7rem 1.2rem; background: #fff; color: var(--primary); font-weight: 700; border-radius: 999px; text-decoration: none; }
+.launcher-hint { font-size: .9rem; margin: .5rem 0 0; }
+
+/* Hub landing page */
+.hello { text-align: center; padding: .5rem 0 0; }
+.hello-art { width: 168px; height: auto; margin: .5rem auto 0; display: block; }
+.hello h1 { font-size: 2rem; margin-top: .75rem; }
+.hello .lead { margin: 0 auto; max-width: 28rem; }
+.private-note {
+  display: flex; align-items: center; justify-content: center; gap: .5rem;
+  margin: 1rem auto 0; padding: .5rem .9rem; width: fit-content; max-width: 100%;
+  background: var(--primary-soft); color: var(--text); border-radius: 999px; font-size: .95rem; font-weight: 600;
+}
+.private-note svg { flex: none; }
+.pick-heading { text-align: center; margin-top: 1.75rem; }
+.cards-hub .card { display: flex; align-items: center; gap: .9rem; border-width: 3px; padding: 1rem; }
+.cards-hub .card:hover, .cards-hub .card:focus-visible { transform: translateY(-2px); }
+.card-icon { flex: none; width: 56px; height: 56px; border-radius: 14px; display: grid; place-items: center; }
+.card-body { min-width: 0; }
+.card-guide { border-color: var(--primary-soft); }
+.card-guide .card-icon { background: var(--primary-soft); color: var(--primary); }
+.card-guide .card-title { color: var(--primary); }
+.card-chat { border-color: var(--chat-soft); }
+.card-chat .card-icon { background: var(--chat-soft); color: var(--chat); }
+.card-chat .card-title { color: var(--chat); }
+.card-adult { border-color: var(--adult-soft); }
+.card-adult .card-icon { background: var(--adult-soft); color: var(--adult); }
+.card-adult .card-title { color: var(--adult); }
+.card-guide:hover { border-color: var(--primary); }
+.card-chat:hover { border-color: var(--chat); }
+.card-adult:hover { border-color: var(--adult); }
+.card-arrow { margin-left: auto; flex: none; font-size: 1.4rem; color: var(--muted); }
+.reassure-big { display: flex; gap: .75rem; align-items: center; background: var(--primary); color: var(--primary-text); font-size: 1.1rem; }
+.reassure-big svg { flex: none; }
+@media (prefers-reduced-motion: no-preference) {
+  .cards-hub .card { transition: transform .15s ease, border-color .15s ease; }
+}
