@@ -18,7 +18,9 @@ window.SCREENS = window.SCREENS || {};
 
   // Quick exit: leave straight away and replace this page in history
   document.getElementById("quick-exit").addEventListener("click", () => {
-    window.location.replace("https://www.google.co.uk");
+    // Back to the game, so it looks like they were only ever playing. replace()
+    // swaps this page in history, so pressing Back doesn't reopen the hub screen.
+    window.location.replace(location.pathname + location.search + "#/");
   });
 
   // Small helper screens use to build HTML safely
