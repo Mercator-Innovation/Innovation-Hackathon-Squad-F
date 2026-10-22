@@ -305,3 +305,33 @@ body.in-hub .sa-phone a { color: var(--primary); }
 }
 @keyframes hop { 0%, 70%, 100% { transform: translateY(0); } 80% { transform: translateY(-6px); } 90% { transform: translateY(0); } }
 @keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+/* How did it go? (screens/check-in.js) */
+.ci-banner {
+  display: flex; align-items: center; gap: .9rem; margin: 1.5rem 0 0; padding: 1rem;
+  background: var(--g-panel); color: var(--g-text); text-decoration: none;
+  border: 3px solid var(--g-adult); border-radius: 4px;
+  box-shadow: 0 6px 0 color-mix(in srgb, var(--g-adult) 45%, var(--g-bg)), inset 0 0 18px color-mix(in srgb, var(--g-adult) 18%, transparent);
+}
+body.in-hub a.ci-banner { color: var(--g-text); }
+.ci-banner-dot { flex: none; width: 44px; height: 44px; display: grid; place-items: center; font-weight: 900; font-size: 1.4rem; background: var(--g-adult); color: var(--g-bg); border-radius: 2px; }
+.ci-banner-body { min-width: 0; }
+.ci-banner-title { display: block; font-weight: 900; font-size: 1.2rem; color: var(--g-adult); }
+.ci-banner-text { display: block; color: var(--g-muted); }
+.ci-banner .tile-go { color: var(--g-adult); }
+
+.ci-plan { margin: 1rem 0; padding: .9rem 1rem; background: var(--g-panel); border-left: 4px solid var(--g-adult); border-radius: 2px; }
+.ci-plan-label, .ci-plan-who { display: block; font-size: .9rem; color: var(--g-muted); }
+.ci-choices, .ci-next { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: .75rem; }
+.ci-choice, .ci-next-link {
+  display: block; padding: .9rem 1rem; background: var(--g-panel); text-decoration: none;
+  border: 3px solid var(--g-line); border-radius: 4px; box-shadow: 0 5px 0 #070c18;
+}
+body.in-hub .ci-choice { color: var(--g-text); font-weight: 900; font-size: 1.1rem; }
+body.in-hub .ci-choice:hover, body.in-hub .ci-next-link:hover { border-color: var(--g-guide); }
+.ci-next-title { display: block; font-weight: 900; color: var(--g-guide); }
+.ci-next-text { display: block; color: var(--g-muted); }
+.ci-next-text:empty { display: none; }
+.ci-safe { margin-top: 1.25rem; color: var(--g-muted); }
+body.in-hub .ci-safe a { color: var(--g-danger); font-weight: 900; }
+.ci-fault { margin-top: 1.25rem; }

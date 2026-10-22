@@ -19,3 +19,6 @@ body.in-hub .tell-hint { color: var(--g-muted); }
 body.in-hub .tell-item { background: var(--g-panel); border-color: var(--g-line); }
 body.in-hub .tell-item summary { color: var(--g-adult); }
 body.in-hub .tell-item[open] { border-color: var(--g-adult); }
+
+/* Home page tile for What happens if I tell? */
+.tile-tell { --c: #f5a8d8; } /* pink, 10:1 on the hub background */
