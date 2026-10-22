@@ -1,0 +1,906 @@
+<roblox version="4"><Item class="Workspace" referent="RBX0001"><Properties><string name="Name">Workspace</string></Properties></Item><Item class="ReplicatedStorage" referent="RBX0003"><Properties><string name="Name">ReplicatedStorage</string></Properties><Item class="ModuleScript" referent="RBX0002"><Properties><string name="Name">SafeSpaceContent</string><ProtectedString name="Source"><![CDATA[-- SafeSpaceContent (ModuleScript in ReplicatedStorage)
+-- All the words in the Safe Space world live here, so anyone can change them
+-- without touching the building or screen code.
+--
+-- For families and friends of people who are showing signs of harmful drug or
+-- alcohol use. Phone numbers and hours were checked on 22 October 2026.
+--
+-- In "lines": "## " starts a heading and "- " starts a bullet point.
+
+return {
+	emergency = "Emergency? If they won't wake up, or aren't breathing normally, call 999 now.",
+
+	-- The stop the "Who can I talk to?" button opens.
+	contactsId = "talk",
+
+	stops = {
+		{
+			id = "welcome",
+			title = "You are not alone",
+			sign = "A quiet place to find out what to do. Walk the path at your own pace.",
+			colour = Color3.fromRGB(0, 105, 110),
+			lines = {
+				"Worrying about someone's drug or alcohol use is hard.",
+				"Lots of families and friends feel this way. It is not your fault.",
+				"This path has 7 stops and a quiet garden at the end. Each stop tells you one thing.",
+				"## How to use this place",
+				"- Walk along the path.",
+				"- Press E at a sign to read more.",
+				"- Sit on a bench any time you need a rest.",
+				"- The red bar at the top says what to do in an emergency.",
+				"## Please note",
+				"This is a prototype made at a hackathon. It is not a real service.",
+			},
+		},
+		{
+			id = "emergency",
+			title = "Is it an emergency?",
+			sign = "Call 999 if they won't wake up, or their breathing is slow, noisy or has stopped.",
+			colour = Color3.fromRGB(170, 30, 40),
+			lines = {
+				"## Look for these signs",
+				"- They don't wake up when you shout or shake them.",
+				"- They are snoring or making gurgling sounds.",
+				"- Their breathing is very slow, or has stopped.",
+				"- Their lips or skin look blue or pale.",
+				"## What to do",
+				"- Call 999 and ask for an ambulance.",
+				"- Tell them what you think the person has taken, if you know.",
+				"- Give naloxone if you have it. Stop 4 tells you about it.",
+				"- If they are breathing, put them in the recovery position. Stop 3 shows you how.",
+				"- If they are not breathing, the 999 call handler will help you start CPR.",
+				"- Stay with them until help comes.",
+				"You don't have to know it all. The person on the phone will tell you what to do.",
+			},
+		},
+		{
+			id = "recovery",
+			title = "The recovery position",
+			sign = "If they are breathing but won't wake up, lay them on their side. It helps them breathe.",
+			colour = Color3.fromRGB(30, 80, 150),
+			lines = {
+				"This helps if they are breathing but won't wake up. It stops them choking.",
+				"## Step by step",
+				"1. They lie on their back. Kneel next to them.",
+				"2. Put the arm nearest you out at a right angle.",
+				"3. Put the back of their other hand against their cheek, nearest you.",
+				"4. Bend their far knee up.",
+				"5. Pull the bent knee towards you. They roll onto their side.",
+				"6. Tilt their head back a little, so they can breathe.",
+				"7. Stay with them. Keep checking their breathing.",
+				"If they stop breathing, call 999. The call handler will tell you what to do.",
+			},
+		},
+		{
+			id = "naloxone",
+			title = "Naloxone can save a life",
+			sign = "Naloxone is a medicine. It can reverse an opioid overdose for a short time.",
+			colour = Color3.fromRGB(95, 55, 140),
+			lines = {
+				"Opioids include heroin and methadone.",
+				"Naloxone comes as a nose spray or an injection.",
+				"It won't harm someone who has not taken opioids. So if you're not sure, you can still give it.",
+				"It wears off. So always call 999 too.",
+				"## How to get it",
+				"- Ask your local drug service.",
+				"- Ask at a pharmacy.",
+				"- Order it online from Scottish Families: sfad.org.uk",
+			},
+		},
+		{
+			id = "you",
+			title = "Look after yourself too",
+			sign = "It is not your fault. You don't have to cope with this on your own.",
+			colour = Color3.fromRGB(40, 105, 60),
+			lines = {
+				"You might feel worried, angry, tired or ashamed. All of these feelings are normal.",
+				"You can't fix someone else's drug or alcohol use. But you can look after yourself.",
+				"## Small things that help",
+				"- Talk to someone you trust.",
+				"- Try to eat, drink water and rest.",
+				"- Take a break when you need to. Even 5 minutes helps.",
+				"- Stop 6 has people you can talk to tonight.",
+			},
+		},
+		{
+			id = "talk",
+			title = "Someone to talk to, tonight",
+			sign = "Free numbers you can call, including at night and at weekends.",
+			colour = Color3.fromRGB(20, 90, 120),
+			lines = {
+				"## Any time, day or night",
+				"- Samaritans: 116 123. Talk about anything.",
+				"- NHS 24: 111. If you're worried about someone's health.",
+				"## Evenings and weekends",
+				"- Breathing Space: 0800 83 85 87. Monday to Thursday, 6pm to 2am. Friday 6pm to Monday 6am.",
+				"## For families and friends",
+				"- Scottish Families Affected by Alcohol and Drugs: 08080 10 10 11. Weekdays 9am to 11pm. You can ask for a call back at weekends. Web chat at sfad.org.uk.",
+				"## About drugs",
+				"- Know the Score: 0800 587 5879. Weekdays 9am to 9pm. Weekends 10am to 4pm.",
+				"Hours were checked on 22 October 2026. They can change.",
+				"In an emergency, always call 999.",
+			},
+		},
+		{
+			id = "next",
+			title = "When you're ready",
+			sign = "You don't have to do everything today. Here are some small next steps.",
+			colour = Color3.fromRGB(150, 75, 20),
+			lines = {
+				"## Talking to them",
+				"- Pick a calm time to talk.",
+				"- Say how you feel: \"I'm worried about you.\"",
+				"- Listen more than you talk.",
+				"- It's OK if it doesn't go well the first time.",
+				"## Finding support near you",
+				"- Scottish Families can help you find support where you live.",
+				"- Your GP can help too.",
+				"## Keep these safe",
+				"- Save 999, 111 and 116 123 in your phone.",
+			},
+		},
+	},
+
+	-- The quiet garden at the end of the path, with the breathing exercise.
+	garden = {
+		id = "breathe",
+		title = "Take a breath",
+		sign = "Sit by the water for a while. Press E to breathe slowly with the circle.",
+		colour = Color3.fromRGB(0, 105, 110),
+		breaths = 6,
+		lines = {},
+	},
+}
+]]></ProtectedString></Properties></Item></Item><Item class="ServerScriptService" referent="RBX0005"><Properties><string name="Name">ServerScriptService</string></Properties><Item class="Script" referent="RBX0004"><Properties><string name="Name">BuildSafeSpace</string><ProtectedString name="Source"><![CDATA[-- BuildSafeSpace (Script in ServerScriptService)
+-- Builds the Safe Space walkthrough world when the game starts: a calm
+-- evening path with 7 stops, benches, lanterns, trees and a quiet garden.
+-- The words for each stop come from ReplicatedStorage.SafeSpaceContent.
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Lighting = game:GetService("Lighting")
+
+local Content = require(ReplicatedStorage:WaitForChild("SafeSpaceContent"))
+
+local GROUND = 0.2 -- height of the top of the grass
+local STOP_GAP = 36 -- distance between stops along the path
+local WHITE = Color3.new(1, 1, 1)
+local CREAM = Color3.fromRGB(250, 246, 236)
+local INK = Color3.fromRGB(30, 30, 40)
+local STONE = Color3.fromRGB(214, 206, 190)
+local WOOD = Color3.fromRGB(120, 85, 60)
+local LAMP_GLOW = Color3.fromRGB(255, 214, 170)
+local rng = Random.new(42) -- the same trees every time
+
+-- Turn off any spawn points already in the place, so everyone starts at ours.
+for _, obj in ipairs(workspace:GetDescendants()) do
+	if obj:IsA("SpawnLocation") then
+		obj.Enabled = false
+	end
+end
+
+local world = Instance.new("Folder")
+world.Name = "SafeSpaceWorld"
+world.Parent = workspace
+
+local function make(className, props, parent)
+	local obj = Instance.new(className)
+	if obj:IsA("BasePart") then
+		obj.Anchored = true
+		obj.TopSurface = Enum.SurfaceType.Smooth
+		obj.BottomSurface = Enum.SurfaceType.Smooth
+	end
+	for key, value in pairs(props) do
+		obj[key] = value
+	end
+	obj.Parent = parent or world
+	return obj
+end
+
+-- Text that shrinks to fit its box, up to maxSize.
+local function text(parent, props, maxSize)
+	local label = make("TextLabel", {
+		BackgroundTransparency = 1,
+		Font = Enum.Font.Gotham,
+		TextColor3 = INK,
+		TextWrapped = true,
+		TextScaled = true,
+		TextXAlignment = Enum.TextXAlignment.Left,
+	}, parent)
+	for key, value in pairs(props) do
+		label[key] = value
+	end
+	make("UITextSizeConstraint", { MaxTextSize = maxSize }, label)
+	return label
+end
+
+local function stopZ(index)
+	return -10 - (index - 1) * STOP_GAP
+end
+
+local function upright(cframe)
+	-- Roblox cylinders lie along X; this stands them up.
+	return cframe * CFrame.Angles(0, 0, math.rad(90))
+end
+
+-- Lighting: early evening, warm and soft.
+Lighting.ClockTime = 18
+Lighting.Brightness = 2
+Lighting.Ambient = Color3.fromRGB(110, 100, 120)
+Lighting.OutdoorAmbient = Color3.fromRGB(150, 140, 155)
+local atmosphere = Lighting:FindFirstChildOfClass("Atmosphere") or Instance.new("Atmosphere")
+atmosphere.Density = 0.3
+atmosphere.Offset = 0.25
+atmosphere.Color = Color3.fromRGB(230, 200, 190)
+atmosphere.Decay = Color3.fromRGB(120, 100, 140)
+atmosphere.Glare = 0
+atmosphere.Haze = 1
+atmosphere.Parent = Lighting
+
+-- Ground, with invisible walls round the edge so nobody falls off.
+make("Part", {
+	Name = "Grass",
+	Size = Vector3.new(600, 2, 600),
+	CFrame = CFrame.new(0, GROUND - 1, -150),
+	Color = Color3.fromRGB(110, 150, 95),
+	Material = Enum.Material.Grass,
+})
+for _, wall in ipairs({
+	{ Vector3.new(2, 40, 600), Vector3.new(300, 20, -150) },
+	{ Vector3.new(2, 40, 600), Vector3.new(-300, 20, -150) },
+	{ Vector3.new(600, 40, 2), Vector3.new(0, 20, 150) },
+	{ Vector3.new(600, 40, 2), Vector3.new(0, 20, -450) },
+}) do
+	make("Part", { Name = "Edge", Size = wall[1], CFrame = CFrame.new(wall[2]), Transparency = 1 })
+end
+
+local stops = Content.stops
+local gardenZ = stopZ(#stops) - 52
+
+-- The path, from the start to the garden.
+local pathStart, pathEnd = 30, gardenZ + 20
+make("Part", {
+	Name = "Path",
+	Size = Vector3.new(12, 0.2, pathStart - pathEnd),
+	CFrame = CFrame.new(0, GROUND + 0.1, (pathStart + pathEnd) / 2),
+	Color = Color3.fromRGB(222, 205, 170),
+	Material = Enum.Material.Pebble,
+})
+
+make("SpawnLocation", {
+	Name = "Start",
+	Size = Vector3.new(8, 0.4, 8),
+	CFrame = CFrame.new(0, GROUND + 0.4, 22),
+	Color = Color3.fromRGB(150, 200, 195),
+	Material = Enum.Material.SmoothPlastic,
+	Neutral = true,
+	Duration = 0,
+})
+
+-- Welcome arch over the path.
+for _, x in ipairs({ -8, 8 }) do
+	make("Part", {
+		Name = "ArchPillar",
+		Size = Vector3.new(2, 14, 2),
+		CFrame = CFrame.new(x, GROUND + 7, 10),
+		Color = CREAM,
+		Material = Enum.Material.Wood,
+	})
+end
+local archPos = Vector3.new(0, GROUND + 13, 10)
+local arch = make("Part", {
+	Name = "ArchSign",
+	Size = Vector3.new(20, 3.6, 1),
+	CFrame = CFrame.lookAt(archPos, archPos + Vector3.new(0, 0, 1)),
+	Color = stops[1].colour,
+	Material = Enum.Material.SmoothPlastic,
+})
+for face, words in pairs({ [Enum.NormalId.Front] = "Safe Space", [Enum.NormalId.Back] = "Take your time" }) do
+	local gui = make("SurfaceGui", {
+		Face = face,
+		SizingMode = Enum.SurfaceGuiSizingMode.PixelsPerStud,
+		PixelsPerStud = 40,
+		LightInfluence = 0,
+	}, arch)
+	text(gui, {
+		Text = words,
+		Font = Enum.Font.GothamBold,
+		TextColor3 = WHITE,
+		TextXAlignment = Enum.TextXAlignment.Center,
+		Size = UDim2.new(1, -40, 1, -20),
+		Position = UDim2.new(0, 20, 0, 10),
+	}, 100)
+end
+
+local function buildLantern(position)
+	make("Part", {
+		Name = "LanternPost",
+		Size = Vector3.new(0.5, 6, 0.5),
+		CFrame = CFrame.new(position + Vector3.new(0, 3, 0)),
+		Color = Color3.fromRGB(60, 55, 60),
+		Material = Enum.Material.Metal,
+	})
+	local glow = make("Part", {
+		Name = "Lantern",
+		Size = Vector3.new(1, 1.2, 1),
+		CFrame = CFrame.new(position + Vector3.new(0, 6.6, 0)),
+		Color = LAMP_GLOW,
+		Material = Enum.Material.Neon,
+		CanCollide = false,
+	})
+	make("PointLight", { Range = 14, Brightness = 0.8, Color = LAMP_GLOW }, glow)
+end
+
+-- A bench you can sit on, facing lookDir.
+local function buildBench(position, lookDir)
+	local cf = CFrame.lookAt(position, position + lookDir)
+	make("Seat", {
+		Name = "Bench",
+		Size = Vector3.new(5, 0.5, 2),
+		CFrame = cf * CFrame.new(0, 1.6, 0),
+		Color = WOOD,
+		Material = Enum.Material.Wood,
+	})
+	make("Part", {
+		Name = "BenchBack",
+		Size = Vector3.new(5, 2, 0.4),
+		CFrame = cf * CFrame.new(0, 2.85, 0.9),
+		Color = WOOD,
+		Material = Enum.Material.Wood,
+	})
+	for _, dx in ipairs({ -2, 2 }) do
+		make("Part", {
+			Name = "BenchLeg",
+			Size = Vector3.new(0.4, 1.4, 1.6),
+			CFrame = cf * CFrame.new(dx, 0.65, 0),
+			Color = Color3.fromRGB(80, 60, 45),
+			Material = Enum.Material.Wood,
+		})
+	end
+end
+
+-- A sign board with a short message and a "Press E" prompt.
+local function buildSign(stop, cframe, label, actionText)
+	local board = make("Part", {
+		Name = stop.id .. "Sign",
+		Size = Vector3.new(12, 8, 0.6),
+		CFrame = cframe,
+		Color = CREAM,
+		Material = Enum.Material.SmoothPlastic,
+	})
+	local gui = make("SurfaceGui", {
+		Face = Enum.NormalId.Front,
+		SizingMode = Enum.SurfaceGuiSizingMode.PixelsPerStud,
+		PixelsPerStud = 50,
+		LightInfluence = 0,
+	}, board)
+	local header = make("Frame", {
+		Size = UDim2.new(1, 0, 0, 130),
+		BackgroundColor3 = stop.colour,
+		BorderSizePixel = 0,
+	}, gui)
+	text(header, {
+		Text = label,
+		Font = Enum.Font.GothamMedium,
+		TextColor3 = WHITE,
+		Size = UDim2.new(1, -40, 0, 34),
+		Position = UDim2.new(0, 20, 0, 12),
+	}, 26)
+	text(header, {
+		Text = stop.title,
+		Font = Enum.Font.GothamBold,
+		TextColor3 = WHITE,
+		Size = UDim2.new(1, -40, 0, 70),
+		Position = UDim2.new(0, 20, 0, 50),
+	}, 48)
+	text(gui, {
+		Text = stop.sign,
+		Size = UDim2.new(1, -48, 1, -220),
+		Position = UDim2.new(0, 24, 0, 150),
+		TextYAlignment = Enum.TextYAlignment.Top,
+	}, 36)
+	text(gui, {
+		Text = "Press E: " .. actionText,
+		Font = Enum.Font.GothamBold,
+		TextColor3 = stop.colour,
+		Size = UDim2.new(1, -48, 0, 40),
+		Position = UDim2.new(0, 24, 1, -58),
+	}, 28)
+
+	local prompt = make("ProximityPrompt", {
+		ActionText = actionText,
+		ObjectText = stop.title,
+		MaxActivationDistance = 14,
+		RequiresLineOfSight = false,
+		HoldDuration = 0,
+	}, board)
+	prompt:SetAttribute("SafeSpaceId", stop.id)
+	return board
+end
+
+-- One stop: a small covered pavilion beside the path, with a sign and a lamp.
+local function buildStop(stop, index)
+	local side = (index % 2 == 1) and -1 or 1
+	local centre = Vector3.new(side * 18, GROUND, stopZ(index))
+	local towardsPath = Vector3.new(-side, 0, 0)
+
+	make("Part", {
+		Name = "Floor",
+		Size = Vector3.new(18, 0.6, 18),
+		CFrame = CFrame.new(centre + Vector3.new(0, 0.3, 0)),
+		Color = STONE,
+		Material = Enum.Material.Slate,
+	})
+	make("Part", {
+		Name = "Step",
+		Size = Vector3.new(4, 0.3, 6),
+		CFrame = CFrame.new(side * 7.5, GROUND + 0.15, centre.Z),
+		Color = STONE,
+		Material = Enum.Material.Slate,
+	})
+	for _, dx in ipairs({ -7.5, 7.5 }) do
+		for _, dz in ipairs({ -7.5, 7.5 }) do
+			make("Part", {
+				Name = "Post",
+				Size = Vector3.new(1, 10, 1),
+				CFrame = CFrame.new(centre + Vector3.new(dx, 5.6, dz)),
+				Color = WOOD,
+				Material = Enum.Material.Wood,
+			})
+		end
+	end
+	make("Part", {
+		Name = "Roof",
+		Size = Vector3.new(20, 1, 20),
+		CFrame = CFrame.new(centre + Vector3.new(0, 11.1, 0)),
+		Color = stop.colour,
+		Material = Enum.Material.SmoothPlastic,
+	})
+	make("Part", {
+		Name = "RoofTop",
+		Size = Vector3.new(13, 1, 13),
+		CFrame = CFrame.new(centre + Vector3.new(0, 12.1, 0)),
+		Color = stop.colour,
+		Material = Enum.Material.SmoothPlastic,
+	})
+	local lamp = make("Part", {
+		Name = "Lamp",
+		Shape = Enum.PartType.Ball,
+		Size = Vector3.new(1.5, 1.5, 1.5),
+		CFrame = CFrame.new(centre + Vector3.new(0, 10, 0)),
+		Color = LAMP_GLOW,
+		Material = Enum.Material.Neon,
+		CanCollide = false,
+	})
+	make("PointLight", { Range = 18, Brightness = 1.2, Color = LAMP_GLOW }, lamp)
+
+	local signPos = centre + Vector3.new(side * 2, 4.6, 0)
+	buildSign(stop, CFrame.lookAt(signPos, signPos + towardsPath), "Stop " .. index .. " of " .. #stops, "Read more")
+
+	-- A bench by the path, halfway to the next stop.
+	if index < #stops then
+		buildBench(Vector3.new(side * 10, GROUND, stopZ(index) - STOP_GAP / 2), towardsPath)
+	end
+end
+
+for index, stop in ipairs(stops) do
+	buildStop(stop, index)
+end
+
+-- Lanterns along both sides of the path.
+for z = pathStart - 6, pathEnd, -24 do
+	buildLantern(Vector3.new(-7.5, GROUND, z))
+	buildLantern(Vector3.new(7.5, GROUND, z))
+end
+
+-- The quiet garden: a round space with a pond, benches and the breathing sign.
+local garden = Content.garden
+make("Part", {
+	Name = "GardenFloor",
+	Shape = Enum.PartType.Cylinder,
+	Size = Vector3.new(0.6, 44, 44),
+	CFrame = upright(CFrame.new(0, GROUND + 0.3, gardenZ)),
+	Color = STONE,
+	Material = Enum.Material.Slate,
+})
+make("Part", {
+	Name = "Pond",
+	Shape = Enum.PartType.Cylinder,
+	Size = Vector3.new(0.7, 16, 16),
+	CFrame = upright(CFrame.new(0, GROUND + 0.35, gardenZ)),
+	Color = Color3.fromRGB(90, 150, 190),
+	Material = Enum.Material.Glass,
+	Transparency = 0.15,
+	Reflectance = 0.1,
+})
+for _, degrees in ipairs({ 45, 135, 225, 315 }) do
+	local angle = math.rad(degrees)
+	local position = Vector3.new(math.sin(angle) * 13, GROUND + 0.6, gardenZ + math.cos(angle) * 13)
+	buildBench(position, Vector3.new(0, position.Y, gardenZ) - position)
+end
+for i = 1, 6 do
+	local angle = math.rad(30 + i * 60)
+	buildLantern(Vector3.new(math.sin(angle) * 20, GROUND + 0.6, gardenZ + math.cos(angle) * 20))
+end
+local gardenSignPos = Vector3.new(0, GROUND + 4.6, gardenZ - 17)
+buildSign(garden, CFrame.lookAt(gardenSignPos, gardenSignPos + Vector3.new(0, 0, 1)), "The quiet garden", "Start breathing")
+
+-- Trees, kept well back from the path and the stops.
+local greens = {
+	Color3.fromRGB(70, 120, 70),
+	Color3.fromRGB(90, 140, 80),
+	Color3.fromRGB(60, 105, 75),
+	Color3.fromRGB(110, 150, 90),
+}
+for _ = 1, 170 do
+	local side = rng:NextInteger(0, 1) == 0 and -1 or 1
+	local x = side * rng:NextNumber(34, 285)
+	local z = rng:NextNumber(-440, 140)
+	local height = rng:NextNumber(7, 12)
+	local leaves = rng:NextNumber(9, 14)
+	make("Part", {
+		Name = "Trunk",
+		Shape = Enum.PartType.Cylinder,
+		Size = Vector3.new(height, 1.6, 1.6),
+		CFrame = upright(CFrame.new(x, GROUND + height / 2, z)),
+		Color = Color3.fromRGB(105, 75, 55),
+		Material = Enum.Material.Wood,
+	})
+	make("Part", {
+		Name = "Leaves",
+		Shape = Enum.PartType.Ball,
+		Size = Vector3.new(leaves, leaves, leaves),
+		CFrame = CFrame.new(x, GROUND + height + leaves * 0.3, z),
+		Color = greens[rng:NextInteger(1, #greens)],
+		Material = Enum.Material.Grass,
+	})
+end
+
+-- Flowers along the edges of the path.
+local flowerColours = {
+	Color3.fromRGB(240, 200, 90),
+	Color3.fromRGB(230, 140, 170),
+	Color3.fromRGB(180, 160, 230),
+	Color3.fromRGB(250, 250, 245),
+}
+for _ = 1, 140 do
+	local side = rng:NextInteger(0, 1) == 0 and -1 or 1
+	local z = rng:NextNumber(pathEnd, pathStart)
+	local nearStep = false
+	for index = 1, #stops do
+		if math.abs(z - stopZ(index)) < 4 then
+			nearStep = true
+		end
+	end
+	if not nearStep then
+		make("Part", {
+			Name = "Flower",
+			Shape = Enum.PartType.Ball,
+			Size = Vector3.new(0.8, 0.8, 0.8),
+			CFrame = CFrame.new(side * rng:NextNumber(6.6, 8.4), GROUND + 0.3, z),
+			Color = flowerColours[rng:NextInteger(1, #flowerColours)],
+			Material = Enum.Material.SmoothPlastic,
+			CanCollide = false,
+		})
+	end
+end
+]]></ProtectedString></Properties></Item></Item><Item class="StarterPlayer" referent="RBX0008"><Properties><string name="Name">StarterPlayer</string></Properties><Item class="StarterPlayerScripts" referent="RBX0007"><Properties><string name="Name">StarterPlayerScripts</string></Properties><Item class="LocalScript" referent="RBX0006"><Properties><string name="Name">SafeSpaceUI</string><ProtectedString name="Source"><![CDATA[-- SafeSpaceUI (LocalScript in StarterPlayer > StarterPlayerScripts)
+-- The on-screen parts of the Safe Space world: the emergency bar, the
+-- "Who can I talk to?" button, the reading panel and the breathing exercise.
+
+local ContextActionService = game:GetService("ContextActionService")
+local Players = game:GetService("Players")
+local ProximityPromptService = game:GetService("ProximityPromptService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local UserInputService = game:GetService("UserInputService")
+
+local Content = require(ReplicatedStorage:WaitForChild("SafeSpaceContent"))
+local player = Players.LocalPlayer
+
+local CREAM = Color3.fromRGB(253, 250, 244)
+local INK = Color3.fromRGB(30, 30, 40)
+local WHITE = Color3.new(1, 1, 1)
+local EMERGENCY_RED = Color3.fromRGB(170, 30, 40)
+
+local byId = {}
+for _, stop in ipairs(Content.stops) do
+	byId[stop.id] = stop
+end
+byId[Content.garden.id] = Content.garden
+
+local function make(className, props, parent)
+	local obj = Instance.new(className)
+	for key, value in pairs(props) do
+		obj[key] = value
+	end
+	obj.Parent = parent
+	return obj
+end
+
+local gui = make("ScreenGui", {
+	Name = "SafeSpaceUI",
+	ResetOnSpawn = false,
+	ZIndexBehavior = Enum.ZIndexBehavior.Sibling,
+}, player:WaitForChild("PlayerGui"))
+
+-- Top of the screen: the emergency bar, always showing, and the talk button.
+local topBar = make("Frame", {
+	Name = "TopBar",
+	BackgroundTransparency = 1,
+	Size = UDim2.new(1, 0, 0, 0),
+	AutomaticSize = Enum.AutomaticSize.Y,
+}, gui)
+make("UIListLayout", {
+	FillDirection = Enum.FillDirection.Vertical,
+	Padding = UDim.new(0, 8),
+	SortOrder = Enum.SortOrder.LayoutOrder,
+}, topBar)
+
+local emergency = make("TextLabel", {
+	Name = "Emergency",
+	LayoutOrder = 1,
+	Size = UDim2.new(1, 0, 0, 0),
+	AutomaticSize = Enum.AutomaticSize.Y,
+	BackgroundColor3 = EMERGENCY_RED,
+	BorderSizePixel = 0,
+	Font = Enum.Font.GothamBold,
+	TextSize = 18,
+	TextColor3 = WHITE,
+	TextWrapped = true,
+	Text = Content.emergency,
+}, topBar)
+make("UIPadding", {
+	PaddingTop = UDim.new(0, 10),
+	PaddingBottom = UDim.new(0, 10),
+	PaddingLeft = UDim.new(0, 16),
+	PaddingRight = UDim.new(0, 16),
+}, emergency)
+
+local buttonRow = make("Frame", {
+	Name = "ButtonRow",
+	LayoutOrder = 2,
+	BackgroundTransparency = 1,
+	Size = UDim2.new(1, 0, 0, 44),
+}, topBar)
+local contacts = byId[Content.contactsId]
+local talkButton = make("TextButton", {
+	Name = "TalkButton",
+	AnchorPoint = Vector2.new(1, 0),
+	Position = UDim2.new(1, -12, 0, 0),
+	Size = UDim2.new(0, 220, 0, 44),
+	BackgroundColor3 = contacts.colour,
+	Font = Enum.Font.GothamBold,
+	TextSize = 18,
+	TextColor3 = WHITE,
+	Text = "Who can I talk to?",
+}, buttonRow)
+make("UICorner", { CornerRadius = UDim.new(0, 10) }, talkButton)
+
+-- The reading panel.
+local panel = make("Frame", {
+	Name = "Panel",
+	Visible = false,
+	AnchorPoint = Vector2.new(0.5, 0.5),
+	Position = UDim2.new(0.5, 0, 0.56, 0),
+	Size = UDim2.new(0.92, 0, 0.7, 0),
+	BackgroundColor3 = CREAM,
+	BorderSizePixel = 0,
+}, gui)
+make("UISizeConstraint", { MaxSize = Vector2.new(560, 620) }, panel)
+make("UICorner", { CornerRadius = UDim.new(0, 16) }, panel)
+local stroke = make("UIStroke", { Thickness = 3 }, panel)
+
+local header = make("TextLabel", {
+	Name = "Title",
+	Size = UDim2.new(1, 0, 0, 64),
+	BorderSizePixel = 0,
+	Font = Enum.Font.GothamBold,
+	TextSize = 24,
+	TextColor3 = WHITE,
+	TextWrapped = true,
+	TextXAlignment = Enum.TextXAlignment.Left,
+}, panel)
+make("UICorner", { CornerRadius = UDim.new(0, 16) }, header)
+make("UIPadding", { PaddingLeft = UDim.new(0, 20), PaddingRight = UDim.new(0, 20) }, header)
+
+local body = make("ScrollingFrame", {
+	Name = "Body",
+	Position = UDim2.new(0, 0, 0, 72),
+	Size = UDim2.new(1, 0, 1, -148),
+	BackgroundTransparency = 1,
+	BorderSizePixel = 0,
+	CanvasSize = UDim2.new(0, 0, 0, 0),
+	AutomaticCanvasSize = Enum.AutomaticSize.Y,
+	ScrollBarThickness = 8,
+	ScrollBarImageColor3 = INK,
+}, panel)
+make("UIListLayout", { Padding = UDim.new(0, 10), SortOrder = Enum.SortOrder.LayoutOrder }, body)
+make("UIPadding", {
+	PaddingLeft = UDim.new(0, 20),
+	PaddingRight = UDim.new(0, 24),
+	PaddingTop = UDim.new(0, 8),
+	PaddingBottom = UDim.new(0, 8),
+}, body)
+
+local closeButton = make("TextButton", {
+	Name = "Close",
+	AnchorPoint = Vector2.new(0.5, 1),
+	Position = UDim2.new(0.5, 0, 1, -16),
+	Size = UDim2.new(1, -40, 0, 52),
+	Font = Enum.Font.GothamBold,
+	TextSize = 20,
+	TextColor3 = WHITE,
+	Text = UserInputService.KeyboardEnabled and "Close (or press Q)" or "Close",
+}, panel)
+make("UICorner", { CornerRadius = UDim.new(0, 10) }, closeButton)
+
+-- The breathing exercise, shown in place of the text in the garden.
+local breathe = make("Frame", {
+	Name = "Breathe",
+	Visible = false,
+	BackgroundTransparency = 1,
+	Position = UDim2.new(0, 0, 0, 72),
+	Size = UDim2.new(1, 0, 1, -148),
+}, panel)
+local SMALL, BIG = UDim2.fromScale(0.3, 0.3), UDim2.fromScale(0.72, 0.72)
+local circle = make("Frame", {
+	Name = "Circle",
+	AnchorPoint = Vector2.new(0.5, 0.5),
+	Position = UDim2.new(0.5, 0, 0.42, 0),
+	Size = SMALL,
+	BorderSizePixel = 0,
+}, breathe)
+make("UIAspectRatioConstraint", { AspectRatio = 1, DominantAxis = Enum.DominantAxis.Height }, circle)
+make("UICorner", { CornerRadius = UDim.new(0.5, 0) }, circle)
+local breatheText = make("TextLabel", {
+	Name = "Words",
+	AnchorPoint = Vector2.new(0.5, 1),
+	Position = UDim2.new(0.5, 0, 1, -4),
+	Size = UDim2.new(1, -40, 0, 40),
+	BackgroundTransparency = 1,
+	Font = Enum.Font.GothamBold,
+	TextSize = 24,
+	TextColor3 = INK,
+	TextWrapped = true,
+	Text = "",
+}, breathe)
+
+local openStop = nil
+local openPart = nil
+local breathRun = 0
+local breathTween = nil
+
+local function stopBreathing()
+	breathRun = breathRun + 1
+	if breathTween then
+		breathTween:Cancel()
+		breathTween = nil
+	end
+end
+
+local function runBreathing(colour)
+	stopBreathing()
+	local myRun = breathRun
+	circle.BackgroundColor3 = colour
+	circle.Size = SMALL
+	task.spawn(function()
+		for _ = 1, Content.garden.breaths do
+			for _, step in ipairs({ { "Breathe in...", BIG }, { "Breathe out...", SMALL } }) do
+				if myRun ~= breathRun then
+					return
+				end
+				breatheText.Text = step[1]
+				breathTween = TweenService:Create(
+					circle,
+					TweenInfo.new(4, Enum.EasingStyle.Sine, Enum.EasingDirection.InOut),
+					{ Size = step[2] }
+				)
+				breathTween:Play()
+				task.wait(4)
+			end
+		end
+		if myRun == breathRun then
+			breatheText.Text = "Well done. Stay as long as you like."
+		end
+	end)
+end
+
+local function addLine(line, order)
+	local words, font, size = line, Enum.Font.Gotham, 20
+	if line:sub(1, 3) == "## " then
+		words, font, size = line:sub(4), Enum.Font.GothamBold, 22
+	elseif line:sub(1, 2) == "- " then
+		words = "•  " .. line:sub(3)
+	end
+	make("TextLabel", {
+		LayoutOrder = order,
+		Size = UDim2.new(1, 0, 0, 0),
+		AutomaticSize = Enum.AutomaticSize.Y,
+		BackgroundTransparency = 1,
+		Font = font,
+		TextSize = size,
+		TextColor3 = INK,
+		TextWrapped = true,
+		TextXAlignment = Enum.TextXAlignment.Left,
+		Text = words,
+	}, body)
+end
+
+local function closePanel()
+	panel.Visible = false
+	openStop = nil
+	openPart = nil
+	stopBreathing()
+end
+
+local function openPanel(stop, sourcePart)
+	closePanel()
+	openStop, openPart = stop, sourcePart
+	header.Text = stop.title
+	header.BackgroundColor3 = stop.colour
+	stroke.Color = stop.colour
+	closeButton.BackgroundColor3 = stop.colour
+
+	for _, child in ipairs(body:GetChildren()) do
+		if child:IsA("TextLabel") then
+			child:Destroy()
+		end
+	end
+	for order, line in ipairs(stop.lines) do
+		addLine(line, order)
+	end
+	body.CanvasPosition = Vector2.new(0, 0)
+
+	local isGarden = stop.id == Content.garden.id
+	body.Visible = not isGarden
+	breathe.Visible = isGarden
+	if isGarden then
+		runBreathing(stop.colour)
+	end
+	panel.Visible = true
+end
+
+-- Pressing E at a sign opens its panel; pressing E again closes it.
+ProximityPromptService.PromptTriggered:Connect(function(prompt)
+	local stop = byId[prompt:GetAttribute("SafeSpaceId") or ""]
+	if not stop then
+		return
+	end
+	if openStop == stop then
+		closePanel()
+	else
+		openPanel(stop, prompt.Parent)
+	end
+end)
+
+talkButton.Activated:Connect(function()
+	if openStop == contacts then
+		closePanel()
+	else
+		openPanel(contacts, nil)
+	end
+end)
+
+closeButton.Activated:Connect(closePanel)
+
+ContextActionService:BindAction("SafeSpaceClose", function(_, state)
+	if state ~= Enum.UserInputState.Begin or not panel.Visible then
+		return Enum.ContextActionResult.Pass
+	end
+	closePanel()
+	return Enum.ContextActionResult.Sink
+end, false, Enum.KeyCode.Q, Enum.KeyCode.ButtonB)
+
+-- Close the panel when the player walks away from the sign they opened it at.
+RunService.Heartbeat:Connect(function()
+	if not openPart then
+		return
+	end
+	local character = player.Character
+	local root = character and character:FindFirstChild("HumanoidRootPart")
+	if root and (root.Position - openPart.Position).Magnitude > 24 then
+		closePanel()
+	end
+end)
+]]></ProtectedString></Properties></Item></Item></Item></roblox>
