@@ -26,3 +26,6 @@ body.in-hub .status-open { background: #6ee7a0; color: #0b1222; }   /* 12:1 */
 body.in-hub .status-closed { background: var(--g-danger); color: #0b1222; } /* 8:1 */
 body.in-hub .help-card h3 { color: var(--g-text); }
 #help-pretend { font: inherit; font-size: 1rem; margin-left: .25rem; padding: .3rem; }
+
+/* Home page tile for Help right now */
+.tile-help { --c: #6ee7a0; } /* green, 12:1 on the hub background */
