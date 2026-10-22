@@ -7,7 +7,7 @@ window.CONTENT = {
   prototypeBanner: "Prototype only. This is not a real service. In an emergency, call 999.",
   quickExit: "Quick exit",
   emergency: "In danger right now? Call 999",
-  emergencyWake: "Won't wake up? What to do",
+  urgentHelp: "Need urgent help",
   back: "Back",
 
   // The pretend app the hub lives inside
@@ -147,6 +147,43 @@ window.CONTENT = {
         ]
       }
     }
+  },
+
+  // Need urgent help (screens/urgent.js): the worst situations, what to do straight away.
+  // Made up for the prototype. A real service would need specialist and safeguarding sign-off.
+  urgent: {
+    title: "Need urgent help?",
+    intro: "If something really bad is happening, you can get help straight away. You won't get in trouble for asking.",
+    call: "Call 999",
+    callNote: "Calls to 999 are free, even with no credit.",
+    pickHeading: "What's happening?",
+    situations: [
+      {
+        title: "Someone won't wake up, or their breathing is strange",
+        steps: ["Call 999 now.", "Say: \"I can't wake them up.\" Tell them your address.", "Stay on the phone. They'll tell you what to do."],
+        more: "#/guide/wont-wake"
+      },
+      {
+        title: "Someone is badly hurt or bleeding",
+        steps: ["Call 999 now.", "Tell them what happened and where you are.", "Stay on the phone. They'll tell you what to do."]
+      },
+      {
+        title: "Someone has taken too much, or is shaking or having a fit",
+        steps: ["Call 999 now.", "Move things away so they don't get hurt.", "Stay on the phone. They'll tell you what to do."]
+      },
+      {
+        title: "Someone is hurting you, or you don't feel safe",
+        steps: ["Get away if you can: go to another room, a neighbour or a safe place.", "Call 999 when you can.", "Tell a grown-up you trust as soon as you can."]
+      },
+      {
+        title: "You feel like hurting yourself",
+        steps: ["You matter, and help is there right now.", "Call Childline free on 0800 1111, day or night.", "If you're in danger right now, call 999."]
+      }
+    ],
+    moreLink: "More about what to do",
+    notUrgent: "Not an emergency, but still need someone?",
+    notUrgentLink: "See who's open now",
+    notUrgentHref: "#/help-now"
   },
 
   // Explore: the walk-around game (screens/world.js)
