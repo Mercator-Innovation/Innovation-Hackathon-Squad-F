@@ -29,6 +29,9 @@ ai_use_week_after:
 
 ## During
 <!-- Claude adds one line per moment: prompts that worked (word for word), dead ends, surprises, things done outside my usual job, what made working as a squad easier or harder -->
+- 16:55 I designed three video game style logos for Turtle Toast and set up a live vote for the squad, normally a graphic designer's job: pixel art won and is now on the hub.
+- 16:58 prompt: "okay, I'm working on 'text a safe adult' - this feature needs to be a vetted volunteer on the other side of the texts, available for online texting. The conversation needs to build towards an agreed next step for the user for the next day. Help me through the steps to help you build this" → Claude told me the design decisions it needed from me, then built it.
+- 17:08 I built the whole Text a safe adult feature (a phone-style chat with a vetted volunteer that ends in an agreed next step), normally a developer's job: I made the design calls and Claude built it.
 
 ## At 19:00
 - What I worked on: <answers>
