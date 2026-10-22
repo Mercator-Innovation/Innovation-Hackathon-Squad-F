@@ -22,19 +22,9 @@
   reduce.addEventListener("change", update);
   update();
 
-  // Tap a swimming turtle: it spins, and says something kind with a few pixel hearts.
+  // Tap a swimming turtle: it does a happy spin with a few pixel hearts.
   // The turtles swim behind the page, so we check where the tap landed. Anything a child
   // can use for help (tiles, links, buttons, form fields) always wins over a turtle.
-  const KIND = [
-    "It's not your fault",
-    "You're brave",
-    "You matter",
-    "You're not on your own",
-    "Be kind to yourself",
-    "Well done for being here"
-  ];
-  let kindIndex = 0;
-
   function cheer(swim) {
     const img = swim.querySelector("img");
     img.classList.remove("tt-happy");
@@ -43,17 +33,6 @@
     img.addEventListener("animationend", () => img.classList.remove("tt-happy"), { once: true }); // back to paddling
 
     const box = swim.getBoundingClientRect();
-    const bubble = document.createElement("div");
-    bubble.className = "tt-bubble";
-    bubble.setAttribute("aria-hidden", "true");
-    bubble.textContent = KIND[kindIndex++ % KIND.length];
-    // Keep the bubble on screen, even when the turtle is near an edge
-    const x = Math.min(Math.max(box.left + box.width / 2, 90), window.innerWidth - 90);
-    bubble.style.left = x + "px";
-    bubble.style.top = Math.max(box.top - 12, 60) + "px";
-    document.body.appendChild(bubble);
-    setTimeout(() => bubble.remove(), 2600);
-
     for (let i = 0; i < 5; i++) {
       const heart = document.createElement("span");
       heart.className = "tt-heart";
