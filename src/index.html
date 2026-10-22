@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Safe space hub (prototype)</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <p class="prototype-banner" id="prototype-banner"></p>
+
+  <header class="hub-header" id="hub-header" hidden>
+    <button type="button" class="quick-exit" id="quick-exit"></button>
+    <a class="emergency" id="emergency" href="tel:999"></a>
+  </header>
+
+  <main id="main"></main>
+
+  <!-- Words, then data, then screens, then the app that ties them together -->
+  <script src="content.js"></script>
+  <script src="data/scenarios.js"></script>
+  <script src="data/people.js"></script>
+  <script src="screens/host.js"></script>
+  <script src="screens/home.js"></script>
+  <script src="screens/guide.js"></script>
+  <script src="screens/chat.js"></script>
+  <script src="screens/safe-adult.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
