@@ -159,6 +159,7 @@ window.CONTENT = {
     close: "Close",
     call999: "Call 999",
     guideLink: "Read what to do",
+    guideLess: "Show less",
     pad: { up: "Walk up", down: "Walk down", left: "Walk left", right: "Walk right" },
     // Short names on the guide houses. The rest come from the guide.
     labels: {
