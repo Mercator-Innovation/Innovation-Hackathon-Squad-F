@@ -139,11 +139,20 @@ window.SCREENS.world = (function () {
         <p class="treasure-count">${esc(treasureCounter())}</p>
         ${found.size === T.affirmations.length ? `<p>${esc(T.allFound)}</p>` : ""}`;
     } else if (s.scenario) {
+      // The first 2 steps show straight away. "Read what to do" opens the rest
+      // here in the game, so nobody has to leave it.
+      const G = window.CONTENT.guide;
+      const steps = s.scenario.steps;
       body = `
-        <ul>${s.scenario.steps.slice(0, 2).map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
+        <ol>${steps.slice(0, 2).map((t) => `<li>${esc(t)}</li>`).join("")}</ol>
+        <div class="world-more" id="world-more" hidden>
+          ${steps.length > 2 ? `<ol start="3">${steps.slice(2).map((t) => `<li>${esc(t)}</li>`).join("")}</ol>` : ""}
+          <h3>${esc(G.sayHeading)}</h3>
+          <ul>${s.scenario.say.map((t) => `<li>${esc(t)}</li>`).join("")}</ul>
+        </div>
         <p class="world-actions">
           ${s.scenario.emergency ? `<a class="world-button world-button-urgent" href="tel:999">${esc(W.call999)}</a>` : ""}
-          <a class="world-button" href="#/guide/${esc(s.id)}">${esc(W.guideLink)}</a>
+          <button type="button" class="world-button" data-more aria-expanded="false" aria-controls="world-more">${esc(W.guideLink)}</button>
         </p>`;
     } else {
       body = `<p>${esc(s.text)}</p>`;
@@ -399,7 +408,18 @@ window.SCREENS.world = (function () {
         if (hadFocus) canvas.focus({ preventScroll: true });
       }
 
-      panel.addEventListener("click", (e) => { if (e.target.closest("[data-close]")) close(); });
+      panel.addEventListener("click", (e) => {
+        if (e.target.closest("[data-close]")) close();
+        const more = e.target.closest("[data-more]");
+        if (more) {
+          const box = panel.querySelector(".world-more");
+          const opening = box.hidden;
+          box.hidden = !opening;
+          more.setAttribute("aria-expanded", String(opening));
+          more.textContent = opening ? W.guideLess : W.guideLink;
+          if (opening) panel.scrollTop = box.offsetTop - 8;
+        }
+      });
 
       // The plain list: jump straight to a house
       main.querySelector(".world-list").addEventListener("click", (e) => {
