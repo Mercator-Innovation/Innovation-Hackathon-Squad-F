@@ -195,6 +195,12 @@ window.CONTENT = {
     howTo: "Use the arrow keys, the buttons under the game, or tap where you want to go.",
     mapLabel: "A garden with a winding path and little houses. Walk up to a house to open it. Every house is also in the list under the game.",
     listHeading: "Rather not play? Visit any house from this list",
+    listGroups: {
+      urgent: "Help right now",
+      help: "What to do",
+      talk: "Talk to someone",
+      calm: "Games to feel calm"
+    },
     found: "You found:",
     close: "Close",
     call999: "Call 999",

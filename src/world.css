@@ -96,11 +96,13 @@ body[data-screen="world"] .world-button { color: var(--g-bg); }
 
 /* The plain list of houses, as hub-style tiles */
 .world-list-heading { font-weight: 900; }
+.world-group { color: var(--c); font-size: 1.1rem; margin: 1.25rem 0 0; }
+.world-list button span:last-child { color: var(--c); }
 .world-list { list-style: none; padding: 0; margin: .75rem 0; display: grid; gap: .85rem; }
 .world-list button {
   display: flex; justify-content: space-between; align-items: center; gap: .75rem; width: 100%;
   text-align: left; font: inherit; font-weight: 900; cursor: pointer;
-  background: var(--g-panel); color: var(--c);
+  background: var(--g-panel); color: var(--g-text); /* white text: 14:1, whatever the group colour */
   border: 3px solid var(--c); border-radius: 4px; padding: .7rem .9rem;
   box-shadow: 0 5px 0 color-mix(in srgb, var(--c) 45%, var(--g-bg));
 }
