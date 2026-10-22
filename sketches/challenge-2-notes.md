@@ -5,3 +5,4 @@
 ## Logo votes
 
 - **Yasmin:** Logo A, pixel art. I love it.
+- **Andrew:** Logo A, pixel art.
