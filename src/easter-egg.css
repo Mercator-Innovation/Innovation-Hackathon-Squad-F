@@ -1,0 +1,24 @@
+/* Easter egg: a crowd of turtles behind the Blockville game when you score 30.
+   The layer sits behind the page, so the game stays in front and clickable. */
+.tt-party { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.tt-party[hidden] { display: none; }
+body[data-screen="host"] main,
+body[data-screen="host"] .prototype-banner { position: relative; z-index: 1; }
+
+.tt-party-swim { position: absolute; left: 0; opacity: .75; }
+.tt-party-swim img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .tt-party-swim { animation: tt-party-right linear infinite; }
+  .tt-party-swim.is-left { animation-name: tt-party-left; }
+  .tt-party-swim img { animation: tt-party-paddle 1.2s ease-in-out infinite; }
+}
+/* Reduced motion: turtles sit still, scattered across the screen */
+@media (prefers-reduced-motion: reduce) {
+  .tt-party-swim { transform: translateX(var(--x)); }
+  .tt-party-swim.is-left { transform: translateX(var(--x)) scaleX(-1); }
+}
+
+@keyframes tt-party-right { from { transform: translateX(-100px); } to { transform: translateX(calc(100vw + 20px)); } }
+@keyframes tt-party-left { from { transform: translateX(calc(100vw + 20px)) scaleX(-1); } to { transform: translateX(-100px) scaleX(-1); } }
+@keyframes tt-party-paddle { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
