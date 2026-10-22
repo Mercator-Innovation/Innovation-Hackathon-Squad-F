@@ -15,6 +15,7 @@ window.SCREENS = window.SCREENS || {};
   document.getElementById("prototype-banner").textContent = C.prototypeBanner;
   document.getElementById("quick-exit").textContent = C.quickExit;
   document.getElementById("emergency").textContent = C.emergency;
+  document.getElementById("emergency-wake").textContent = C.emergencyWake;
 
   // Quick exit: leave straight away and replace this page in history
   document.getElementById("quick-exit").addEventListener("click", () => {
