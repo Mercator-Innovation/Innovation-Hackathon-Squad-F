@@ -90,7 +90,7 @@ window.SCREENS = window.SCREENS || {};
           const list = load();
           list.unshift(Object.assign({ id, done: false }, T().demoStep));
           save(list);
-          location.hash = "#/how-did-it-go/" + id;
+          location.replace("#/how-did-it-go/" + id); // replace, so it doesn't add to history
         });
         return;
       }
