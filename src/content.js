@@ -207,15 +207,17 @@ window.CONTENT = {
     garden: {
       label: "5 4 3 2 1",
       title: "The 5 4 3 2 1 garden",
-      text: "This helps when your mind is racing. Look around you, wherever you are right now. Tap a block each time you notice something.",
+      text: "This helps when your mind is racing. Look around you, wherever you are right now. Type each thing you notice to fill a block.",
       steps: [
-        { count: 5, ask: "Find 5 things you can see." },
-        { count: 4, ask: "Find 4 things you can hear." },
-        { count: 3, ask: "Find 3 things you can touch." },
-        { count: 2, ask: "Find 2 things you can smell." },
-        { count: 1, ask: "Find 1 thing you can taste." }
+        { count: 5, ask: "Find 5 things you can see.", label: "Something I can see", hint: "like a lamp, or my shoes", summary: "You saw" },
+        { count: 4, ask: "Find 4 things you can hear.", label: "Something I can hear", hint: "like a car, or the fridge", summary: "You heard" },
+        { count: 3, ask: "Find 3 things you can touch.", label: "Something I can touch", hint: "like my jumper, or a pillow", summary: "You touched" },
+        { count: 2, ask: "Find 2 things you can smell.", label: "Something I can smell", hint: "like soap, or toast", summary: "You smelled" },
+        { count: 1, ask: "Find 1 thing you can taste.", label: "Something I can taste", hint: "like toothpaste, or water", summary: "You tasted" }
       ],
-      noticed: "I noticed one",
+      add: "Add",
+      empty: "Type something first.",
+      privateNote: "What you type stays on this screen. It isn't saved or sent.",
       progress: "{done} of {count}",
       finished: "Well done. You slowed your mind down. You can do this any time, anywhere.",
       again: "Do it again"
