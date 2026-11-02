@@ -18,10 +18,10 @@ pace: right
 worked_best: [building]
 again: definitely
 # In the week after
-specialist:
-helped_squad: []
-idea_where: []
-ai_use_week_after:
+specialist: often
+helped_squad: [talking]
+idea_where: [internal, my-team]
+ai_use_week_after: 4
 ---
 
 # Yasmin Tasker: learning log
@@ -48,11 +48,11 @@ ai_use_week_after:
 - One thing to change next time: (skipped)
 
 ## In the week after
-- Did I still need a human specialist: <answer>, for <what>
-- What helped most when building as a squad: <answers>
-- The most useful thing I learned: <in my words>
-- **One idea to carry forward:** <in my words>, and where it could fit: <answers>
-- How much I expect to use AI tools from now on: <answer>
+- Did I still need a human specialist: Often, for "You need only look at ours to see why human specialists were still needed, while we were all having fun and learning to use claude the main thing that lacked was a strong tie to the problem statement, claude did not question whether a digital solution was actually the correct answer to the problem"
+- What helped most when building as a squad: Talking it through first
+- The most useful thing I learned: "how to use claude code and build a functioning "thing". Since the hackathon, ive built a frontend app for my BA knowledgebank, it has some fantastic features for me to use and made my old boring notes accessible with games, questions, search functionality and a fun and cozy app."
+- **One idea to carry forward:** "My BA personal learning hub app that im continuing to work and iterate on since the hackathon", and where it could fit: Internal work; My team
+- How much I expect to use AI tools from now on: Every day
 
 ## Three-week check-in (around 12 Nov)
 - Did I try, share or suggest my idea anywhere? What happened, or what got in the way?
