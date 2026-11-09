@@ -19,9 +19,9 @@ worked_best: [building, mixed-squad]
 again: definitely
 # In the week after
 specialist:
-helped_squad: []
-idea_where: []
-ai_use_week_after:
+helped_squad: [talking]
+idea_where: [client]
+ai_use_week_after: 2
 ---
 
 # Andrew Boyce: learning log
@@ -46,11 +46,11 @@ ai_use_week_after:
 - One thing to change next time: Maybe slightly clearer explaination of how the shared screen works and how to share permissions to things like lists. Perhaps as part of set up an optional video or claude instructional for those that haven't used claude before.
 
 ## In the week after
-- Did I still need a human specialist: <answer>, for <what>
-- What helped most when building as a squad: <answers>
-- The most useful thing I learned: <in my words>
-- **One idea to carry forward:** <in my words>, and where it could fit: <answers>
-- How much I expect to use AI tools from now on: <answer>
+- Did I still need a human specialist: (skipped)
+- What helped most when building as a squad: Talking it through first
+- The most useful thing I learned: How Claude can be used to collaborate easily
+- **One idea to carry forward:** I'd like to push for AI tools to be approved so that we can improve efficiency in our automation testing, and where it could fit: Client work where the tools are permitted
+- How much I expect to use AI tools from now on: Now and then
 
 ## Three-week check-in (around 12 Nov)
 - Did I try, share or suggest my idea anywhere? What happened, or what got in the way?
