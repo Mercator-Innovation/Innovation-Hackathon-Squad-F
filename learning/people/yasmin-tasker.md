@@ -22,6 +22,8 @@ specialist: often
 helped_squad: [talking]
 idea_where: [internal, my-team]
 ai_use_week_after: 4
+# Three-week check-in
+idea_tried: shared
 ---
 
 # Yasmin Tasker: learning log
@@ -54,5 +56,6 @@ ai_use_week_after: 4
 - **One idea to carry forward:** "My BA personal learning hub app that im continuing to work and iterate on since the hackathon", and where it could fit: Internal work; My team
 - How much I expect to use AI tools from now on: Every day
 
-## Three-week check-in (around 12 Nov)
-- Did I try, share or suggest my idea anywhere? What happened, or what got in the way?
+## Three-week check-in
+- Have I tried, shared or suggested my idea: Yes, I've shared or suggested it
+- What happened, or what got in the way: "i didnt share this but i made my own ba lab and i shared that and have had positive feedback"
