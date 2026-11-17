@@ -22,6 +22,8 @@ specialist:
 helped_squad: [talking]
 idea_where: [client]
 ai_use_week_after: 2
+# Three-week check-in
+idea_tried: other
 ---
 
 # Andrew Boyce: learning log
@@ -52,5 +54,6 @@ ai_use_week_after: 2
 - **One idea to carry forward:** I'd like to push for AI tools to be approved so that we can improve efficiency in our automation testing, and where it could fit: Client work where the tools are permitted
 - How much I expect to use AI tools from now on: Now and then
 
-## Three-week check-in (around 12 Nov)
-- Did I try, share or suggest my idea anywhere? What happened, or what got in the way?
+## Three-week check-in
+- Have I tried, shared or suggested my idea: Not yet
+- What happened, or what got in the way: I have been busy with project work so not had any time to progress or try any other ideas
