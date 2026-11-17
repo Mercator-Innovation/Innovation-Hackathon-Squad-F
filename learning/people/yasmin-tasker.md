@@ -9,15 +9,21 @@ ai_use_before: 4
 hopes: [new-people]
 feeling: curious
 # At 19:00
-worked_on: []
-outside_usual_job:
-got_in_way: []
-ai_use_after:
+worked_on: [code, design, research]
+outside_usual_job: a-lot
+got_in_way: [other, time]
+ai_use_after: other
+enjoyed: loved
+pace: right
+worked_best: [building]
+again: definitely
 # In the week after
-specialist:
-helped_squad: []
-idea_where: []
-ai_use_week_after:
+specialist: often
+helped_squad: [talking]
+idea_where: [internal, my-team]
+ai_use_week_after: 4
+# Three-week check-in
+idea_tried: shared
 ---
 
 # Yasmin Tasker: learning log
@@ -33,17 +39,23 @@ ai_use_week_after:
 - 18:14 I enjoyed adding in the animations (floating logo, sparkles, swimming pixel turtles, baby turtle burst), normally a front-end developer's job.
 
 ## At 19:00
-- What I worked on: <answers>
-- How much of it was outside my usual job: <answer>
-- What got in the way: <answers>
-- How much I'd use AI tools in my work now: <answer>
+- What I worked on: Code or features; The design or the look; Research or finding things out
+- How much of it was outside my usual job: A lot
+- What got in the way: "just working on the problem was kind of hard, the solution wasnt great"; Not enough time
+- How much I'd use AI tools in my work now: "i already use daily but might use in different ways"
+- How much I enjoyed the hackathon: Loved it
+- The pace of the afternoon: About right
+- What worked best for me: Building with Claude
+- Would I take part in another: Definitely
+- One thing to change next time: (skipped)
 
 ## In the week after
-- Did I still need a human specialist: <answer>, for <what>
-- What helped most when building as a squad: <answers>
-- The most useful thing I learned: <in my words>
-- **One idea to carry forward:** <in my words>, and where it could fit: <answers>
-- How much I expect to use AI tools from now on: <answer>
+- Did I still need a human specialist: Often, for "You need only look at ours to see why human specialists were still needed, while we were all having fun and learning to use claude the main thing that lacked was a strong tie to the problem statement, claude did not question whether a digital solution was actually the correct answer to the problem"
+- What helped most when building as a squad: Talking it through first
+- The most useful thing I learned: "how to use claude code and build a functioning "thing". Since the hackathon, ive built a frontend app for my BA knowledgebank, it has some fantastic features for me to use and made my old boring notes accessible with games, questions, search functionality and a fun and cozy app."
+- **One idea to carry forward:** "My BA personal learning hub app that im continuing to work and iterate on since the hackathon", and where it could fit: Internal work; My team
+- How much I expect to use AI tools from now on: Every day
 
-## Three-week check-in (around 12 Nov)
-- Did I try, share or suggest my idea anywhere? What happened, or what got in the way?
+## Three-week check-in
+- Have I tried, shared or suggested my idea: Yes, I've shared or suggested it
+- What happened, or what got in the way: "i didnt share this but i made my own ba lab and i shared that and have had positive feedback"
